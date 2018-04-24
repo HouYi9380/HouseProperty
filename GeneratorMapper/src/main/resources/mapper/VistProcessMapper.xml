@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jingzhoulive.dao.VistProcessMapper" >
+  <resultMap id="BaseResultMap" type="cn.jingzhoulive.domain.VistProcess" >
+    <constructor >
+      <idArg column="vid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="uid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="guider" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="bid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="progress" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_check" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="mark" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="availability" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="chang_time" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vid, uid, guider, bid, progress, is_check, mark, availability, create_time, chang_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.jingzhoulive.domain.VistProcessExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from visitprocess
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from visitprocess
+    where vid = #{vid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from visitprocess
+    where vid = #{vid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.jingzhoulive.domain.VistProcessExample" >
+    delete from visitprocess
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.jingzhoulive.domain.VistProcess" >
+    insert into visitprocess (vid, uid, guider, 
+      bid, progress, is_check, 
+      mark, availability, create_time, 
+      chang_time)
+    values (#{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{guider,jdbcType=INTEGER}, 
+      #{bid,jdbcType=INTEGER}, #{progress,jdbcType=INTEGER}, #{isCheck,jdbcType=INTEGER}, 
+      #{mark,jdbcType=VARCHAR}, #{availability,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
+      #{changTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.jingzhoulive.domain.VistProcess" >
+    insert into visitprocess
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vid != null" >
+        vid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="guider != null" >
+        guider,
+      </if>
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="progress != null" >
+        progress,
+      </if>
+      <if test="isCheck != null" >
+        is_check,
+      </if>
+      <if test="mark != null" >
+        mark,
+      </if>
+      <if test="availability != null" >
+        availability,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="changTime != null" >
+        chang_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vid != null" >
+        #{vid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="guider != null" >
+        #{guider,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null" >
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null" >
+        #{progress,jdbcType=INTEGER},
+      </if>
+      <if test="isCheck != null" >
+        #{isCheck,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        #{availability,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="changTime != null" >
+        #{changTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.jingzhoulive.domain.VistProcessExample" resultType="java.lang.Integer" >
+    select count(*) from visitprocess
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update visitprocess
+    <set >
+      <if test="record.vid != null" >
+        vid = #{record.vid,jdbcType=INTEGER},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.guider != null" >
+        guider = #{record.guider,jdbcType=INTEGER},
+      </if>
+      <if test="record.bid != null" >
+        bid = #{record.bid,jdbcType=INTEGER},
+      </if>
+      <if test="record.progress != null" >
+        progress = #{record.progress,jdbcType=INTEGER},
+      </if>
+      <if test="record.isCheck != null" >
+        is_check = #{record.isCheck,jdbcType=INTEGER},
+      </if>
+      <if test="record.mark != null" >
+        mark = #{record.mark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.availability != null" >
+        availability = #{record.availability,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.changTime != null" >
+        chang_time = #{record.changTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update visitprocess
+    set vid = #{record.vid,jdbcType=INTEGER},
+      uid = #{record.uid,jdbcType=INTEGER},
+      guider = #{record.guider,jdbcType=INTEGER},
+      bid = #{record.bid,jdbcType=INTEGER},
+      progress = #{record.progress,jdbcType=INTEGER},
+      is_check = #{record.isCheck,jdbcType=INTEGER},
+      mark = #{record.mark,jdbcType=VARCHAR},
+      availability = #{record.availability,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      chang_time = #{record.changTime,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jingzhoulive.domain.VistProcess" >
+    update visitprocess
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="guider != null" >
+        guider = #{guider,jdbcType=INTEGER},
+      </if>
+      <if test="bid != null" >
+        bid = #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null" >
+        progress = #{progress,jdbcType=INTEGER},
+      </if>
+      <if test="isCheck != null" >
+        is_check = #{isCheck,jdbcType=INTEGER},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="availability != null" >
+        availability = #{availability,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="changTime != null" >
+        chang_time = #{changTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vid = #{vid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jingzhoulive.domain.VistProcess" >
+    update visitprocess
+    set uid = #{uid,jdbcType=INTEGER},
+      guider = #{guider,jdbcType=INTEGER},
+      bid = #{bid,jdbcType=INTEGER},
+      progress = #{progress,jdbcType=INTEGER},
+      is_check = #{isCheck,jdbcType=INTEGER},
+      mark = #{mark,jdbcType=VARCHAR},
+      availability = #{availability,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      chang_time = #{changTime,jdbcType=VARCHAR}
+    where vid = #{vid,jdbcType=INTEGER}
+  </update>
+</mapper>
