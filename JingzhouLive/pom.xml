@@ -39,6 +39,11 @@
             <artifactId>spring-jdbc</artifactId>
             <version>5.0.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>5.0.0.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -64,6 +69,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.40</version>
         </dependency>
     </dependencies>
 

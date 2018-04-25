@@ -12,7 +12,8 @@
     <!-- 指定spring的配置文件beans.xml -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:beans.xml</param-value>
+        <!--<param-value>classpath*:beans.xml</param-value>-->
+        <param-value>classpath:spring-*.xml</param-value>
     </context-param>
     <!-- 确保web服务器启动时，完成spring的容器初始化 -->
     <listener>

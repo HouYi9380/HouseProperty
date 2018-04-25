@@ -9,6 +9,6 @@
     </typeAliases>
     <!-- 引入映射文件 -->
     <mappers>
-        <!--<mapper resource="UserMapper.xml"/>-->
+        <mapper resource="mapper/*.xml"/>
     </mappers>
 </configuration>
