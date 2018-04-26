@@ -15,11 +15,15 @@ public class Manager {
 
     private String pics;
 
+    private String positon;
+
+    private Integer availability;
+
     private String createTime;
 
     private String changTime;
 
-    public Manager(Integer mid, String phone, String pwd, Integer power, String name, String nick, String pics, String createTime, String changTime) {
+    public Manager(Integer mid, String phone, String pwd, Integer power, String name, String nick, String pics, String positon, Integer availability, String createTime, String changTime) {
         this.mid = mid;
         this.phone = phone;
         this.pwd = pwd;
@@ -27,6 +31,8 @@ public class Manager {
         this.name = name;
         this.nick = nick;
         this.pics = pics;
+        this.positon = positon;
+        this.availability = availability;
         this.createTime = createTime;
         this.changTime = changTime;
     }
@@ -89,6 +95,22 @@ public class Manager {
 
     public void setPics(String pics) {
         this.pics = pics == null ? null : pics.trim();
+    }
+
+    public String getPositon() {
+        return positon;
+    }
+
+    public void setPositon(String positon) {
+        this.positon = positon == null ? null : positon.trim();
+    }
+
+    public Integer getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(Integer availability) {
+        this.availability = availability;
     }
 
     public String getCreateTime() {

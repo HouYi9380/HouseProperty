@@ -574,6 +574,136 @@ public class ManagerExample {
             return (Criteria) this;
         }
 
+        public Criteria andPositonIsNull() {
+            addCriterion("positon is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonIsNotNull() {
+            addCriterion("positon is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonEqualTo(String value) {
+            addCriterion("positon =", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonNotEqualTo(String value) {
+            addCriterion("positon <>", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonGreaterThan(String value) {
+            addCriterion("positon >", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonGreaterThanOrEqualTo(String value) {
+            addCriterion("positon >=", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonLessThan(String value) {
+            addCriterion("positon <", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonLessThanOrEqualTo(String value) {
+            addCriterion("positon <=", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonLike(String value) {
+            addCriterion("positon like", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonNotLike(String value) {
+            addCriterion("positon not like", value, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonIn(List<String> values) {
+            addCriterion("positon in", values, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonNotIn(List<String> values) {
+            addCriterion("positon not in", values, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonBetween(String value1, String value2) {
+            addCriterion("positon between", value1, value2, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andPositonNotBetween(String value1, String value2) {
+            addCriterion("positon not between", value1, value2, "positon");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityIsNull() {
+            addCriterion("availability is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityIsNotNull() {
+            addCriterion("availability is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityEqualTo(Integer value) {
+            addCriterion("availability =", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityNotEqualTo(Integer value) {
+            addCriterion("availability <>", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityGreaterThan(Integer value) {
+            addCriterion("availability >", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityGreaterThanOrEqualTo(Integer value) {
+            addCriterion("availability >=", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityLessThan(Integer value) {
+            addCriterion("availability <", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityLessThanOrEqualTo(Integer value) {
+            addCriterion("availability <=", value, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityIn(List<Integer> values) {
+            addCriterion("availability in", values, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityNotIn(List<Integer> values) {
+            addCriterion("availability not in", values, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityBetween(Integer value1, Integer value2) {
+            addCriterion("availability between", value1, value2, "availability");
+            return (Criteria) this;
+        }
+
+        public Criteria andAvailabilityNotBetween(Integer value1, Integer value2) {
+            addCriterion("availability not between", value1, value2, "availability");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

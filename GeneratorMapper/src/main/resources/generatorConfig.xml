@@ -87,7 +87,7 @@
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
         </table>
-        <table tableName="users" domainObjectName="User"
+        <table tableName="user" domainObjectName="User"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
