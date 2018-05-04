@@ -16,21 +16,15 @@ public interface CommissionProcessMapper {
 
     int insertSelective(CommissionProcess record);
 
-    List<CommissionProcess> selectByExampleWithBLOBs(CommissionProcessExample example);
-
     List<CommissionProcess> selectByExample(CommissionProcessExample example);
 
     CommissionProcess selectByPrimaryKey(Integer cpid);
 
     int updateByExampleSelective(@Param("record") CommissionProcess record, @Param("example") CommissionProcessExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") CommissionProcess record, @Param("example") CommissionProcessExample example);
-
     int updateByExample(@Param("record") CommissionProcess record, @Param("example") CommissionProcessExample example);
 
     int updateByPrimaryKeySelective(CommissionProcess record);
-
-    int updateByPrimaryKeyWithBLOBs(CommissionProcess record);
 
     int updateByPrimaryKey(CommissionProcess record);
 }

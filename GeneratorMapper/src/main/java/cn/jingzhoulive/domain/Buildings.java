@@ -25,6 +25,8 @@ public class Buildings {
 
     private Integer commissionId;
 
+    private Long price;
+
     private String acreage;
 
     private String houseType;
@@ -35,7 +37,7 @@ public class Buildings {
 
     private String changTime;
 
-    public Buildings(Integer bid, Integer type, String title, String address, String contacts, String phone, String area, String latitude, String longtitude, Integer decoration, Integer shared, Integer commissionId, String acreage, String houseType, Integer recommend, String createTime, String changTime) {
+    public Buildings(Integer bid, Integer type, String title, String address, String contacts, String phone, String area, String latitude, String longtitude, Integer decoration, Integer shared, Integer commissionId, Long price, String acreage, String houseType, Integer recommend, String createTime, String changTime) {
         this.bid = bid;
         this.type = type;
         this.title = title;
@@ -48,6 +50,7 @@ public class Buildings {
         this.decoration = decoration;
         this.shared = shared;
         this.commissionId = commissionId;
+        this.price = price;
         this.acreage = acreage;
         this.houseType = houseType;
         this.recommend = recommend;
@@ -153,6 +156,14 @@ public class Buildings {
 
     public void setCommissionId(Integer commissionId) {
         this.commissionId = commissionId;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public String getAcreage() {

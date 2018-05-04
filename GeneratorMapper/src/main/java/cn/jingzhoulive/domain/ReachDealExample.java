@@ -404,6 +404,126 @@ public class ReachDealExample {
             return (Criteria) this;
         }
 
+        public Criteria andHostPriceIsNull() {
+            addCriterion("host_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceIsNotNull() {
+            addCriterion("host_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceEqualTo(Long value) {
+            addCriterion("host_price =", value, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceNotEqualTo(Long value) {
+            addCriterion("host_price <>", value, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceGreaterThan(Long value) {
+            addCriterion("host_price >", value, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceGreaterThanOrEqualTo(Long value) {
+            addCriterion("host_price >=", value, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceLessThan(Long value) {
+            addCriterion("host_price <", value, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceLessThanOrEqualTo(Long value) {
+            addCriterion("host_price <=", value, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceIn(List<Long> values) {
+            addCriterion("host_price in", values, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceNotIn(List<Long> values) {
+            addCriterion("host_price not in", values, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceBetween(Long value1, Long value2) {
+            addCriterion("host_price between", value1, value2, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andHostPriceNotBetween(Long value1, Long value2) {
+            addCriterion("host_price not between", value1, value2, "hostPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNull() {
+            addCriterion("price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIsNotNull() {
+            addCriterion("price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceEqualTo(Long value) {
+            addCriterion("price =", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotEqualTo(Long value) {
+            addCriterion("price <>", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThan(Long value) {
+            addCriterion("price >", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceGreaterThanOrEqualTo(Long value) {
+            addCriterion("price >=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThan(Long value) {
+            addCriterion("price <", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceLessThanOrEqualTo(Long value) {
+            addCriterion("price <=", value, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceIn(List<Long> values) {
+            addCriterion("price in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotIn(List<Long> values) {
+            addCriterion("price not in", values, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceBetween(Long value1, Long value2) {
+            addCriterion("price between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
+        public Criteria andPriceNotBetween(Long value1, Long value2) {
+            addCriterion("price not between", value1, value2, "price");
+            return (Criteria) this;
+        }
+
         public Criteria andDealPriceIsNull() {
             addCriterion("deal_price is null");
             return (Criteria) this;
@@ -414,52 +534,52 @@ public class ReachDealExample {
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceEqualTo(Integer value) {
+        public Criteria andDealPriceEqualTo(Long value) {
             addCriterion("deal_price =", value, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceNotEqualTo(Integer value) {
+        public Criteria andDealPriceNotEqualTo(Long value) {
             addCriterion("deal_price <>", value, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceGreaterThan(Integer value) {
+        public Criteria andDealPriceGreaterThan(Long value) {
             addCriterion("deal_price >", value, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceGreaterThanOrEqualTo(Integer value) {
+        public Criteria andDealPriceGreaterThanOrEqualTo(Long value) {
             addCriterion("deal_price >=", value, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceLessThan(Integer value) {
+        public Criteria andDealPriceLessThan(Long value) {
             addCriterion("deal_price <", value, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceLessThanOrEqualTo(Integer value) {
+        public Criteria andDealPriceLessThanOrEqualTo(Long value) {
             addCriterion("deal_price <=", value, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceIn(List<Integer> values) {
+        public Criteria andDealPriceIn(List<Long> values) {
             addCriterion("deal_price in", values, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceNotIn(List<Integer> values) {
+        public Criteria andDealPriceNotIn(List<Long> values) {
             addCriterion("deal_price not in", values, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceBetween(Integer value1, Integer value2) {
+        public Criteria andDealPriceBetween(Long value1, Long value2) {
             addCriterion("deal_price between", value1, value2, "dealPrice");
             return (Criteria) this;
         }
 
-        public Criteria andDealPriceNotBetween(Integer value1, Integer value2) {
+        public Criteria andDealPriceNotBetween(Long value1, Long value2) {
             addCriterion("deal_price not between", value1, value2, "dealPrice");
             return (Criteria) this;
         }
@@ -591,6 +711,126 @@ public class ReachDealExample {
 
         public Criteria andPicsNotBetween(String value1, String value2) {
             addCriterion("pics not between", value1, value2, "pics");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvIsNull() {
+            addCriterion("firstcv is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvIsNotNull() {
+            addCriterion("firstcv is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvEqualTo(Long value) {
+            addCriterion("firstcv =", value, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvNotEqualTo(Long value) {
+            addCriterion("firstcv <>", value, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvGreaterThan(Long value) {
+            addCriterion("firstcv >", value, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvGreaterThanOrEqualTo(Long value) {
+            addCriterion("firstcv >=", value, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvLessThan(Long value) {
+            addCriterion("firstcv <", value, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvLessThanOrEqualTo(Long value) {
+            addCriterion("firstcv <=", value, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvIn(List<Long> values) {
+            addCriterion("firstcv in", values, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvNotIn(List<Long> values) {
+            addCriterion("firstcv not in", values, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvBetween(Long value1, Long value2) {
+            addCriterion("firstcv between", value1, value2, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andFirstcvNotBetween(Long value1, Long value2) {
+            addCriterion("firstcv not between", value1, value2, "firstcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvIsNull() {
+            addCriterion("secondcv is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvIsNotNull() {
+            addCriterion("secondcv is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvEqualTo(Long value) {
+            addCriterion("secondcv =", value, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvNotEqualTo(Long value) {
+            addCriterion("secondcv <>", value, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvGreaterThan(Long value) {
+            addCriterion("secondcv >", value, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvGreaterThanOrEqualTo(Long value) {
+            addCriterion("secondcv >=", value, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvLessThan(Long value) {
+            addCriterion("secondcv <", value, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvLessThanOrEqualTo(Long value) {
+            addCriterion("secondcv <=", value, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvIn(List<Long> values) {
+            addCriterion("secondcv in", values, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvNotIn(List<Long> values) {
+            addCriterion("secondcv not in", values, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvBetween(Long value1, Long value2) {
+            addCriterion("secondcv between", value1, value2, "secondcv");
+            return (Criteria) this;
+        }
+
+        public Criteria andSecondcvNotBetween(Long value1, Long value2) {
+            addCriterion("secondcv not between", value1, value2, "secondcv");
             return (Criteria) this;
         }
 

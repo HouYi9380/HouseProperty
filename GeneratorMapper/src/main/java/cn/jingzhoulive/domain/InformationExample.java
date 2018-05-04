@@ -364,6 +364,76 @@ public class InformationExample {
             return (Criteria) this;
         }
 
+        public Criteria andAreaidIsNull() {
+            addCriterion("areaid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidIsNotNull() {
+            addCriterion("areaid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidEqualTo(String value) {
+            addCriterion("areaid =", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidNotEqualTo(String value) {
+            addCriterion("areaid <>", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidGreaterThan(String value) {
+            addCriterion("areaid >", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidGreaterThanOrEqualTo(String value) {
+            addCriterion("areaid >=", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidLessThan(String value) {
+            addCriterion("areaid <", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidLessThanOrEqualTo(String value) {
+            addCriterion("areaid <=", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidLike(String value) {
+            addCriterion("areaid like", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidNotLike(String value) {
+            addCriterion("areaid not like", value, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidIn(List<String> values) {
+            addCriterion("areaid in", values, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidNotIn(List<String> values) {
+            addCriterion("areaid not in", values, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidBetween(String value1, String value2) {
+            addCriterion("areaid between", value1, value2, "areaid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAreaidNotBetween(String value1, String value2) {
+            addCriterion("areaid not between", value1, value2, "areaid");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

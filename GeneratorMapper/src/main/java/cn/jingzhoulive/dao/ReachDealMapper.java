@@ -2,7 +2,6 @@ package cn.jingzhoulive.dao;
 
 import cn.jingzhoulive.domain.ReachDeal;
 import cn.jingzhoulive.domain.ReachDealExample;
-import cn.jingzhoulive.domain.ReachDealWithBLOBs;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,25 +12,19 @@ public interface ReachDealMapper {
 
     int deleteByPrimaryKey(Integer rid);
 
-    int insert(ReachDealWithBLOBs record);
+    int insert(ReachDeal record);
 
-    int insertSelective(ReachDealWithBLOBs record);
-
-    List<ReachDealWithBLOBs> selectByExampleWithBLOBs(ReachDealExample example);
+    int insertSelective(ReachDeal record);
 
     List<ReachDeal> selectByExample(ReachDealExample example);
 
-    ReachDealWithBLOBs selectByPrimaryKey(Integer rid);
+    ReachDeal selectByPrimaryKey(Integer rid);
 
-    int updateByExampleSelective(@Param("record") ReachDealWithBLOBs record, @Param("example") ReachDealExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") ReachDealWithBLOBs record, @Param("example") ReachDealExample example);
+    int updateByExampleSelective(@Param("record") ReachDeal record, @Param("example") ReachDealExample example);
 
     int updateByExample(@Param("record") ReachDeal record, @Param("example") ReachDealExample example);
 
-    int updateByPrimaryKeySelective(ReachDealWithBLOBs record);
-
-    int updateByPrimaryKeyWithBLOBs(ReachDealWithBLOBs record);
+    int updateByPrimaryKeySelective(ReachDeal record);
 
     int updateByPrimaryKey(ReachDeal record);
 }
