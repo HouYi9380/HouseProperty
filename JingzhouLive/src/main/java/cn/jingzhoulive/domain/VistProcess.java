@@ -10,7 +10,7 @@ public class VistProcess {
     private Integer bid;
 
     private Integer progress;
-
+    //1, 未审核 2 已审核
     private Integer isCheck;
 
     private String mark;

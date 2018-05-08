@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="cn.jingzhoulive.dao.ISMSDao">
+    <insert id="newSMS"  parameterType="Sms"  useGeneratedKeys="true" keyProperty="sid">
+        insert INTO sms (phone, code, type, time) VALUES (#{phone}, #{code}, #{type}, #{time})
+    </insert>
+    <!--<select id="selectUser" resultType="User" parameterType="int" >-->
+        <!--SELECT * FROM user WHERE uid = #{id}-->
+    <!--</select>-->
+
+    <select id="getLastSMSFromType" resultType="Sms">
+        select * FROM sms where phone={#phone} and type={#type} order by sid limit 1;
+    </select>
+
+</mapper>

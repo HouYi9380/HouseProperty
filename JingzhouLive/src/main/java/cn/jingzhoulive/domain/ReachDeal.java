@@ -11,25 +11,37 @@ public class ReachDeal {
 
     private Integer bid;
 
-    private Integer dealPrice;
+    private Long hostPrice;
+
+    private Long price;
+
+    private Long dealPrice;
 
     private Integer cid;
 
     private String pics;
 
+    private Long firstcv;
+
+    private Long secondcv;
+
     private String createTime;
 
     private String changTime;
 
-    public ReachDeal(Integer rid, Integer vid, Integer uid, Integer guider, Integer bid, Integer dealPrice, Integer cid, String pics, String createTime, String changTime) {
+    public ReachDeal(Integer rid, Integer vid, Integer uid, Integer guider, Integer bid, Long hostPrice, Long price, Long dealPrice, Integer cid, String pics, Long firstcv, Long secondcv, String createTime, String changTime) {
         this.rid = rid;
         this.vid = vid;
         this.uid = uid;
         this.guider = guider;
         this.bid = bid;
+        this.hostPrice = hostPrice;
+        this.price = price;
         this.dealPrice = dealPrice;
         this.cid = cid;
         this.pics = pics;
+        this.firstcv = firstcv;
+        this.secondcv = secondcv;
         this.createTime = createTime;
         this.changTime = changTime;
     }
@@ -78,11 +90,27 @@ public class ReachDeal {
         this.bid = bid;
     }
 
-    public Integer getDealPrice() {
+    public Long getHostPrice() {
+        return hostPrice;
+    }
+
+    public void setHostPrice(Long hostPrice) {
+        this.hostPrice = hostPrice;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public Long getDealPrice() {
         return dealPrice;
     }
 
-    public void setDealPrice(Integer dealPrice) {
+    public void setDealPrice(Long dealPrice) {
         this.dealPrice = dealPrice;
     }
 
@@ -100,6 +128,22 @@ public class ReachDeal {
 
     public void setPics(String pics) {
         this.pics = pics == null ? null : pics.trim();
+    }
+
+    public Long getFirstcv() {
+        return firstcv;
+    }
+
+    public void setFirstcv(Long firstcv) {
+        this.firstcv = firstcv;
+    }
+
+    public Long getSecondcv() {
+        return secondcv;
+    }
+
+    public void setSecondcv(Long secondcv) {
+        this.secondcv = secondcv;
     }
 
     public String getCreateTime() {

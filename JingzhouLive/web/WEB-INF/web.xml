@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <welcome-file-list>
-        <welcome-file>/html/index.html</welcome-file>
-    </welcome-file-list>
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>/html/login.html</welcome-file>-->
+    <!--</welcome-file-list>-->
 
 
     <!-- 指定spring的配置文件beans.xml -->

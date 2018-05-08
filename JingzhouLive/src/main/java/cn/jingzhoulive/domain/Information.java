@@ -9,17 +9,20 @@ public class Information {
 
     private String pics;
 
+    private String areaid;
+
     private String createTime;
 
     private String changTime;
 
     private String html;
 
-    public Information(Integer iid, String title, Integer type, String pics, String createTime, String changTime, String html) {
+    public Information(Integer iid, String title, Integer type, String pics, String areaid, String createTime, String changTime, String html) {
         this.iid = iid;
         this.title = title;
         this.type = type;
         this.pics = pics;
+        this.areaid = areaid;
         this.createTime = createTime;
         this.changTime = changTime;
         this.html = html;
@@ -59,6 +62,14 @@ public class Information {
 
     public void setPics(String pics) {
         this.pics = pics == null ? null : pics.trim();
+    }
+
+    public String getAreaid() {
+        return areaid;
+    }
+
+    public void setAreaid(String areaid) {
+        this.areaid = areaid == null ? null : areaid.trim();
     }
 
     public String getCreateTime() {

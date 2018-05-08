@@ -8,4 +8,193 @@
         SELECT * FROM user WHERE uid = #{id}
     </select>
 
+    <select id="selectUserByPhone" resultType="User" parameterType="string">
+        SELECT * FROM user WHERE phone=#{phone}
+    </select>
+
+    <insert id="insertUser" parameterType="User"  useGeneratedKeys="true" keyProperty="uid">
+         insert into user (uid, phone, code,
+              pwd, regist_type, guider,
+              name, nick, pic, icid,
+              pay_type, pay_id, residence,
+              lately, create_time, chang_time
+         )
+          values (#{uid,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+           #{pwd,jdbcType=VARCHAR}, #{registType,jdbcType=INTEGER}, #{guider,jdbcType=INTEGER},
+           #{name,jdbcType=VARCHAR}, #{nick,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{icid,jdbcType=VARCHAR},
+           #{payType,jdbcType=INTEGER}, #{payId,jdbcType=VARCHAR}, #{residence,jdbcType=VARCHAR},
+           #{lately,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{changTime,jdbcType=VARCHAR}
+         )
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+         update user
+    set phone = #{phone,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      regist_type = #{registType,jdbcType=INTEGER},
+      guider = #{guider,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      nick = #{nick,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      icid = #{icid,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=INTEGER},
+      pay_id = #{payId,jdbcType=VARCHAR},
+      residence = #{residence,jdbcType=VARCHAR},
+      lately = #{lately,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      chang_time = #{changTime,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=INTEGER}
+    </update>
+
+    <select id="getUserByPhoneAndPwd" resultType="User">
+        select * from user where phone=#{phone} and pwd=#{pwd}
+    </select>
+
+    <update id="updateUserByUidAndLately">
+        update user set lately = #{lately} where uid = #{uid}
+    </update>
+
+    <resultMap id="BaseResultMap" type="cn.jingzhoulive.domain.User">
+        <constructor>
+            <idArg column="uid" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="phone" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="code" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="pwd" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="regist_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="guider" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="nick" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="pic" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="icid" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="pay_type" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="pay_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="residence" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="lately" javaType="java.lang.Integer" jdbcType="INTEGER" />
+            <arg column="create_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <arg column="chang_time" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </constructor>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid, phone, code, pwd, regist_type, guider, name, nick, pic, icid, pay_type, pay_id,
+        residence, lately, create_time, chang_time
+    </sql>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <select id="selectByList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+    </select>
+
+    <select id="selectByExample" parameterType="cn.jingzhoulive.domain.UserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        'true' as QUERYID,
+        <include refid="Base_Column_List" />
+        from user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <update id="updateByPrimaryKeySelective" parameterType="cn.jingzhoulive.domain.User" >
+        update user
+        <set >
+            <if test="phone != null" >
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null" >
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="pwd != null" >
+                pwd = #{pwd,jdbcType=VARCHAR},
+            </if>
+            <if test="registType != null" >
+                regist_type = #{registType,jdbcType=INTEGER},
+            </if>
+            <if test="guider != null" >
+                guider = #{guider,jdbcType=INTEGER},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nick != null" >
+                nick = #{nick,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null" >
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="icid != null" >
+                icid = #{icid,jdbcType=VARCHAR},
+            </if>
+            <if test="payType != null" >
+                pay_type = #{payType,jdbcType=INTEGER},
+            </if>
+            <if test="payId != null" >
+                pay_id = #{payId,jdbcType=VARCHAR},
+            </if>
+            <if test="residence != null" >
+                residence = #{residence,jdbcType=VARCHAR},
+            </if>
+            <if test="lately != null" >
+                lately = #{lately,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="changTime != null" >
+                chang_time = #{changTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=INTEGER}
+    </update>
+
+    <select id="getNumInviteUserByUid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select COALESCE(sum(1),0)
+        from  user
+        where guider = #{uid}
+        and registType=3
+    </select>
+
+    <select id="getNumValideateUserByUid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select COALESCE(sum(1),0)
+        from  user
+        where guider = #{uid}
+        and registType=3
+        and
+    </select>
 </mapper>

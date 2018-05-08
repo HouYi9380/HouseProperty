@@ -9,6 +9,8 @@ public class CommissionProcess {
 
     private Integer vid;
 
+    private Long price;
+
     private Integer progress;
 
     private Integer payIdType;
@@ -23,13 +25,12 @@ public class CommissionProcess {
 
     private String changTime;
 
-    private String price;
-
-    public CommissionProcess(Integer cpid, Integer uid, Integer guider, Integer vid, Integer progress, Integer payIdType, String payId, Integer toPayidType, String toPayid, String createTime, String changTime, String price) {
+    public CommissionProcess(Integer cpid, Integer uid, Integer guider, Integer vid, Long price, Integer progress, Integer payIdType, String payId, Integer toPayidType, String toPayid, String createTime, String changTime) {
         this.cpid = cpid;
         this.uid = uid;
         this.guider = guider;
         this.vid = vid;
+        this.price = price;
         this.progress = progress;
         this.payIdType = payIdType;
         this.payId = payId;
@@ -37,7 +38,6 @@ public class CommissionProcess {
         this.toPayid = toPayid;
         this.createTime = createTime;
         this.changTime = changTime;
-        this.price = price;
     }
 
     public CommissionProcess() {
@@ -74,6 +74,14 @@ public class CommissionProcess {
 
     public void setVid(Integer vid) {
         this.vid = vid;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public Integer getProgress() {
@@ -130,13 +138,5 @@ public class CommissionProcess {
 
     public void setChangTime(String changTime) {
         this.changTime = changTime == null ? null : changTime.trim();
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price == null ? null : price.trim();
     }
 }
