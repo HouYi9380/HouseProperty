@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>添加/修改房源</title>
+
+
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+
+
+        var longitude=localStorage.getItem("longitude");
+        var latitude=localStorage.getItem("latitude");
+
+        $(document).ready(function(){
+            $("#lngandlat").html("纬度:"+longitude+" 经度:"+latitude);
+        });
+
+
+
+        function editHouseDetails(data) {
+
+        }
+
+        function isNull(arg1) {
+            return !arg1 && arg1!==0 && typeof arg1!=="boolean"?true:false;
+        }
+
+        function getLbs() {
+            var city=$("#address").val();
+            if(!isNull(city)){
+                window.location.href="liveLbs.html?city="+city;
+            }else{
+                alert('请填写地址');
+            }
+
+        }
+
+        function imgPreview(fileDom){
+            var strHtml = "";
+
+            //判断是否支持FileReader
+            if (window.FileReader) {
+            } else {
+                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+            }
+
+            var fils = fileDom.files;
+
+            for(var i=0;i<fils.length;i++){
+                //获取文件
+                var file = fils[i];
+
+                var reader = new FileReader();
+
+                reader.readAsDataURL(file);
+
+                //读取完成
+                reader.onload = function(e) {
+                    strHtml += "<img class='col-lg-2' style='height: 100px;width: 100px;margin: 2px' src='"+e.target.result+"' alt=''/>";
+                    document.getElementById("imgContent").innerHTML=strHtml;
+                };
+
+            }
+        }
+
+    </script>
+</head>
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="../images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="../images/logo_icon.png" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+
+
+            <!-- visible to small devices only -->
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="../images/photos/user2.png" class="media-object">
+                    <div class="media-body">
+                        <h4><a href="#">金涛</a></h4>
+                        <span>"超级管理员"</span>
+                    </div>
+                </div>
+
+                <h5 class="left-nav-title">Account Information</h5>
+                <ul class="nav nav-pills nav-stacked custom-nav">
+                    <li><a href="#"><i class="fa fa-sign-out"></i> <span>登出</span></a></li>
+                </ul>
+            </div>
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list"><a href=""><i class="fa fa-user"></i> <span>个人信息</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUserinformation.html"> 基本信息</a></li>
+                        <li><a href="liveChangepassword.html"> 修改密码</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-users"></i> <span>客户管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveCustomerlist.html"> 客户列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list nav-active"><a href=""><i class="fa fa-building-o"></i> <span>房源管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveNewhouse.html"> 新房</a></li>
+                        <li><a href="liveSecondhandhouse.html"> 二手房</a></li>
+                        <li><a href="liveRentalhouse.html"> 出租房</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-clipboard"></i> <span>资讯管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveAdvertisement.html"> 广告</a></li>
+                        <li><a href="liveNews.html"> 新闻</a></li>
+                        <li><a href="liveTrends.html"> 动态</a></li>
+                        <li><a href="liveInformation.html"> 资讯</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href=""><i class="fa fa-search"></i> <span>审核管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUnaudited.html"> 未审核列表</a></li>
+                        <li><a href="liveAudited.html"> 已审核列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-gavel"></i> <span>成交管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveTurnover.html"> 成交信息</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href=""><i class="fa fa-rmb"></i> <span>佣金管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUnissued.html"> 未发放列表</a></li>
+                        <li><a href="liveIssued.html"> 已发放列表</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href="#"><i class="fa fa-th-list"></i> <span>后台管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveAdministrators.html"> 管理员列表</a></li>
+                        <li><a href="liveCommissionpolicy.html"> 佣金政策</a></li>
+                        <li><a href="liveOperationlog.html"> 操作日志</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/photos/user2.png" alt="" />
+                            金涛   超级管理员
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                live居+后台管理系统
+            </h3>
+            <ul class="breadcrumb">
+                <li><a href="index.html">房源管理</a></li>
+                <li class="active">添加/修改房源</li>
+
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            添加/修改房源
+                            <span class="tools pull-right">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">楼盘名称</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="楼盘名称">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">选择图片</label>
+                                    <div class="col-lg-9">
+                                        <input onchange="imgPreview(this)" type="file"  multiple="multiple" accept="image/png,image/gif,image/jpg,image/jpeg"/>
+                                    </div>
+                                    <div class="col-lg-9 row" id="imgContent">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">地址</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="地址" id="address">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">选择位置</label>
+                                    <div class="col-lg-9 form-inline">
+                                        <button type="button" onclick="getLbs()" class="btn btn-primary col-lg-2">选择</button>
+                                        <label id="lngandlat" class="col-lg-10 col-sm-10 control-label"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">联系人</label>
+                                    <div class="col-lg-9">
+                                        <input type="text"required  class="form-control" placeholder="联系人">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">联系人电话</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="联系人电话">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">优惠</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="优惠">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">装修</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="装修">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">房屋户型</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="房屋户型">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">房源</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="房源">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">佣金政策</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="佣金政策">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">面积</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="面积">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">交通配套</label>
+                                    <div class="col-lg-9">
+                                        <input type="text" required class="form-control" placeholder="交通配套">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-lg-3 col-sm-3 control-label">介绍</label>
+                                    <div class="col-lg-9">
+                                        <textarea rows="6" required class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="editHouseDetails()" class="btn btn-primary pull-right">提交</button>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+    </div>
+    <!-- main content end-->
+
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script src="../js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/modernizr.min.js"></script>
+<script src="../js/jquery.nicescroll.js"></script>
+
+
+<!--common scripts for all pages-->
+<script src="../js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>客户详情</title>
+
+    <!--dynamic table-->
+    <link href="../js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
+    <link href="../js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../js/data-tables/DT_bootstrap.css"/>
+
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
+            var html="";
+            for(var i = 0, length = Data.length; i < length; i++){
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + Data[i] + "</td>" +
+                    "<td>" + "我的邀请" + "</td>" +
+                    "<td>" + "3000" + "</td>" +
+                    "<td>" + "已签约" + "</td>" +
+                    "<td>" + "未启动" + "</td>" +
+                    "<td>" + "大傻逼" + "</td>" +
+                    "<td>" + "<button type=\"button\" onclick=\" projectDetails()\" class=\"btn btn-primary\">详情</button>" + "</td>" +
+
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+
+            document.getElementById("content").innerHTML=html;
+        });
+
+        function projectDetails(data){
+            window.location.href="liveProjectdetails.html";
+        }
+
+        function customerDetails(data){
+            alert(data);
+            window.location.href="liveCustomderdetails.html";
+        }
+
+    </script>
+
+</head>
+<body class="sticky-header">
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="../images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="../images/logo_icon.png" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+
+
+            <!-- visible to small devices only -->
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="../images/photos/user2.png" class="media-object">
+                    <div class="media-body">
+                        <h4><a href="#">金涛</a></h4>
+                        <span>"超级管理员"</span>
+                    </div>
+                </div>
+
+                <h5 class="left-nav-title">Account Information</h5>
+                <ul class="nav nav-pills nav-stacked custom-nav">
+                    <li><a href="#"><i class="fa fa-sign-out"></i> <span>登出</span></a></li>
+                </ul>
+            </div>
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list"><a href=""><i class="fa fa-user"></i> <span>个人信息</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUserinformation.html"> 基本信息</a></li>
+                        <li><a href="liveChangepassword.html"> 修改密码</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list nav-active"><a href=""><i class="fa fa-users"></i> <span>客户管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li class="active"><a href="liveCustomerlist.html"> 客户列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-building-o"></i> <span>房源管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveNewhouse.html"> 新房</a></li>
+                        <li><a href="liveSecondhandhouse.html"> 二手房</a></li>
+                        <li><a href="liveRentalhouse.html"> 出租房</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-clipboard"></i> <span>资讯管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveAdvertisement.html"> 广告</a></li>
+                        <li><a href="liveNews.html"> 新闻</a></li>
+                        <li><a href="liveTrends.html"> 动态</a></li>
+                        <li><a href="liveInformation.html"> 资讯</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href=""><i class="fa fa-search"></i> <span>审核管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUnaudited.html"> 未审核列表</a></li>
+                        <li><a href="liveAudited.html"> 已审核列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-gavel"></i> <span>成交管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveTurnover.html"> 成交信息</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href=""><i class="fa fa-rmb"></i> <span>佣金管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUnissued.html"> 未发放列表</a></li>
+                        <li><a href="liveIssued.html"> 已发放列表</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href="#"><i class="fa fa-th-list"></i> <span>后台管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveAdministrators.html"> 管理员列表</a></li>
+                        <li><a href="liveCommissionpolicy.html"> 佣金政策</a></li>
+                        <li><a href="liveOperationlog.html"> 操作日志</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/photos/user2.png" alt=""/>
+                            金涛 超级管理员
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                live居+后台管理系统
+            </h3>
+            <ul class="breadcrumb">
+                <li><a href="index.html">客户管理</a></li>
+                <li><a href="liveCustomerlist.html">客户列表</a></li>
+                <li class="active">客户信息</li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-lg-12 directory-info-row">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            客户信息
+                            <span class="tools pull-right">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="media">
+                                <img class="pull-left thumb media-object" src="../images/photos/user2.png" alt="">
+
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <ul class="p-info">
+                                                <li>
+                                                    <div class="title">姓名</div>
+                                                    <div class="desk">赵四</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">手机号</div>
+                                                    <div class="desk">13809983245</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">注册类型</div>
+                                                    <div class="desk">被邀请</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <ul class="p-info">
+                                                <li>
+                                                    <div class="title">引导人</div>
+                                                    <div class="desk">王二</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">支付类型</div>
+                                                    <div class="desk">支付宝</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">支付账号</div>
+                                                    <div class="desk">13809983245</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-sm-4">
+                                            <ul class="p-info">
+                                                <li>
+                                                    <div class="title">昵称</div>
+                                                    <div class="desk">啊啊啊啊</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">身份证后6位</div>
+                                                    <div class="desk">789077</div>
+                                                </li>
+                                                <li>
+                                                    <div class="title">常住地址</div>
+                                                    <div class="desk">紫禁城</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <dt class="text-primary">他的邀请</dt>
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <a onclick="customerDetails('Lorem')" target="_blank">1. Lorem</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails('Ipsum')" target="_blank">2. Ipsum</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails('Dolor')">3. Dolor</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails('Ament')">4. Ament</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails('Bucket')">5. Bucket</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails('Theme')">6. Theme</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <dt class="text-primary">他的推荐</dt>
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <a onclick="customerDetails()">1. Lorem</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails()">2. Ipsum</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails()">3. Dolor</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails()">4. Ament</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails()">5. Bucket</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="customerDetails()">6. Theme</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            佣金信息
+                            <span class="text-success"> 总佣金:<span class="text-muted"> 3888.00</span></span>
+                            <span class="text-warning"> 发放中:<span class="text-muted"> 1888.00</span></span>
+                            <span class="tools pull-right">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <table class="display table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th>类型</th>
+                                    <th>预计收入金额</th>
+                                    <th>状态</th>
+                                    <th>佣金发放状态</th>
+                                    <th>引导人</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="content">
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>项目名称</th>
+                                    <th>类型</th>
+                                    <th>预计收入金额</th>
+                                    <th>状态</th>
+                                    <th>佣金发放状态</th>
+                                    <th>引导人</th>
+                                    <th>操作</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/modernizr.min.js"></script>
+<script src="../js/jquery.nicescroll.js"></script>
+
+<!--dynamic table-->
+<script type="text/javascript" language="javascript" src="../js/advanced-datatable/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="../js/data-tables/DT_bootstrap.js"></script>
+<!--dynamic table initialization -->
+<script src="../js/dynamic_table_init.js"></script>
+<!--common scripts for all pages-->
+<script src="../js/scripts.js"></script>
+
+</body>
+</html>

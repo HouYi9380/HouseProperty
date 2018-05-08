@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>添加/修改资讯</title>
+
+    <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="../js/html5shiv.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .text img{
+            display:block;
+            max-width:100%;
+            height:auto;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function preview() {
+            var ueContent=UE.getEditor('container').getContent();
+
+            document.getElementById("content").innerHTML="<img src='http://cms-bucket.nosdn.127.net/catchpic/6/62/628f81ce5ac4285c837cc25ba2f33abc.jpg?imageView&thumbnail=550x0'/>"+ueContent;
+
+        }
+
+
+
+        function editDetails(data) {
+
+       }
+
+
+
+
+    </script>
+</head>
+<body class="sticky-header">
+
+<section>
+    <!-- left side start-->
+    <div class="left-side sticky-left-side">
+
+        <!--logo and iconic logo start-->
+        <div class="logo">
+            <a href="index.html"><img src="../images/logo.png" alt=""></a>
+        </div>
+
+        <div class="logo-icon text-center">
+            <a href="index.html"><img src="../images/logo_icon.png" alt=""></a>
+        </div>
+        <!--logo and iconic logo end-->
+
+        <div class="left-side-inner">
+
+
+            <!-- visible to small devices only -->
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="../images/photos/user2.png" class="media-object">
+                    <div class="media-body">
+                        <h4><a href="#">金涛</a></h4>
+                        <span>"超级管理员"</span>
+                    </div>
+                </div>
+
+                <h5 class="left-nav-title">Account Information</h5>
+                <ul class="nav nav-pills nav-stacked custom-nav">
+                    <li><a href="#"><i class="fa fa-sign-out"></i> <span>登出</span></a></li>
+                </ul>
+            </div>
+
+            <!--sidebar nav start-->
+            <ul class="nav nav-pills nav-stacked custom-nav">
+                <li class="menu-list"><a href=""><i class="fa fa-user"></i> <span>个人信息</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUserinformation.html"> 基本信息</a></li>
+                        <li><a href="liveChangepassword.html"> 修改密码</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-users"></i> <span>客户管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveCustomerlist.html"> 客户列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-building-o"></i> <span>房源管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveNewhouse.html"> 新房</a></li>
+                        <li><a href="liveSecondhandhouse.html"> 二手房</a></li>
+                        <li><a href="liveRentalhouse.html"> 出租房</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list nav-active"><a href=""><i class="fa fa-clipboard"></i> <span>资讯管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveAdvertisement.html"> 广告</a></li>
+                        <li><a href="liveNews.html"> 新闻</a></li>
+                        <li><a href="liveTrends.html"> 动态</a></li>
+                        <li><a href="liveInformation.html"> 资讯</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href=""><i class="fa fa-search"></i> <span>审核管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUnaudited.html"> 未审核列表</a></li>
+                        <li><a href="liveAudited.html"> 已审核列表</a></li>
+                    </ul>
+                </li>
+                <li class="menu-list"><a href=""><i class="fa fa-gavel"></i> <span>成交管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveTurnover.html"> 成交信息</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href=""><i class="fa fa-rmb"></i> <span>佣金管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveUnissued.html"> 未发放列表</a></li>
+                        <li><a href="liveIssued.html"> 已发放列表</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-list"><a href="#"><i class="fa fa-th-list"></i> <span>后台管理</span></a>
+                    <ul class="sub-menu-list">
+                        <li><a href="liveAdministrators.html"> 管理员列表</a></li>
+                        <li><a href="liveCommissionpolicy.html"> 佣金政策</a></li>
+                        <li><a href="liveOperationlog.html"> 操作日志</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!--sidebar nav end-->
+
+        </div>
+    </div>
+    <!-- left side end-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- header section start-->
+        <div class="header-section">
+
+            <!--toggle button start-->
+            <a class="toggle-btn"><i class="fa fa-bars"></i></a>
+            <!--toggle button end-->
+
+            <!--notification menu start -->
+            <div class="menu-right">
+                <ul class="notification-menu">
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/photos/user2.png" alt="" />
+                            金涛   超级管理员
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+            <!--notification menu end -->
+
+        </div>
+        <!-- header section end-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                live居+后台管理系统
+            </h3>
+            <ul class="breadcrumb">
+                <li><a href="index.html">资讯管理</a></li>
+                <li class="active">添加/修改资讯</li>
+
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            添加/修改资讯
+                            <span class="tools pull-right">
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            </span>
+                        </header>
+                        <div class="panel-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label  class="col-lg-1 col-sm-1 control-label">标题</label>
+                                    <div class="col-lg-11">
+                                        <input type="text" required class="form-control" placeholder="标题">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <!--<label  class="col-lg-1 col-sm-1 control-label">内容</label>-->
+                                     <div class="col-lg-8">
+                                        <!-- 加载编辑器的容器 -->
+                                        <script id="container" name="content" type="text/plain" style="height:100%;"></script>
+                                        <!-- 配置文件 -->
+                                        <script type="text/javascript" src="../js/ueditor/ueditor.config.js"></script>
+                                        <!-- 编辑器源码文件 -->
+                                        <script type="text/javascript" src="../js/ueditor/ueditor.all.js"></script>
+                                        <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+                                        <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+                                        <script type="text/javascript" charset="utf-8" src="../js/ueditor/lang/zh-cn/zh-cn.js"></script>
+                                        <!-- 实例化编辑器 -->
+                                        <script type="text/javascript">
+                                            var ue = UE.getEditor('container');
+
+                                        </script>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label  class="control-label">手机预览</label>
+                                        <div class="text" id="content" style="height:480px;line-height:480px;overflow:auto;overflow-x:hidden;border: 1px solid red;border-radius: 15px;"></div>
+                                    </div>
+                                </div>
+                                <div class="pull-right">
+                                    <button type="button" onclick="preview()" class="btn btn-primary ">预览</button>
+
+                                    <button type="button" onclick="editDetails()" class="btn btn-primary ">提交</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!--body wrapper end-->
+    </div>
+    <!-- main content end-->
+
+</section>
+
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="../js/jquery-1.10.2.min.js"></script>
+<script src="../js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/modernizr.min.js"></script>
+<script src="../js/jquery.nicescroll.js"></script>
+
+
+<!--common scripts for all pages-->
+<script src="../js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>选择位置</title>
+
+    <style type="text/css">
+        html{height:100%}
+        body{height:100%;margin:0px;padding:0px}
+        #container{height:100%}
+    </style>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MCiCczSFyX20DdRnVkAopMFRjyeLW39q">
+        //v2.0版本的引用方式：src="http://api.map.baidu.com/api?v=2.0&ak=您的密钥"
+    </script>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/javascript">
+    // 定义一个控件类，即function
+    function CloseControl(){
+        // 设置默认停靠位置和偏移量
+        this.defaultAnchor = BMAP_ANCHOR_BOTTOM_RIGHT;
+        this.defaultOffset = new BMap.Size(30, 30);
+    }
+    // 通过JavaScript的prototype属性继承于BMap.Control
+    CloseControl.prototype = new BMap.Control();
+
+    // 自定义控件必须实现initialize方法，并且将控件的DOM元素返回
+    // 在本方法中创建个div元素作为控件的容器，并将其添加到地图容器中
+    CloseControl.prototype.initialize = function(map){
+        // 创建一个DOM元素
+        var div = document.createElement("div");
+        // 添加文字说明
+        div.appendChild(document.createTextNode("确定选择"));
+        // 设置样式
+        div.style.cursor = "default";
+        div.style.border = "1px solid red";
+        div.style.borderRadius="25px";
+        div.style.backgroundColor = "white";
+        div.style.height = "30px";
+        div.style.width = "90px";
+        div.style.textAlign = "center";
+        div.style.fontSize = "11px";
+        div.style.lineHeight = "30px";
+        div.style.color = "red";
+        // 绑定事件
+        div.onclick = function(e){
+            window.history.back();
+        }
+        // 添加DOM元素到地图中
+        map.getContainer().appendChild(div);
+        // 将DOM元素返回
+        return div;
+    }
+
+    // 创建地图实例
+    var map = new BMap.Map("container");
+
+    var url = location.search.split("?")[1];
+
+    var city=url.split("=")[1];
+
+
+
+    map.centerAndZoom(city,15);
+    // 创建控件实例
+    var myCloseControl = new CloseControl();
+    // 添加到地图当中
+    map.addControl(myCloseControl);
+    //设置可以缩放
+    map.enableScrollWheelZoom(true);
+    map.disableDoubleClickZoom(true);
+
+
+    map.addEventListener("click", function(e){
+        localStorage.setItem("longitude",e.point.lng);
+        localStorage.setItem("latitude",e.point.lat);
+        map.clearOverlays();
+        // 创建点坐标
+        var point = new BMap.Point( e.point.lng, e.point.lat);
+        // 创建标注
+        var marker = new BMap.Marker(point);
+
+        marker.enableMassClear();
+        map.addOverlay(marker);
+
+        }
+    );
+
+
+
+
+</script>
+</body>
+</html>
+
