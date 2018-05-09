@@ -11,8 +11,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="GeneratorMapper" target="1.5" />
-      <module name="JingzhouLive" target="1.5" />
+      <module name="GeneratorMapper" target="1.8" />
+      <module name="JingzhouLive" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
