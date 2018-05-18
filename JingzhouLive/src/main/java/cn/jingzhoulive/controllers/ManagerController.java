@@ -3,6 +3,7 @@ package cn.jingzhoulive.controllers;
 import cn.jingzhoulive.domain.Manager;
 import cn.jingzhoulive.service.IManagerService;
 import cn.jingzhoulive.utils.BackJsonUtils;
+import cn.jingzhoulive.utils.CommonUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +29,23 @@ public class ManagerController {
     @RequestMapping("/login")
     @ResponseBody
     public String login(@RequestParam String phone,
-                        @RequestParam String pwd){
+                        @RequestParam String pwd,
+                        HttpSession httpSession){
         Manager manager = service.checkUser(phone, pwd);
         if(manager != null){
             List<Manager> managers = new ArrayList<Manager>();
             managers.add(manager);
+            httpSession.setAttribute(CommonUtils.S_ManagerId, manager.getMid());
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", managers);
         }
         return BackJsonUtils.getInstance().getBackJsonUtils(false, "用户名或密码错误", null);
+    }
+
+    @RequestMapping("/loginout")
+    @ResponseBody
+    public String loginOut(HttpSession session){
+        session.invalidate();
+        return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
     }
 
     /**

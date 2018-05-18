@@ -17,7 +17,38 @@
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
+    <script src = "../js/zm/usershow.js"></script>
+    <script src = "../js/zm/common.js"></script>
 
+    <script type="text/javascript">
+        function mark() {
+            alert("upload");
+            var fileobj=document.getElementById("file").files[0];
+            var formfile=new FormData();
+            formfile.append("file",fileobj);
+            var data=formfile;
+
+            $.ajax({
+                url:globalPath + "/upload/file",
+                data:data,
+                type:"Post",
+                dataType:"json",
+                cache:false,
+                processData:false,
+                contentType:false,
+                success:function(result){
+                    alert(result);
+                },
+                error: function () {
+                   alert("error");
+                }
+            });
+        }
+
+        function submit() {
+
+        }
+    </script>
 </head>
 <body class="sticky-header">
 
@@ -37,21 +68,9 @@
 
         <div class="left-side-inner">
 
-
             <!-- visible to small devices only -->
-            <div class="visible-xs hidden-sm hidden-md hidden-lg">
-                <div class="media logged-user">
-                    <img alt="" src="../images/photos/user2.png" class="media-object">
-                    <div class="media-body">
-                        <h4><a href="#">金涛</a></h4>
-                        <span>"超级管理员"</span>
-                    </div>
-                </div>
+            <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
 
-                <h5 class="left-nav-title">Account Information</h5>
-                <ul class="nav nav-pills nav-stacked custom-nav">
-                    <li><a href="#"><i class="fa fa-sign-out"></i> <span>登出</span></a></li>
-                </ul>
             </div>
 
             <!--sidebar nav start-->
@@ -127,20 +146,8 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div class="menu-right">
-                <ul class="notification-menu">
-                    <li>
-                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="../images/photos/user2.png" alt="" />
-                            金涛   超级管理员
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
-                        </ul>
-                    </li>
+            <div id = "rightHeadDiv" class="menu-right">
 
-                </ul>
             </div>
             <!--notification menu end -->
 
@@ -169,10 +176,10 @@
                             编辑基本信息
                         </header>
                         <div class="panel-body">
-                            <form role="form" action="liveUserinformation.html" method="post">
+                            <form role="form" action="#" id="form">
                                 <div class="form-group">
                                     <label for="exampleInputPhone">联系电话</label>
-                                    <input required type="text" pattern="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" class="form-control" id="exampleInputPhone" placeholder="联系电话">
+                                    <input name="phone" required type="text" pattern="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" class="form-control" id="exampleInputPhone" placeholder="联系电话">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputName">真实姓名</label>
@@ -188,11 +195,17 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="exampleInputFile">头像上传</label>
-                                    <input type="file" id="exampleInputFile">
+                                    <!--<label for="form2">头像上传</label>-->
+                                    <label>头像上传</label>
+                                    <div>
+                                        <!--<form name="form2" id="form2" method="post" enctype="multipart/form-data">-->
+                                            <input id="file" type="file" name="file" ></input>
+                                        <!--</form>-->
+                                    </div>
+                                    <!--<input type="file" id="fileUpload" name = "file">-->
                                     <p class="help-block">请上传真实头像</p>
                                 </div>
-                                <button type="submit" class="btn btn-primary pull-right">提交</button>
+                                <button id="imgUploadBtn" onclick="mark()" type="button" class="btn btn-primary pull-right">提交</button>
                             </form>
 
                         </div>
@@ -247,6 +260,10 @@
 
 <!--Dashboard Charts-->
 <script src="../js/dashboard-chart-init.js"></script>
+
+<!--<script src = "../js/jquery-3.3.1.min.js"></script>-->
+<!--<script src = "../js/zm/common.js"></script>-->
+
 
 </body>
 </html>

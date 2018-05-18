@@ -30,6 +30,8 @@
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
+    <script src = "../js/zm/usershow.js"></script>
+
 </head>
 
 <body class="sticky-header">
@@ -40,31 +42,18 @@
 
         <!--logo and iconic logo start-->
         <div class="logo">
-            <a href="index.html"><img src="../images/logo.png" alt=""></a>
+            <a href="javascript:void(0)" onclick="httpReload()"><img src="../images/logo.png" alt=""></a>
         </div>
 
         <div class="logo-icon text-center">
-            <a href="index.html"><img src="../images/logo_icon.png" alt=""></a>
+            <a href="javascript:void(0)" onclick="httpReload()"><img src="../images/logo_icon.png" alt=""></a>
         </div>
-        <!--logo and iconic logo end-->
+        logo and iconic logo end
 
         <div class="left-side-inner">
 
-
             <!-- visible to small devices only -->
-            <div class="visible-xs hidden-sm hidden-md hidden-lg">
-                <div class="media logged-user">
-                    <img alt="" src="../images/photos/user2.png" class="media-object">
-                    <div class="media-body">
-                        <h4><a href="#">金涛</a></h4>
-                        <span>"超级管理员"</span>
-                    </div>
-                </div>
-
-                <h5 class="left-nav-title">Account Information</h5>
-                <ul class="nav nav-pills nav-stacked custom-nav">
-                   <li><a href="#"><i class="fa fa-sign-out"></i> <span>登出</span></a></li>
-                </ul>
+            <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
             </div>
 
             <!--sidebar nav start-->
@@ -142,21 +131,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div class="menu-right">
-                <ul class="notification-menu">
-
-                    <li>
-                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="../images/photos/user2.png" alt="" />
-                            金涛   超级管理员
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
-                        </ul>
-                    </li>
-
-                </ul>
+            <div id = "rightHeadDiv" class="menu-right">
             </div>
             <!--notification menu end -->
 

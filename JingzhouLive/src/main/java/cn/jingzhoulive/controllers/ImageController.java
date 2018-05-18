@@ -25,7 +25,7 @@ public class ImageController {
     /**
      * 实现文件上传
      * */
-    @RequestMapping("fileUpload")
+    @RequestMapping("/fileUpload")
     @ResponseBody
     public String fileUpload(@RequestParam("fileName") MultipartFile file){
         if(file.isEmpty()){

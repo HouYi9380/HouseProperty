@@ -19,31 +19,23 @@
     <![endif]-->
 
     <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src = "../js/zm/login.js"></script>
     <script>
         $(function () {
             $("#btn").click(function () {
-                alert("1234");
-                $.ajax({
-                    type: "post",
-                    url: "http://localhost:8000/managers/login",
-                    //非常重要的一步
-                    data:
-                        {
-                        "phone" : "admin",
-                        "pwd" : "123456"
-                        },
-                    datatype: "json",
-                    success: function (data) {
-                        alert("success");
-                    }
+                var user = $("#username").val();
+                var pwd = $("#pwd").val();
+                if(user == ""|| pwd == ""){
+                    alert("用户名或密码不能为空");
+                    return ;
+                }
+                login(user, pwd);
 
-                });
+
 
             });
-            
         });
     </script>
-
 </head>
 
 <body class="login-body">
