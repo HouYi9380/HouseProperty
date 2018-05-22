@@ -30,24 +30,11 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/user.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var Data=["汪洋","王岩","张敏","张三","李四"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + "13890998890" + "</td>" +
-                    "<td>" + "普通管理员" + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "业务员" + "</td>" +
-                    "<td>" + "<button type=\"button\" onclick=\" delAdmin()\" class=\"btn btn-danger\">删除</button>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
+          searchAndShow(null, 0, 10)
         });
         function delAdmin() {
             if(confirm("确定要删除这条数据吗？")){
@@ -58,6 +45,34 @@
         }
         function addAdmin(data) {
             window.location.href="liveAddadmin.html";
+        }
+
+        function searchClick(){
+            var keyword = document.getElementById("keyword").value
+            searchAndShow(keyword, 0, 10)
+        }
+        function searchAndShow(keyword, page, pageSize){
+            var list = getUserList(null, 0, 10)
+//            var Data=["汪洋","王岩","张敏","张三","李四"];
+            var firstPage = list[0].firstPage
+            var lastPage = list[0].lastPage
+            var dataList = list[0].list
+            var html="";
+            console.log("size:" + dataList.length)
+            console.log("phone:" + dataList[0].phone)
+            for(var i = 0; i < dataList.length; i++){
+                var num=i+1;
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" +  + "</td>" +
+                    "<td>" + "普通管理员" + "</td>" +
+                    "<td>" + dataList[i].phone + "</td>" +
+                    "<td>" + dataList[i].name + "</td>" +
+                    "<td>" + "<button type=\"button\" onclick=\" delAdmin()\" class=\"btn btn-danger\">删除</button>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML=html;
         }
 
     </script>
@@ -141,7 +156,6 @@
                         <li><a href="liveOperationlog.html"> 操作日志</a></li>
                     </ul>
                 </li>
-
             </ul>
             <!--sidebar nav end-->
 
@@ -198,7 +212,7 @@
                                 </div>
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-primary" onclick="addAdmin()">添加</button>
-                                    <button type="button" class="btn btn-primary ">搜索</button>
+                                    <button onclick="searchClick()" type="button" class="btn btn-primary ">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -229,16 +243,16 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>编号</th>
-                                    <th>手机号</th>
-                                    <th>权限</th>
-                                    <th>真实姓名</th>
-                                    <th>职位</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
+                                <!--<tfoot>-->
+                                <!--<tr>-->
+                                    <!--<th>编号</th>-->
+                                    <!--<th>手机号</th>-->
+                                    <!--<th>权限</th>-->
+                                    <!--<th>真实姓名</th>-->
+                                    <!--<th>职位</th>-->
+                                    <!--<th>操作</th>-->
+                                <!--</tr>-->
+                                <!--</tfoot>-->
                             </table>
 
                             <div class="pull-right">

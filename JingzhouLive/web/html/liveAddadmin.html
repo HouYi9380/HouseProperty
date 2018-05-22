@@ -18,10 +18,24 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
 
-    <script src = "../js/zm/onload.js"></script>
+    <script src = "../js/zm/usershow.js"></script>
+    <script src = "../js/zm/user.js"></script>
     <script>
-        function addAdmin(data) {
+        function addAdmin() {
             alert("添加管理员");
+            var phone = document.getElementById("phone").value;
+            var position = document.getElementById("position").value;
+            var name = document.getElementById("name").value;
+            var back = addManager(phone,name, position);
+            if(back != null){
+                if(back.res == true){
+                    alert(back.msg)
+                   window.location.href = "/html/liveAdministrators.html" ;
+                }else{
+                    alert(back.msg);
+                }
+            }
+
         }
     </script>
 </head>
@@ -157,22 +171,20 @@
                             <form role="form">
                                 <div class="form-group">
                                     <label> 姓名</label>
-                                    <input required type="text" class="form-control" placeholder="姓名">
+                                    <input id = "name" required type="text" class="form-control" placeholder="姓名">
                                 </div>
                                 <div class="form-group">
                                     <label> 手机号</label>
-                                    <input required type="text" class="form-control" placeholder="手机号">
+                                    <input id = "phone" required type="text" class="form-control" placeholder="手机号">
                                 </div>
                                 <div class="form-group">
                                     <label> 职位</label>
-                                    <input required type="text" class="form-control" placeholder="职位">
+                                    <input id = "position" required type="text" class="form-control" placeholder="职位">
                                 </div>
                                 <div class="form-group">
                                     <label> 权限</label>
                                     <select class="form-control">
-                                        <option>普通用户</option>
-                                        <option>普通管理员</option>
-                                        <option>超级管理员</option>
+                                        <option>管理员</option>
                                     </select>
                                 </div>
 

@@ -4,6 +4,7 @@ import cn.jingzhoulive.dao.ManagerMapper;
 import cn.jingzhoulive.domain.Manager;
 import cn.jingzhoulive.domain.ManagerExample;
 import cn.jingzhoulive.service.IManagerService;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,21 @@ public class ManagerServiceImpl implements IManagerService{
     }
 
     public PageInfo<Manager> selectUserBySelected(String keyword, int page, int pageSize) {
-        return null;
+        System.out.println("page:" + page);
+        System.out.println("pageSize:" + pageSize);
+        System.out.println("keyword" + keyword);
+        ManagerExample example= new ManagerExample();
+        ManagerExample.Criteria criteria = example.createCriteria();
+        if(keyword != null && (!keyword.isEmpty())) {
+            criteria.andPhoneLike(keyword);
+            System.out.println("keyWorkd != null");
+        }
+
+        PageHelper.startPage(page, pageSize);
+        List<Manager> vistList = managerMapper.selectByExample(example);
+        System.out.println("vistList:" + vistList);
+        PageInfo<Manager> p=new PageInfo<Manager>(vistList);
+//        System.out.println("p:" + p);
+        return p;
     }
 }

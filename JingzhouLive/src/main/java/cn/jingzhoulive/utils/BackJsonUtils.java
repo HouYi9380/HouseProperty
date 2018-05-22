@@ -38,6 +38,7 @@ public class BackJsonUtils<T> {
         backJsonUtils.setRes(res);
         backJsonUtils.setMsg(msg);
         List<T> list = new ArrayList<T>();
+        list.add(data);
         backJsonUtils.setData(list);
         return JSON.toJSONString(backJsonUtils);
     }

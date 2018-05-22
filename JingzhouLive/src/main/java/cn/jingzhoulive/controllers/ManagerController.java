@@ -4,7 +4,9 @@ import cn.jingzhoulive.domain.Manager;
 import cn.jingzhoulive.service.IManagerService;
 import cn.jingzhoulive.utils.BackJsonUtils;
 import cn.jingzhoulive.utils.CommonUtils;
+import cn.jingzhoulive.utils.DateUtils;
 import com.github.pagehelper.PageInfo;
+import com.mysql.cj.jdbc.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,12 +99,13 @@ public class ManagerController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public String getList(Integer mid,
-                          String keyword,
+    public String getList(@RequestParam(required = false) String keyword,
                           int page,
                           int length){
 
         PageInfo<Manager> managerPageInfo = service.selectUserBySelected(keyword, page, length);
+
+        System.out.println("back:" + managerPageInfo);
 
         if (managerPageInfo != null) {
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", managerPageInfo);
@@ -113,16 +116,19 @@ public class ManagerController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public String add(Integer mid,
-                      String name,
+    public String add(String name,
                       String phone,
-                      Integer power){
+                      String positon){
 
         Manager manager = new Manager();
         manager.setName(name);
         manager.setPhone(phone);
         manager.setPwd("123456");
-        manager.setPower(power);
+        manager.setPower(2);
+        manager.setPositon(positon);
+        manager.setAvailability(1);
+        manager.setCreateTime(DateUtils.getSystemTime());
+        manager.setChangTime(DateUtils.getSystemTime());
         int insertBack = service.insert(manager);
         if(insertBack < 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "添加失败", null);

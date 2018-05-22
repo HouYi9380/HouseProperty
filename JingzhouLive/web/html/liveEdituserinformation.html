@@ -21,33 +21,51 @@
     <script src = "../js/zm/common.js"></script>
 
     <script type="text/javascript">
+        var mid = null;
+        var phone = null;
+        var positon = null;
+        var power = null;
+        var name = null;
+        window.onload = function () {
+            var user = getUserFromLocal();
+            if(user == null){
+               alert("user error!")
+                return;
+            }
+            alert("user:" + user.phone)
+            var powerValue;
+            if(user.power == 1){
+                powerValue = "超级管理员";
+            }else if(user.power == 2){
+                powerValue = "管理员";
+            }else
+                powerValue = "unknow";
+            phone = user.phone
+            power = user.power
+            positon = user.positon
+            name = user.name
+            mid = user.mid
+            document.getElementById("phone").value =user.phone
+            document.getElementById("power").value =powerValue
+            document.getElementById("positon").value =user.positon
+            document.getElementById("name").value = user.name
+        }
         function mark() {
             alert("upload");
-            var fileobj=document.getElementById("file").files[0];
-            var formfile=new FormData();
-            formfile.append("file",fileobj);
-            var data=formfile;
+            var fileObj=document.getElementById("file").files[0];
+            var curPhone = document.getElementById("phone").value
+            var curPower = document.getElementById("power").value
+            var curPositon = document.getElementById("positon").value
+            var curName = document.getElementById("name").value
 
-            $.ajax({
-                url:globalPath + "/upload/file",
-                data:data,
-                type:"Post",
-                dataType:"json",
-                cache:false,
-                processData:false,
-                contentType:false,
-                success:function(result){
-                    alert(result);
-                },
-                error: function () {
-                   alert("error");
-                }
-            });
-        }
+            var sendPhone;
+            if(curPhone === phone)
+                sendPhone = null;
+            else
+                sendPhone = curPhone
 
-        function submit() {
+            uploadHeadImgAjax(mid, curPhone, curPower, curPositon, curName, fileObj)
 
-        }
     </script>
 </head>
 <body class="sticky-header">
@@ -179,19 +197,19 @@
                             <form role="form" action="#" id="form">
                                 <div class="form-group">
                                     <label for="exampleInputPhone">联系电话</label>
-                                    <input name="phone" required type="text" pattern="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" class="form-control" id="exampleInputPhone" placeholder="联系电话">
+                                    <input id = "phone" name="phone" required type="text" pattern="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" class="form-control" id="exampleInputPhone" placeholder="联系电话">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputName">真实姓名</label>
-                                    <input required type="text" pattern="^[\u4E00-\u9FA5]{2,4}$" class="form-control" id="exampleInputName" placeholder="真实姓名">
+                                    <label  for="name">真实姓名</label>
+                                    <input id = "name" required type="text" pattern="^[\u4E00-\u9FA5]{2,4}$" class="form-control"  placeholder="真实姓名">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputPosition">职位</label>
-                                    <input disabled class="form-control" id="exampleInputPosition" value="董事长">
+                                    <label for="positon">职位</label>
+                                    <input disabled class="form-control" id="positon" value="董事长">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputJurisdiction">权限</label>
-                                    <input disabled class="form-control" id="exampleInputJurisdiction" value="超级管理员">
+                                    <label for="power">权限</label>
+                                    <input disabled class="form-control" id="power" value="超级管理员">
                                 </div>
 
                                 <div class="form-group">
@@ -263,7 +281,6 @@
 
 <!--<script src = "../js/jquery-3.3.1.min.js"></script>-->
 <!--<script src = "../js/zm/common.js"></script>-->
-
 
 </body>
 </html>
