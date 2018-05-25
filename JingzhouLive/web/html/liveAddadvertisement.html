@@ -27,22 +27,14 @@
     </style>
 
     <script type="text/javascript">
-
         function preview() {
             var ueContent=UE.getEditor('container').getContent();
-
+            console.log("content:" + ueContent)
             document.getElementById("content").innerHTML="<img src='http://cms-bucket.nosdn.127.net/catchpic/6/62/628f81ce5ac4285c837cc25ba2f33abc.jpg?imageView&thumbnail=550x0'/>"+ueContent;
-
         }
 
-
-
         function editDetails(data) {
-
        }
-
-
-
 
     </script>
 </head>
@@ -64,10 +56,8 @@
 
         <div class="left-side-inner">
 
-
             <!-- visible to small devices only -->
             <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
-
             </div>
 
             <!--sidebar nav start-->
@@ -211,7 +201,6 @@
                                     <button type="button" onclick="preview()" class="btn btn-primary ">预览</button>
 
                                     <button type="button" onclick="editDetails()" class="btn btn-primary ">提交</button>
-
                                 </div>
                             </form>
                         </div>

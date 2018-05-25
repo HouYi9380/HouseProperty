@@ -27,7 +27,7 @@ public class InformationController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public String getInformation(@RequestParam(required = false) int mid,
+    public String getInformation(
                                  @RequestParam (required = false) String keyword,
                                  @RequestParam (required = false)Integer type,
                                  @RequestParam (required = false) String startTime,

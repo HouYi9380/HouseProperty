@@ -29,28 +29,49 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/user.js"></script>
 
     <script type="text/javascript">
 
         $(document).ready(function(){
-            var Data=["张三","李四","王二","赵四","尼古拉斯","鄂尔多斯","丫丫啊","阿斯顿","鹅鹅鹅","张三","李四","王二","赵四","尼古拉斯","鄂尔多斯","丫丫啊","阿斯顿","鹅鹅鹅"];
+            searchUserAndShow(null, null, null, null, 0, 10)
+        });
+
+        function customerDetails(data){
+            window.location.href="liveCustomderdetails.html";
+        }
+
+        function searchUserAndShow(keyword, registType, startTime, endTime,page, pageSize){
+            var userList = getUsers(keyword, registType, startTime, endTime, page, pageSize)
+            if(userList == null){
+                alert("搜索失败")
+                return
+            }
+            if(userList.res == false){
+                alert(userList.msg)
+                return
+            }
+            var list = userList.data
+            var firstPage = list[0].firstPage
+            console.log("firstPage:" + firstPage)
+            var lastPage = list[0].lastPage
+            console.log("lastPage:" + lastPage)
+            var dataList = list[0].list
+            console.log("phone:" + dataList[0].phone)
+            console.log("name:" + dataList[0].name)
             var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
+            for(var i = 0; i < dataList.length; i++){
                 html += "<tr class=\"gradeX\">" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "13345678901" + "</td>" +
-                    "<td>" + "王岩" + "</td>" +
-                    "<td>" + "手机注册" + "</td>" +
-                    "<td>" + "2018/01/01" + "</td>" +
+                    "<td>" + dataList[i].name + "</td>" +
+                    "<td>" + dataList[i].phone + "</td>" +
+                    "<td>" + dataList[i].name + "</td>" +
+                    "<td>" + dataList[i].registType + "</td>" +
+                    "<td>" + dataList[i].createTime + "</td>" +
                     "<td>" + "<button type=\"button\" onclick=\" customerDetails()\" class=\"btn btn-primary\">详情</button>" + "</td>" +
                     //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
                     "</tr>";
             }
             document.getElementById("content").innerHTML=html;
-        });
-
-        function customerDetails(data){
-            window.location.href="liveCustomderdetails.html";
         }
 
 
@@ -238,16 +259,7 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>姓名</th>
-                                    <th>手机号</th>
-                                    <th>注册方式</th>
-                                    <th>引导人</th>
-                                    <th>注册时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
+
                             </table>
 
                             <div class="pull-right">

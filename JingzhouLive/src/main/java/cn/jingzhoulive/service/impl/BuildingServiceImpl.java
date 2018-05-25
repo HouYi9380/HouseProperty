@@ -35,19 +35,19 @@ public class BuildingServiceImpl implements IBuildingService{
                                                                 Long endPrice, String startAcreage, String endAcreage, int page, int length) {
         BuildingsExample example = new BuildingsExample();
         BuildingsExample.Criteria criteria = example.createCriteria();
-        if(keyword != null)
+        if(keyword != null && (!keyword.isEmpty()))
             criteria.andTitleLike(keyword);
-        if(houseType!= null)
+        if(houseType!= null && (!keyword.isEmpty()))
             criteria.andHouseTypeEqualTo(houseType);
-        if(startPrice!= null)
+        if(startPrice!= null && (!keyword.isEmpty()))
             criteria.andPriceGreaterThan(startPrice);
-        if(type != null)
+        if(type != null )
             criteria.andTypeEqualTo(type);
         if(endPrice != null)
             criteria.andPriceLessThan(endPrice);
-        if(startAcreage != null)
+        if(startAcreage != null && (!startAcreage.isEmpty()))
             criteria.andAcreageGreaterThan(startAcreage);
-        if(endAcreage!= null)
+        if(endAcreage!= null && (!endAcreage.isEmpty()))
             criteria.andAcreageLessThan(endAcreage);
 
         PageHelper.startPage(page, length);

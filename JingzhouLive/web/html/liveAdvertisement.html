@@ -29,31 +29,24 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/information.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
-            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "2018/09/21" + "</td>" +
-                    "<td>" + "湖北省武汉市江夏区杨桥湖大道27号" + "</td>" +
-                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"advertisementDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"addAdvertisement()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delAdvertisement()\" type=\"button\">删除</button> </div>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
-        });
+
+        window.onload = function () {
+            getAdAndShow(null, 1, null, null, "027", 0, 10)
+        }
 
         function advertisementDetails(data) {
             window.location.href="liveAdvertisementdetails.html";
         }
 
         function addAdvertisement(data) {
-            window.location.href="liveAddadvertisement.html";
+            window.location.href="liveAddadvertisement.html?add=true";
+        }
+
+        function editInformation(){
+            window.location.href="liveAddadvertisement.html?add=false&iid=1";
         }
 
         function delAdvertisement() {
@@ -62,6 +55,33 @@
             }else{
                 alert("放弃");
             }
+        }
+        function getAdAndShow(keyword, type, startTime, endTime, areaId,page, pageSize){
+            alert("police show")
+            var informationData = getInformationFromType(keyword, type, startTime, endTime, areaId,page, pageSize)
+            if(informationData == null)
+                return;
+            if(informationData.res == false) {
+                alert(informationData.msg)
+                return;
+            }
+            var informations = informationData.data[0].list
+            console.log("title:" + informations[0].title)
+            console.log("createTime:" + informations[0].createTime)
+            var html="";
+            for(var i = 0; i < informations.length; i++){
+                var num=i+1;
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" + informations[i].title + "</td>" +
+                    "<td>" + informations[i].createTime + "</td>" +
+                    "<td>" +  informations[i].html + "</td>" +
+                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"advertisementDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"addAdvertisement()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delAdvertisement()\" type=\"button\">删除</button> </div>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML=html;
+
         }
     </script>
 </head>

@@ -127,8 +127,9 @@ public class UserController {
      */
     @RequestMapping("/aulogin")
     @ResponseBody
-    public String autoLogin(@RequestParam String phone,
-                            @RequestParam String pwd) {
+    public String autoLogin(String phone,
+                            String pwd) {
+        System.out.println("phone:" + phone);
         User user = userService.getUserByPhoneAndPwd(phone, pwd);
         if (user == null) {
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "用户不存在", null);
@@ -169,7 +170,7 @@ public class UserController {
      */
     @RequestMapping("/userlist")
     @ResponseBody
-    public String getUserList(int mid,
+    public String getUserList(
                               @RequestParam(required = false) String keyword,
                               @RequestParam(required = false) Integer registType,
                               @RequestParam(required = false) String startTime,

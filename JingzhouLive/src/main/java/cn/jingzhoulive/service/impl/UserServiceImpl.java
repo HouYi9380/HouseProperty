@@ -1,7 +1,6 @@
 package cn.jingzhoulive.service.impl;
 
 import cn.jingzhoulive.dao.IUserDao;
-import cn.jingzhoulive.domain.ManagerExample;
 import cn.jingzhoulive.domain.User;
 import cn.jingzhoulive.domain.UserExample;
 import cn.jingzhoulive.service.IUserService;
@@ -38,11 +37,19 @@ public class UserServiceImpl implements IUserService {
     }
 
     public User getUserByPhoneAndPwd(String phone, String pwd) {
-        return userDao.getUserByPhoneAndPwd(phone, pwd);
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andPhoneEqualTo(phone);
+        criteria.andPwdEqualTo(pwd);
+        List<User> managerList = userDao.selectByExample(example);
+        return (managerList != null) ? managerList.get(0): null;
     }
 
     public int updateUserByUidAndLately(int uid, int lately) {
-        return userDao.updateUserByUidAndLately(uid, lately);
+        User user = new User();
+        user.setUid(uid);
+        user.setLately(lately);
+        return userDao.updateByPrimaryKeySelective(user);
     }
 
     public PageInfo<User> selectAllPageable(int page, int pageSize) {
@@ -57,14 +64,16 @@ public class UserServiceImpl implements IUserService {
 
         UserExample example = new UserExample();
         UserExample.Criteria criteria = example.createCriteria();
-        if(keywork != null)
+        if(keywork != null && (!keywork.isEmpty()))
             criteria.andPhoneLike(keywork);
-        if(startTime != null)
+        if(startTime != null && (!startTime.isEmpty()))
             criteria.andCreateTimeGreaterThanOrEqualTo(startTime);
-        if(endTime != null)
+        if(endTime != null && (!endTime.isEmpty()))
             criteria.andCreateTimeLessThanOrEqualTo(endTime);
-        if(registType != null)
+        if(registType != null) {
             criteria.andRegistTypeEqualTo(registType);
+            System.out.println("registType is not null");
+        }
 
         PageHelper.startPage(page, pageSize);
         List<User> userList = userDao.selectByExample(example);

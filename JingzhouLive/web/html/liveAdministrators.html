@@ -52,14 +52,11 @@
             searchAndShow(keyword, 0, 10)
         }
         function searchAndShow(keyword, page, pageSize){
-            var list = getUserList(null, 0, 10)
-//            var Data=["汪洋","王岩","张敏","张三","李四"];
+            var list = getManagerList(null, 0, 10)
             var firstPage = list[0].firstPage
             var lastPage = list[0].lastPage
             var dataList = list[0].list
             var html="";
-            console.log("size:" + dataList.length)
-            console.log("phone:" + dataList[0].phone)
             for(var i = 0; i < dataList.length; i++){
                 var num=i+1;
                 html += "<tr class=\"gradeX\">" +

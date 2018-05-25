@@ -19,15 +19,7 @@
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript">
 
-        function addCommissionpolicy(data) {
-
-        }
-
-
-
-    </script>
 </head>
 <body class="sticky-header">
 <section>
@@ -163,13 +155,13 @@
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">政策名称</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="政策名称">
+                                        <input id = "title" type="text" required class="form-control" placeholder="政策名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">类型</label>
                                     <div class="col-lg-9">
-                                        <select class="form-control">
+                                        <select id = "type" class="form-control">
                                             <option>新房</option>
                                             <option>二手房</option>
                                             <option>出租房</option>
@@ -179,19 +171,19 @@
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">一级换算</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="一级换算">
+                                        <input id = "firstcv" type="text" required class="form-control" placeholder="一级换算">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">二级换算</label>
                                     <div class="col-lg-9">
-                                        <input type="text"required  class="form-control" placeholder="二级换算">
+                                        <input id="secondcv" type="text"required  class="form-control" placeholder="二级换算">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-3 col-sm-3 control-label">政策详情</label>
                                     <div class="col-lg-9">
-                                        <textarea rows="6" required class="form-control"></textarea>
+                                        <textarea id = "content" rows="6" required class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <button type="button" onclick="addCommissionpolicy()" class="btn btn-primary pull-right">提交</button>
@@ -218,5 +210,89 @@
 
 <!--common scripts for all pages-->
 <script src="../js/scripts.js"></script>
+
+<script src = "../js/zm/common.js"></script>
+<script src = "../js/zm/police.js"></script>
+<script type="text/javascript">
+    var isAdd = null;
+    var cid = null;
+
+    window.onload = function () {
+        var addArg = getUrlParam("add");
+        if(addArg == null){
+            alert("add参数错误")
+            return
+        }
+        alert("add=" + addArg)
+        isAdd = addArg
+        var cpid = getUrlParam("cpid");
+        if(cpid != null){
+            cid = cpid
+            alert("cpid:" + cpid)
+            var police = getPoliceFromId(cpid);
+            if(police == null){
+                return
+            }
+            if(police.res == false){
+                alert(police.msg)
+                return
+            }
+            var policeData = police.data[0]
+            alert("title:" + policeData.title)
+            document.getElementById("title").value = policeData.title
+            document.getElementById("firstcv").value = policeData.firstcv
+            document.getElementById("secondcv").value = policeData.secondcv
+            document.getElementById("content").value = policeData.content
+            document.getElementById("type").selectedIndex = policeData.type - 1
+        }
+    }
+
+    function addCommissionpolicy(data) {
+        var title = document.getElementById("title").value
+        var firstcv = document.getElementById("firstcv").value
+        var secondcv = document.getElementById("secondcv").value
+        var content = document.getElementById("content").value
+        var type = document.getElementById("type").selectedIndex
+        alert("type=" + type)
+        if(title == "" || firstcv == "" || secondcv == "" || content == ""){
+            alert("内容不能为空")
+            return
+        }
+        var police = new Object()
+        police.title = title
+        police.firstcv = firstcv
+        police.secondcv = secondcv
+        police.content = content
+        police.type = type + 1
+        alert("isAdd:" + isAdd + "  " + (isAdd == "true"))
+        alert("title=" + police.title)
+
+        if(isAdd == true || isAdd == "true"){
+            alert("add")
+            var addBack = addPolice(police);
+            if(addBack == null){
+                return
+            }
+            if(addBack.res == false){
+                alert("添加失败")
+                return
+            }
+            window.location.href = "/html/liveCommissionpolicy.html"
+        }else{
+            alert("update; cid=" + cid)
+            police.cpid = cid
+            var updateBack = updatePolice(police);
+            if(updateBack == null){
+                return
+            }
+            if(updateBack.res == false){
+                alert("修改失败")
+                return
+            }
+            window.location.href = "/html/liveCommissionpolicy.html"
+        }
+    }
+</script>
+
 </body>
 </html>

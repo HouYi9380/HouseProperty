@@ -27,8 +27,7 @@ public class BuildingController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public String addBuildingInfo(int mid,
-                                  int type,
+    public String addBuildingInfo(int type,
                                   String title,
                                   String address,
                                   String contacts,
@@ -36,7 +35,7 @@ public class BuildingController {
                                   String area,
                                   String latitude,
                                   String longtitude,
-                                  String pics,
+                                  @RequestParam(required = false) String pics,
                                   String favourable,
                                   String traffic,
                                   String buildingInfo,
@@ -60,7 +59,7 @@ public class BuildingController {
 
     @RequestMapping("/update")
     @ResponseBody
-    public String updateBuildingInfo(int mid,
+    public String updateBuildingInfo(
                                         int bid,
                                         @RequestParam (required = false) Integer type,
                                         @RequestParam (required = false) String title,
@@ -118,10 +117,10 @@ public class BuildingController {
         if(buildingsWithBLOBs == null){
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "数据不存在", null);
         }
+        System.out.println("housetype:" + buildingsWithBLOBs.getHouseType());
         List<BuildingsWithBLOBs> list = new ArrayList<BuildingsWithBLOBs>();
         list.add(buildingsWithBLOBs);
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", list);
     }
-
 
 }

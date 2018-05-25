@@ -72,11 +72,11 @@ function uploadHeadImgAjax(mid, phone, power, positon, name, file){
 
 
 }
-function modefyUser(mid, phone, power, name, position, headImg){
+function modefyManager(mid, phone, power, name, position, headImg){
     alert("modefyUser 未做")
 }
 
-function modefyUserPwdAjax(prePwd, newPwd){
+function modefyManagerPwdAjax(prePwd, newPwd){
     var postData = {
         prepwd: prePwd,
         newpwd:newPwd
@@ -109,7 +109,7 @@ function modefyUserPwdAjax(prePwd, newPwd){
     })
 }
 
-function getUserList(keyword, page, pageSize){
+function getManagerList(keyword, page, pageSize){
     var backData = null;
     var postData = {
        keyword : keyword,
@@ -171,13 +171,6 @@ function addManager(phone, name, position){
         crossDomain: true,
         success: function (data) {
             var jsonData = JSON.parse(data);
-            // var res = jsonData.res;
-            // var msg = jsonData.msg;
-            // var array = jsonData.data;
-            // if (res != true) {
-            //     alert(msg);
-            //     return;
-            // }
             backData = jsonData;
         },
         error: function () {
@@ -188,7 +181,7 @@ function addManager(phone, name, position){
     return backData
 }
 
-function getUserFromLocal(){
+function getManagerFromLocal(){
     var userJson = window.localStorage.getItem("user");
     if(userJson == null){
         alert("user error!");
@@ -196,5 +189,40 @@ function getUserFromLocal(){
     }
     var  user = JSON.parse(userJson);
     return user;
+}
+
+//===============================user========================================
+
+function getUsers(keyword, registType, startTime, endTime, page, pageSize){
+    var backData = null;
+    var postData = {
+        keyword: keyword,
+        registType: registType,
+        startTime: startTime,
+        endTime: endTime,
+        page : page,
+        length : pageSize
+    }
+    $.ajax({
+        type: "post",
+        url: globalUrl + "/user/userlist",
+        data: postData,
+        datatype: "json",
+        //添加跨域
+        async: false,
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true,
+        success: function (data) {
+            var jsonData = JSON.parse(data);
+            backData = jsonData;
+        },
+        error: function () {
+            alert("服务异常");
+            return;
+        }
+    })
+    return backData
 }
 

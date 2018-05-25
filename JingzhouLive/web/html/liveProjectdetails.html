@@ -19,12 +19,9 @@
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
     <![endif]-->
-    <script type="text/javascript">
-        function editNewHouseDetails(data) {
-            window.location.href="liveEditprojectdetails.html";
-        }
-    </script>
+
 </head>
 <body class="sticky-header">
 
@@ -206,8 +203,8 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-2">
-                                    <h3 class="text-danger">12300/平</h3>
-                                    <h5 class="text-warning">推荐指数: 5颗星</h5>
+                                    <h3 class="text-danger"><span id = "price">12300</span><span>/平</span></h3>
+                                    <h5 class="text-warning"><span id="recommend">推荐指数:</span>5<span>颗星</span></h5>
                                 </div>
                             </div>
                             <div class="row">
@@ -216,55 +213,56 @@
                                     <ul class="p-info">
                                         <li>
                                             <div class="title">楼盘名称</div>
-                                            <div class="desk">碧桂园</div>
+                                            <div id = "title" class="desk">碧桂园</div>
                                         </li>
                                         <li>
                                             <div class="title">联系人姓名</div>
-                                            <div class="desk">王岩</div>
+                                            <div id = "contact" class="desk">王岩</div>
                                         </li>
                                         <li>
                                             <div class="title">联系人电话</div>
-                                            <div class="desk">13890908765</div>
+                                            <div id = "phone" class="desk">13890908765</div>
                                         </li>
                                         <li>
                                             <div class="title">优惠</div>
-                                            <div class="desk">暂无</div>
+                                            <div id = "favourable" class="desk">暂无</div>
                                         </li>
                                         <li>
                                             <div class="title">经/纬度</div>
-                                            <div class="desk">北纬N38°57′49.25″ 东经E98°05′9.38″</div>
+                                            <div class="desk"><p><span>北纬</span><span id= "longtitude">N38°57′49.25″</span></p>
+                                                <p><span>东经</span><span id="latitude">E98°05′9.38″</span></p></div>
                                         </li>
                                         <li>
                                             <div class="title">装修</div>
-                                            <div class="desk">智能精装</div>
+                                            <div id = "decoration" class="desk">智能精装</div>
                                         </li>
                                         <li>
                                             <div class="title">房屋户型</div>
-                                            <div class="desk">3居室</div>
+                                            <div id = "houseType" class="desk">3居室</div>
                                         </li>
                                         <li>
                                             <div class="title">房源</div>
-                                            <div class="desk">一手</div>
+                                            <div id = "shared" class="desk">一手</div>
                                         </li>
                                         <li>
                                             <div class="title">佣金政策</div>
-                                            <div class="desk">3.1%</div>
+                                            <div id = "commissionId" class="desk">3.1%</div>
                                         </li>
                                         <li>
                                             <div class="title">面积</div>
-                                            <div class="desk">103平</div>
+                                            <div id = "acreage" class="desk">103平</div>
                                         </li>
                                         <li>
                                             <div class="title">创建时间</div>
-                                            <div class="desk">2017/09/09</div>
+                                            <div id = "createTime" class="desk">2017/09/09</div>
                                         </li>
                                         <li>
                                             <div class="title">交通配套</div>
-                                            <div class="desk">738/811/590/556等10多趟公交车，在雄楚大道理工大站步行约100米即到项目</div>
+                                            <div id = "traffic" class="desk">738/811/590/556等10多趟公交车，在雄楚大道理工大站步行约100米即到项目</div>
                                         </li>
                                         <li>
                                             <div class="title">介绍</div>
-                                            <div class="desk">理公馆项目位于洪山区雄楚大道与理工大路交汇处（武警总队西侧），理公馆南接雄楚大道二环线，西临理工大路及理工大鉴湖校区。交通便利配套完整，地区优势明显。
+                                            <div id = "buildingInfo" class="desk">理公馆项目位于洪山区雄楚大道与理工大路交汇处（武警总队西侧），理公馆南接雄楚大道二环线，西临理工大路及理工大鉴湖校区。交通便利配套完整，地区优势明显。
                                                 理公馆由四栋32-33层两梯三户住宅楼和一栋写字楼组成。产品线涵盖紧凑三房，四房组成。</div>
                                         </li>
                                     </ul>
@@ -298,6 +296,56 @@
 
 <!--common scripts for all pages-->
 <script src="../js/scripts.js"></script>
+<script src ="../js/zm/building.js"></script>
+<script src = "../js/zm/common.js"></script>
+
+<script type="text/javascript">
+    var bid = null;
+    window.onload = function(){
+        bid = getUrlParam("bid");
+        if(bid == null) {
+            alert("房屋信息出错")
+            return;
+        }
+        getBuildingDetail(bid)
+    }
+
+
+    function editNewHouseDetails(data) {
+        if(bid == null){
+            alert("房屋信息出错,无法编辑")
+            return;
+        }
+        window.location.href="liveEditprojectdetails.html?bid=" + bid;
+    }
+
+    function getBuildingDetail(bid){
+        var building = getBuildingFromId(bid);
+        if(building.res == false){
+            alert("获取失败")
+            return;
+        }
+        var data = building.data[0]
+        console.log("title:" + data.title)
+        document.getElementById("title").innerHTML =data.title
+//        document.getElementById("address").innerHTML = data.address
+        document.getElementById("contact").innerHTML = data.contact
+        document.getElementById("phone").innerHTML = data.phone
+        document.getElementById("latitude").innerHTML = data.latitude
+        document.getElementById("longtitude").innerHTML = data.longtitude
+        document.getElementById("favourable").innerHTML = data.favourable
+        document.getElementById("traffic").innerHTML = data.traffic
+        document.getElementById("buildingInfo").innerHTML = data.buildingInfo
+        document.getElementById("decoration").innerHTML = data.decoration
+        document.getElementById("shared").innerHTML = data.shared
+        document.getElementById("commissionId").innerHTML = data.commissionId
+        document.getElementById("price").innerHTML = data.price
+        document.getElementById("acreage").innerHTML = data.acreage
+        document.getElementById("houseType").innerHTML = data.houseType
+        document.getElementById("recommend").innerHTML = data.recommend
+        document.getElementById("createTime").innerHTML = data.createTime
+    }
+</script>
 
 </body>
 </html>

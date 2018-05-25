@@ -20,19 +20,132 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/common.js"></script>
+    <script src = "../js/zm/building.js"></script>
     <script type="text/javascript">
+        var longitude1=localStorage.getItem("longitude");
+        var latitude1=localStorage.getItem("latitude");
+//
+//        $(document).ready(function(){
+//            $("#lngandlat").html("纬度:"+longitude+" 经度:"+latitude);
+//        });
+        var isAdd = null
+        var bid = null;
+        window.onload = function () {
+            isAdd = getUrlParam("add");
+            document.getElementById("lng").innerHTML= longitude1
+            document.getElementById("lat").innerHTML= latitude1
+            if (isAdd == null) {
+                alert("add参数错误")
+                return
+            }
+            alert("add=" + isAdd)
+            bid = getUrlParam("bid");
+            if (bid != null) {
+                alert("bid:" + bid)
+                var buildingBack = getBuildingFromId(bid);
+                if (buildingBack == null) {
+                    return
+                }
+                if (buildingBack.res == false) {
+                    alert(buildingBack.msg)
+                    return
+                }
+                var building = buildingBack.data[0]
+                alert("title:" + building.title)
+                console.log("title:" + building.title)
+                document.getElementById("title").value =building.title
+                document.getElementById("address").value = building.address
+                document.getElementById("contact").value = building.contacts
+                document.getElementById("phone").value = building.phone
+                document.getElementById("lat").value= building.latitude
+                document.getElementById("lng").value= building.longtitude
+//                document.getElementById("lngandlat").innerHTML ="纬度:"+building.longtitude+" 经度:"+building.latitude
 
+                document.getElementById("favourable").value = building.favourable
+                document.getElementById("traffic").value = building.traffic
+                document.getElementById("buildingInfo"). value = building.buildingInfo
+                document.getElementById("decoration").value = building.decoration
+                document.getElementById("shared").value = building.shared
+                document.getElementById("commissionId").value = building.commissionId
+//                document.getElementById("price").value = data.price
+                document.getElementById("acreage").value = building.acreage
+                document.getElementById("houseType").value = building.houseType
+//                document.getElementById("recommend").innerHTML = data.recommend
+//                document.getElementById("createTime").innerHTML = data.createTime
+            }
+        }
 
-        var longitude=localStorage.getItem("longitude");
-        var latitude=localStorage.getItem("latitude");
+        function submitData() {
+             //编辑时，图片显示问题
+            //add
+            var title = document.getElementById("title").value
+            var address = document.getElementById("address").value
+            var contact = document.getElementById("contact").value
+            var phone = document.getElementById("phone").value
+            var longitude=document.getElementById("lng").innerText;
+            var latitude=document.getElementById("lat").innerText;
 
-        $(document).ready(function(){
-            $("#lngandlat").html("纬度:"+longitude+" 经度:"+latitude);
-        });
+            var favourable = document.getElementById("favourable").value
+            var traffic = document.getElementById("traffic").value
+            var buildingInfo = document.getElementById("buildingInfo").value
+            var decoration = document.getElementById("decoration").value
+            var shared = document.getElementById("shared").value
+            var commissionId = document.getElementById("commissionId").value
+//                document.getElementById("price").innerHTML = data.price
+            var acreage = document.getElementById("acreage").value
+            var houseType = document.getElementById("houseType").value
+            var building = new Object();
+            building.type = 1 // 新房
+            building.title = title
+            building.address = address
+            building.contacts = contact
+            building.phone = phone
+            building.area = "027"
+            building.latitude = latitude
+            building.longtitude = longitude
+            building.pics = null
+            building.favourable = favourable
+            building.traffic = traffic
+            building.buildingInfo = buildingInfo
+            building.decoration = decoration
+            building.shared = shared
+            building.commissionId = commissionId
+            building.price = 12300
+            building.acreage = acreage
+            building.houseType = houseType
+            building.recommend = 5 // default
+            if(isAdd == "true"){
+                //先上传多图,图片
+                // 然后上传其它数据
 
+                var addBack = addBuilding(building)
+                if(addBack == null){
+                    return;
+                }
+                if(addBack.res == false){
+                    alert("添加失败")
+                    return;
+                }
+                window.location.href = "/html/liveNewhouse.html"
+            }else{
+                alert("update")
+                //上传图片
+                // 更新内容
+                building.bid = 1
+                var updateBack = updateBuilding(building)
+                if(updateBack == null){
+                    return
+                }
+                if(updateBack.res == false){
+                    alert("更新失败")
+                    return
+                }
+                window.location.href = "/html/liveNewhouse.html"
+            }
+        }
 
-
-        function editHouseDetails(data) {
+        function cancel(){
 
         }
 
@@ -45,9 +158,8 @@
             if(!isNull(city)){
                 window.location.href="liveLbs.html?city="+city;
             }else{
-                alert('请填写地址');
+                alert('请填写地址,例如：武汉');
             }
-
         }
 
         function imgPreview(fileDom){
@@ -213,7 +325,7 @@
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">楼盘名称</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="楼盘名称">
+                                        <input id = "title" type="text" required class="form-control" placeholder="楼盘名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -235,70 +347,71 @@
                                     <label class="col-lg-3 col-sm-3 control-label">选择位置</label>
                                     <div class="col-lg-9 form-inline">
                                         <button type="button" onclick="getLbs()" class="btn btn-primary col-lg-2">选择</button>
-                                        <label id="lngandlat" class="col-lg-10 col-sm-10 control-label"></label>
+                                        <label class="col-lg-10 col-sm-10 control-label"><span>纬度：</span><span id="lng"></span></label>
+                                        <label class="col-lg-10 col-sm-10 control-label"><span>经度:</span><span id="lat"></span></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">联系人</label>
                                     <div class="col-lg-9">
-                                        <input type="text"required  class="form-control" placeholder="联系人">
+                                        <input id = "contact" type="text"required  class="form-control" placeholder="联系人">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">联系人电话</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="联系人电话">
+                                        <input id = "phone" type="text" required class="form-control" placeholder="联系人电话">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">优惠</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="优惠">
+                                        <input id = "favourable" type="text" required class="form-control" placeholder="优惠">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">装修</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="装修">
+                                        <input id = "decoration" type="text" required class="form-control" placeholder="装修">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">房屋户型</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="房屋户型">
+                                        <input id = "houseType" type="text" required class="form-control" placeholder="房屋户型">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">房源</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="房源">
+                                        <input id = "shared" type="text" required class="form-control" placeholder="房源">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">佣金政策</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="佣金政策">
+                                        <input id="commissionId" type="text" required class="form-control" placeholder="佣金政策">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">面积</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="面积">
+                                        <input id = "acreage" type="text" required class="form-control" placeholder="面积">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">交通配套</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="交通配套">
+                                        <input id = "traffic" type="text" required class="form-control" placeholder="交通配套">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label  class="col-lg-3 col-sm-3 control-label">介绍</label>
                                     <div class="col-lg-9">
-                                        <textarea rows="6" required class="form-control"></textarea>
+                                        <textarea id = "buildingInfo" rows="6" required class="form-control"></textarea>
                                     </div>
                                 </div>
-                                <button type="button" onclick="editHouseDetails()" class="btn btn-primary pull-right">提交</button>
+                                <button type="button" onclick="submitData()" class="btn btn-primary pull-right">提交</button>
                             </form>
                         </div>
                     </section>

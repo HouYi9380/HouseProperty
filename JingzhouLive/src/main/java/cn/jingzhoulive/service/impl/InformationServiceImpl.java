@@ -22,19 +22,28 @@ public class InformationServiceImpl implements IInformationService {
     public PageInfo<Information> selectUserBySelected(String keywork, String areaId, Integer type, String startTime, String endTime, Integer page, int pageLenth) {
         InformationExample example = new InformationExample();
         InformationExample.Criteria criteria = example.createCriteria();
-        if(keywork != null)
+        if(keywork != null && (!keywork.isEmpty())) {
+            System.out.println("keyword:"+keywork);
             criteria.andTitleLike(keywork);
-        if(startTime != null)
+        }
+        if(startTime != null && (!startTime.isEmpty())) {
             criteria.andCreateTimeGreaterThanOrEqualTo(startTime);
-        if(endTime != null)
+            System.out.println("startTime:"+startTime);
+        }
+        if(endTime != null && (!endTime.isEmpty())) {
             criteria.andCreateTimeLessThanOrEqualTo(endTime);
+            System.out.println("endTime:"+endTime);
+        }
         if(type != null)
             criteria.andTypeEqualTo(type);
         if(areaId != null)
             criteria.andAreaidEqualTo(areaId);
+        System.out.println("areaId:" + areaId);
+        System.out.println("type:" + type);
 
         PageHelper.startPage(page, pageLenth);
         List<Information> infoList = informationMapper.selectByExampleWithBLOBs(example);
+        System.out.println("listsize:" + infoList.size());
         PageInfo<Information> p=new PageInfo<Information>(infoList);
         return p;
     }

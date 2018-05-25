@@ -29,31 +29,21 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/building.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"]; var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "王岩" + "</td>" +
-                    "<td>" + "13890987654" + "</td>" +
-                    "<td>" + "湖北省武汉市江夏区杨桥湖大道27号" + "</td>" +
-                    "<td>" + "2018/09/21" + "</td>" +
-                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"newHouseDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"editNewHouseDetails()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delNewHouseDetails()\" type=\"button\">删除</button> </div>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
+            searchBuildingAndShow(null, null, null, null, null, null, null, 0, 10)
         });
 
         function newHouseDetails(data) {
-            window.location.href="liveProjectdetails.html";
+            window.location.href="liveProjectdetails.html?bid=1";
         }
 
+        function addNewHouse(){
+            window.location.href="liveEditprojectdetails.html?add=true";
+        }
         function editNewHouseDetails(data) {
-            window.location.href="liveEditprojectdetails.html";
+            window.location.href="liveEditprojectdetails.html?add=false&bid=1";
         }
 
         function delNewHouseDetails() {
@@ -62,6 +52,40 @@
             }else{
                 alert("放弃");
             }
+        }
+        function searchBuildingAndShow(type, keyword, houseType, startPrice, endPrice,
+                                       startAcreage, endAcreage, page, pageSize) {
+            var buildingBack = getBuilding(type, keyword, houseType, startPrice, endPrice,
+                                        startAcreage, endAcreage, page, pageSize)
+            if(buildingBack == null){
+                alert("搜索失败")
+                return
+            }
+            if(buildingBack.res == false){
+                alert(buildingBack.msg)
+                return
+            }
+            var list = buildingBack.data
+            var firstPage = list[0].firstPage
+            console.log("firstPage:" + firstPage)
+            var lastPage = list[0].lastPage
+            console.log("lastPage:" + lastPage)
+            var dataList = list[0].list
+            var html="";
+            for(var i = 0; i < dataList.length; i++){
+                var num=i+1;
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" +dataList[i].title + "</td>" +
+                    "<td>" + dataList[i].contacts + "</td>" +
+                    "<td>" + dataList[i].phone + "</td>" +
+                    "<td>" + dataList[i].address + "</td>" +
+                    "<td>" + dataList[i].createTime + "</td>" +
+                    "<td>" + "<div class='btn-group'> <button class='btn btn-default' onclick='newHouseDetails(this)' type='button'>详情</button> <button class='btn btn-primary' onclick='editNewHouseDetails()' type='button'>编辑</button> <button class='btn btn-danger' onclick='delNewHouseDetails()' type='button'>删除</button> </div>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML=html;
         }
     </script>
 </head>
@@ -294,7 +318,7 @@
 
                                 <div class="pull-right">
                                     <br><br>
-                                    <button type="button" onclick="editNewHouseDetails()" class="btn btn-primary ">添加</button>
+                                    <button type="button" onclick="addNewHouse()" class="btn btn-primary ">添加</button>
                                     <button type="button" class="btn btn-primary ">搜索</button>
                                 </div>
                             </form>
@@ -327,17 +351,7 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>房屋编号</th>
-                                    <th>楼盘名称</th>
-                                    <th>联系姓名</th>
-                                    <th>联系电话</th>
-                                    <th>地址</th>
-                                    <th>时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
+
                             </table>
 
                             <div class="pull-right">

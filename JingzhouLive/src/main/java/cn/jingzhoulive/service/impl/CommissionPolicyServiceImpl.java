@@ -23,6 +23,11 @@ public class CommissionPolicyServiceImpl implements ICommissonPolicyService{
         return mapper.insert(record) ;
     }
 
+    @Override
+    public int updateByPrimaryKeySelective(CommissionPolicy record) {
+        return mapper.updateByPrimaryKeySelective(record);
+    }
+
     public int updateByPrimaryKeyWithBLOBs(CommissionPolicy record) {
         return mapper.updateByPrimaryKeyWithBLOBs(record);
     }
@@ -38,4 +43,9 @@ public class CommissionPolicyServiceImpl implements ICommissonPolicyService{
         PageInfo<CommissionPolicy> p=new PageInfo<CommissionPolicy>(list);
         return p;
     }
+
+    public CommissionPolicy getFromCpid(Integer cpid){
+       return mapper.selectByPrimaryKey(cpid);
+    }
+
 }

@@ -30,28 +30,16 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src ="../js/zm/police.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var Data=["政策一","政策二","政策三","政策四","政策五"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "新房" + "</td>" +
-                    "<td>" + "3.1%" + "</td>" +
-                    "<td>" + "1.1%" + "</td>" +
-                    "<td>" + "无" + "</td>" +
-                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-primary\" onclick=\"addCommissionpolicy()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delCommissionpolicy()\" type=\"button\">删除</button> </div>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
+            getPolicyAndShow(0, 10)
+
         });
-        function delCommissionpolicy() {
+        function delCommissionpolicy(cid) {
             if(confirm("确定要删除这条数据吗？")){
+//                invalidPolice(cid)
                 alert("确定");
             }else{
                 alert("放弃");
@@ -59,7 +47,38 @@
         }
 
         function addCommissionpolicy(data) {
-            window.location.href="liveAddcommissionpolicy.html";
+            window.location.href="liveAddcommissionpolicy.html?add=true";
+        }
+
+        function editCommissionpolicy(data) {
+            window.location.href="liveAddcommissionpolicy.html?add=false&cpid="+1;
+        }
+
+        function  getPolicyAndShow(page, pageSize){
+            alert("police show")
+           var policesData = getPolices(page, pageSize)
+            if(policesData == null)
+                return;
+           if(policesData.res == false) {
+               alert(policesData.msg)
+               return;
+           }
+           var polices = policesData.data[0].list
+            var html="";
+            for(var i = 0; i < polices.length; i++){
+                var num=i+1;
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" + polices[i].title + "</td>" +
+                    "<td>" + polices[i].type + "</td>" +
+                    "<td>" + polices[i].firstcv + "</td>" +
+                    "<td>" + polices[i].secondcv + "</td>" +
+                    "<td>" + polices[i].content  + "</td>" +
+                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-primary\" onclick=\"editCommissionpolicy()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delCommissionpolicy()\" type=\"button\">删除</button> </div>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML=html;
         }
 
     </script>
@@ -83,10 +102,8 @@
 
         <div class="left-side-inner">
 
-
             <!-- visible to small devices only -->
             <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
-
             </div>
 
             <!--sidebar nav start-->
@@ -234,17 +251,6 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>编号</th>
-                                    <th>政策名称</th>
-                                    <th>类型</th>
-                                    <th>一级换算</th>
-                                    <th>二级换算</th>
-                                    <th>详情</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
                             </table>
 
                             <div class="pull-right">
