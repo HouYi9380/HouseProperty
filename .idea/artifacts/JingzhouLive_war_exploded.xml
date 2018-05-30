@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="JingzhouLive:war exploded">
+  <artifact type="war" name="JingzhouLive:war exploded">
     <output-path>$PROJECT_DIR$/out/artifacts/JingzhouLive_war_exploded</output-path>
-    <root id="root">
+    <root id="archive" name="JingzhouLive_war exploded.war">
       <element id="javaee-facet-resources" facet="JingzhouLive/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -37,6 +37,7 @@
           <element id="library" level="project" name="Maven: net.coobird:thumbnailator:0.4.8" />
         </element>
       </element>
+      <element id="dir-copy" path="$USER_HOME$/Downloads/JingZhouHero/web" />
     </root>
   </artifact>
 </component>

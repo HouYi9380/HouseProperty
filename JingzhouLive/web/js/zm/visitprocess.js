@@ -1,20 +1,19 @@
 var globalUrl = "http://localhost:1731"
 
-function getInformationFromType(keyword, type, startTime, endTime, areaId, page, pageSize){
+function getVisitProcess(ischeck, keyword, startTime, endTime, page, pageSize){
     var backData = null;
     var postData = {
+        ischeck : ischeck,
         keyword : keyword,
-        type : type,
         startTime : startTime,
         endTime : endTime,
         page : page,
-        areaId : areaId,
         length : pageSize
     }
 
     $.ajax({
         type: "post",
-        url: globalUrl + "/information/list",
+        url: globalUrl + "/visitprocess/list",
         data: postData,
         datatype: "json",
         //添加跨域
@@ -35,15 +34,15 @@ function getInformationFromType(keyword, type, startTime, endTime, areaId, page,
     return backData
 }
 
-function getInformationFromIId(iid){
+function getVisitProcessFromIId(vid){
     var backData = null;
     var postData = {
-        iId: iid
+        vid: vid
     }
 
     $.ajax({
         type: "post",
-        url: globalUrl + "/information/get",
+        url: globalUrl + "/visitprocess/get",
         data: postData,
         datatype: "json",
         //添加跨域

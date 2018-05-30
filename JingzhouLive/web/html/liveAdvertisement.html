@@ -46,7 +46,7 @@
         }
 
         function editInformation(){
-            window.location.href="liveAddadvertisement.html?add=false&iid=1";
+            window.location.href="liveAddadvertisement.html?add=false&iid=100000";
         }
 
         function delAdvertisement() {
@@ -57,7 +57,6 @@
             }
         }
         function getAdAndShow(keyword, type, startTime, endTime, areaId,page, pageSize){
-            alert("police show")
             var informationData = getInformationFromType(keyword, type, startTime, endTime, areaId,page, pageSize)
             if(informationData == null)
                 return;
@@ -76,7 +75,7 @@
                     "<td>" + informations[i].title + "</td>" +
                     "<td>" + informations[i].createTime + "</td>" +
                     "<td>" +  informations[i].html + "</td>" +
-                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"advertisementDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"addAdvertisement()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delAdvertisement()\" type=\"button\">删除</button> </div>" + "</td>" +
+                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"advertisementDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"editInformation()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delAdvertisement()\" type=\"button\">删除</button> </div>" + "</td>" +
                     //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
                     "</tr>";
             }

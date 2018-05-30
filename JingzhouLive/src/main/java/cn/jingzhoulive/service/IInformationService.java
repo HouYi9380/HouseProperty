@@ -13,5 +13,9 @@ public interface IInformationService {
 
     int updateByPrimaryKeyWithBLOBs(Information record);
 
+    int updateByPrimaryKeySelected(Information record);
+
     int deleteByPrimaryKey(Integer iid);
+
+    Information selectByPrimaryKey(Integer iid);
 }

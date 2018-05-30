@@ -56,7 +56,17 @@ public class InformationServiceImpl implements IInformationService {
         return informationMapper.updateByPrimaryKeyWithBLOBs(record);
     }
 
+    @Override
+    public int updateByPrimaryKeySelected(Information record) {
+        return informationMapper.updateByPrimaryKeySelective(record);
+    }
+
     public int deleteByPrimaryKey(Integer iid) {
         return informationMapper.deleteByPrimaryKey(iid);
+    }
+
+    @Override
+    public Information selectByPrimaryKey(Integer iid) {
+        return informationMapper.selectByPrimaryKey(iid);
     }
 }

@@ -25,8 +25,7 @@ public class VisitProcessController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public String list(Integer mid,
-                       @RequestParam(required = false) Integer ischeck,
+    public String list(@RequestParam(required = false) Integer ischeck,
                        @RequestParam(required = false) String keyword,
                        @RequestParam(required = false) String starttime,
                        @RequestParam(required = false) String endtime,

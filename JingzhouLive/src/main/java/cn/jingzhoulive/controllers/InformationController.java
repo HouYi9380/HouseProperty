@@ -47,10 +47,10 @@ public class InformationController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public String addInformation(Integer mid,
-                                 String title,
+    public String addInformation(String title,
                                  Integer type,
                                  String html,
+                                 String pics,
                                  String areaid){
 
         String curTime = DateUtils.getSystemTime();
@@ -62,6 +62,7 @@ public class InformationController {
         information.setType(type);
         information.setTitle(title);
         information.setAreaid(areaid);
+        information.setPics(pics);
         int insertBack = informationService.insert(information);
         if(insertBack < 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "添加失败", null);
@@ -70,21 +71,23 @@ public class InformationController {
 
     @RequestMapping("/edit")
     @ResponseBody
-    public String updateInformation(Integer mid,
+    public String updateInformation(int iid,
                                     String title,
                                     Integer type,
                                     String html,
                                     String areaid) {
+        System.out.println("information edit:");
         String curTime = DateUtils.getSystemTime();
 
         Information information = new Information();
+        information.setIid(iid);
         information.setHtml(html);
-        information.setCreateTime(curTime);
+//        information.setCreateTime(curTime);
         information.setChangTime(curTime);
         information.setType(type);
         information.setTitle(title);
         information.setAreaid(areaid);
-        int insertBack = informationService.updateByPrimaryKeyWithBLOBs(information);
+        int insertBack = informationService.updateByPrimaryKeySelected(information);
         if(insertBack < 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "更新失败", null);
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
@@ -98,6 +101,16 @@ public class InformationController {
         if(deleteBack< 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "删除失败", null);
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
+    }
+
+    @RequestMapping("/get")
+    @ResponseBody
+    public String getInformaitonFromId(Integer iId){
+        Information information = informationService.selectByPrimaryKey(iId);
+        if(information == null){
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "获取失败", null);
+        }
+        return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", information);
     }
 
 

@@ -20,13 +20,35 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
 
+        var vid = null
+        window.onload = function () {
+            vid = getUrlParam("vid");
+            if(vid == null){
+                alert("审核信息不存在")
+               return;
+            }
+            var vpBack = getVisitProcess(vid)
+            if(vpBack == null){
+                return
+            }
+            if(vpBack.ret != "true") {
+                alert(vpBack.msg)
+                return
+            }
+            var vp = vpBack.data[0]
+            document.getElementById("title").value = vp.uid
+                                                    + "申请" + vp.bid
+                                                    + "项目,当前进度" + vp.progress
+                                                    + ",目前状态为" +vp.progress
+            document.getElementById("makr").value = vp.mark
+        }
+
         function agree() {
+
         }
 
         function refuse() {
-
         }
-
     </script>
 </head>
 <body class="sticky-header">
@@ -164,13 +186,13 @@
                                 <div class="form-group">
                                     <label class="col-lg-3 col-sm-3 control-label">审核内容</label>
                                     <div class="col-lg-9">
-                                        <input disabled class="form-control" value=" XXX申请碧桂园项目为已到访，是否同意申请？">
+                                        <input id = "title" disabled class="form-control" value=" XXX申请碧桂园项目为已到访，是否同意申请？">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-3 col-sm-3 control-label">备注</label>
                                     <div class="col-lg-9">
-                                        <textarea rows="6" required class="form-control"></textarea>
+                                        <textarea id="makr" rows="6" required class="form-control"></textarea>
                                     </div>
                                 </div>
                                 <div class="pull-right">
