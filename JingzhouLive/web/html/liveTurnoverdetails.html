@@ -20,7 +20,42 @@
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
+
+    <script src = "../js/zm/reachdeal.js"></script>
+    <script src = "../js/zm/common.js"></script>
     <script type="text/javascript">
+        var rid = null
+        window.onload = function () {
+            console.log("onload")
+            rid = getUrlParam("rid");
+            if(rid != null) {
+                console.log("rid=" + rid)
+                var reachReal = getReachDealFromRid(rid);
+                if (reachReal == null) {
+                    return
+                }
+                var res = reachReal.res + ""
+                if (res == "false") {
+                    alert(reachReal.msg)
+                    return
+                }
+                var rl = reachReal.data[0]
+                console.log("vid=" + rl.vid)
+                console.log("uid=" + rl.uid)
+                document.getElementById("vid").innerText = rl.vid
+                document.getElementById("uid").innerText = rl.uid
+                document.getElementById("guider").innerText = rl.guider
+                document.getElementById("bid").innerText = rl.bid
+                document.getElementById("hostPrice").innerText = rl.hostPrice
+                document.getElementById("price").innerText = rl.price
+                document.getElementById("dealPrice").innerText = rl.dealPrice
+                document.getElementById("cid").innerText = rl.cid
+                document.getElementById("firstcv").innerText = rl.firstcv
+                document.getElementById("secondcv").innerText = rl.secondcv
+            }
+
+        }
+
         function editNewHouseDetails(data) {
             window.location.href="liveEditprojectdetails.html";
         }
@@ -212,47 +247,47 @@
                                     <ul class="p-info">
                                         <li>
                                             <div class="title">楼盘名称</div>
-                                            <div class="desk">碧桂园</div>
+                                            <div id = "bid" class="desk">碧桂园</div>
                                         </li>
                                         <li>
                                             <div class="title">最后访问编号</div>
-                                            <div class="desk">01</div>
+                                            <div id = "vid" class="desk">01</div>
                                         </li>
                                         <li>
                                             <div class="title">访问人</div>
-                                            <div class="desk">汪洋</div>
+                                            <div id="uid" class="desk">汪洋</div>
                                         </li>
                                         <li>
                                             <div class="title">推荐人</div>
-                                            <div class="desk">张敏</div>
+                                            <div id="guider" class="desk">张敏</div>
                                         </li>
                                         <li>
                                             <div class="title">房主金额</div>
-                                            <div class="desk">79万</div>
+                                            <div id = "hostPrice" class="desk">79万</div>
                                         </li>
                                         <li>
                                             <div class="title">预计金额</div>
-                                            <div class="desk">79万</div>
+                                            <div id = "price" class="desk">79万</div>
                                         </li>
                                         <li>
                                             <div class="title">成交金额</div>
-                                            <div class="desk">79万</div>
+                                            <div id = "dealPrice" class="desk">79万</div>
                                         </li>
                                         <li>
                                             <div class="title">佣金政策</div>
-                                            <div class="desk">政策1</div>
+                                            <div id = "cid" class="desk">政策1</div>
                                         </li>
                                         <li>
                                             <div class="title">一级佣金</div>
-                                            <div class="desk">3000</div>
+                                            <div id="firstcv" class="desk">3000</div>
                                         </li>
                                         <li>
                                             <div class="title">二级佣金</div>
-                                            <div class="desk">1000</div>
+                                            <div id="secondcv" class="desk">1000</div>
                                         </li>
                                         <li>
                                             <div class="title">创建时间</div>
-                                            <div class="desk">2017/09/09</div>
+                                            <div id="createTime" class="desk">2017/09/09</div>
                                         </li>
                                     </ul>
                                 </div>

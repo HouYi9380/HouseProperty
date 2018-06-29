@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -64,9 +65,18 @@ public class IUserDaoTest {
         String curTime = DateUtils.getSystemTime();
         vistProcess.setCreateTime(curTime);
         vistProcess.setChangTime(curTime);
-        int back = mapper.insertVP(vistProcess);
-        System.out.println("back:" + back);
-        System.out.println(vistProcess.getVid());
+//        int back = mapper.insertVP(vistProcess);
+//        System.out.println("back:" + back);
+//        System.out.println(vistProcess.getVid());
+    }
+
+    @Test
+    public void testTime(){
+       DateUtils.printTime(DateUtils.getLongSystemTime());
+       Long time = (1528336412027L);
+       Long curtime = 1528336499251L;
+       System.out.println(curtime - time);
+
     }
 
 

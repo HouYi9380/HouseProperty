@@ -1,10 +1,10 @@
-var globalUrl = "http://192.168.130.17:1731"
 // var globalUrl = "http://192.168.130.140/jz"
+var globalUrl = "http://192.168.130.10:1731"
 
-function getVisitProcess(ischeck, keyword, startTime, endTime, page, pageSize){
+function getCommissionProcess(progress, keyword, startTime, endTime, page, pageSize){
     var backData = null;
     var postData = {
-        ischeck : ischeck,
+        progress : progress,
         keyword : keyword,
         startTime : startTime,
         endTime : endTime,
@@ -14,7 +14,7 @@ function getVisitProcess(ischeck, keyword, startTime, endTime, page, pageSize){
 
     $.ajax({
         type: "post",
-        url: globalUrl + "/visitprocess/list",
+        url: globalUrl + "/commissionprocess/list",
         data: postData,
         datatype: "json",
         //添加跨域
@@ -63,36 +63,3 @@ function getVisitProcessFromVid(vid){
     })
     return backData
 }
-
-
-function  checkVisitProcess(isCheck, vid, mark) {
-    var backData = null;
-    var postData = {
-        vid : vid,
-        ischeck : isCheck,
-        mark : mark
-    }
-
-    $.ajax({
-        type: "post",
-        url: globalUrl + "/visitprocess/check",
-        data: postData,
-        datatype: "json",
-        //添加跨域
-        async: false,
-        xhrFields: {
-            withCredentials: true
-        },
-        crossDomain: true,
-        success: function (data) {
-            var jsonData = JSON.parse(data);
-            backData = jsonData;
-        },
-        error: function () {
-            alert("服务异常");
-            return;
-        }
-    })
-    return backData
-}
-

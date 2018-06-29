@@ -98,10 +98,11 @@ public class BuildingController {
                           @RequestParam (required = false) Long endPrice,
                           @RequestParam (required = false) String startAcreage,
                           @RequestParam (required = false) String endAcreage,
+                          @RequestParam (required = false) String areaid,
                           int page,
                           int length){
         PageInfo<BuildingsWithBLOBs> buildPageInfo = buildingService.selectByExamplePageable(type, keyword,houseType,
-                startPrice,endPrice,startAcreage, endAcreage,page,length);
+                startPrice,endPrice,startAcreage, endAcreage,areaid, page,length);
         if(buildPageInfo == null){
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "查询失败", null);
         }
@@ -120,6 +121,22 @@ public class BuildingController {
         System.out.println("housetype:" + buildingsWithBLOBs.getHouseType());
         List<BuildingsWithBLOBs> list = new ArrayList<BuildingsWithBLOBs>();
         list.add(buildingsWithBLOBs);
+        return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", list);
+    }
+
+    @RequestMapping("/recommend")
+    @ResponseBody
+    public String recommend(String areaid,
+                            int type,
+                            int page,
+                            int length){
+        PageInfo<BuildingsWithBLOBs> buildPageInfo = buildingService.selectByExamplePageable(type, null,null,
+                null,null,null, null, areaid, page,length);
+        if(buildPageInfo == null){
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "查询失败", null);
+        }
+        List<PageInfo<BuildingsWithBLOBs>> list = new ArrayList<PageInfo<BuildingsWithBLOBs>>();
+        list.add(buildPageInfo);
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", list);
     }
 

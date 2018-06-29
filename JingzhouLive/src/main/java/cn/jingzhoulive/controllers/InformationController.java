@@ -105,8 +105,8 @@ public class InformationController {
 
     @RequestMapping("/get")
     @ResponseBody
-    public String getInformaitonFromId(Integer iId){
-        Information information = informationService.selectByPrimaryKey(iId);
+    public String getInformaitonFromId(Integer iid){
+        Information information = informationService.selectByPrimaryKey(iid);
         if(information == null){
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "获取失败", null);
         }

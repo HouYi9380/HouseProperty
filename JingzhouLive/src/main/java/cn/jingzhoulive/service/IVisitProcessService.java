@@ -15,4 +15,6 @@ public interface IVisitProcessService {
     int progressSumByGuider(int guider, int  progress);
     //查询推荐的楼盘
      PageInfo<VistProcess> selectAllLastProcess(Integer guider);
+
+    VistProcess getFromVid(Integer vid);
 }

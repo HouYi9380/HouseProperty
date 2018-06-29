@@ -32,7 +32,7 @@
     <script src = "../js/zm/building.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            searchBuildingAndShow(null, null, null, null, null, null, null, 0, 10)
+            searchBuildingAndShow(null, null, null, null, null, null, null, null, 0, 10)
         });
 
         function newHouseDetails(data) {
@@ -53,9 +53,9 @@
                 alert("放弃");
             }
         }
-        function searchBuildingAndShow(type, keyword, houseType, startPrice, endPrice,
+        function searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice,
                                        startAcreage, endAcreage, page, pageSize) {
-            var buildingBack = getBuilding(type, keyword, houseType, startPrice, endPrice,
+            var buildingBack = getBuilding(areaId, type, keyword, houseType, startPrice, endPrice,
                                         startAcreage, endAcreage, page, pageSize)
             if(buildingBack == null){
                 alert("搜索失败")

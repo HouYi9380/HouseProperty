@@ -1,8 +1,10 @@
-var globalUrl = "http://localhost:1731"
-function getBuilding(type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, page, pageSize) {
+var globalUrl = "http://192.168.130.10:1731"
+// var globalUrl = "http://192.168.130.140/jz"
+function getBuilding(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, page, pageSize) {
     var backData = null;
     var postData = {
        type : type,
+        areaid: areaId,
        keyword : keyword,
        houseType : houseType,
        startPrice : startPrice,

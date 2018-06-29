@@ -1,4 +1,5 @@
-var globalUrl = "http://localhost:1731"
+var globalUrl = "http://192.168.130.17:1731"
+// var globalUrl = "http://192.168.130.140/jz"
 
 function getInformationFromType(keyword, type, startTime, endTime, areaId, page, pageSize){
     var backData = null;
@@ -38,7 +39,7 @@ function getInformationFromType(keyword, type, startTime, endTime, areaId, page,
 function getInformationFromIId(iid){
     var backData = null;
     var postData = {
-        iId: iid
+        iid: iid
     }
 
     $.ajax({

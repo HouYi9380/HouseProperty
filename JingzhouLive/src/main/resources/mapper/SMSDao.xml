@@ -11,7 +11,13 @@
     <!--</select>-->
 
     <select id="getLastSMSFromType" resultType="Sms">
-        select * FROM sms where phone={#phone} and type={#type} order by sid limit 1;
+      select * FROM sms
+        where
+          phone = #{phone, jdbcType=VARCHAR}
+        and
+          type = #{type, jdbcType=INTEGER}
+          order by sid desc
+          limit 1
     </select>
 
 </mapper>

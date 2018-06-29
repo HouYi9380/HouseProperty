@@ -27,12 +27,40 @@ public class DateUtils {
      * @return
      */
     public static int checkTimeInSecond(final int second, final long checkTime){
-        long curTime = System.currentTimeMillis();
+        long curTime = getLongSystemTime();
+        long time = curTime - checkTime;
+        System.out.println("curTime -checkTime" + time);
+        System.out.println("second*1000*1000" + second * 1000);
         if(second * 1000 < curTime - checkTime){
             return -1;
         }
         return 1;
     }
 
+    public static String longTimeToStr(final long time){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(time);
+        System.out.println(formatter.format(date));
+        return formatter.format(date);
+    }
 
+    public static void printTime(long time){
+        long totalMilliSeconds = time;
+        long totalSeconds = totalMilliSeconds / 1000;
+
+        //求出现在的秒
+        long currentSecond = totalSeconds % 60;
+
+        //求出现在的分
+        long totalMinutes = totalSeconds / 60;
+        long currentMinute = totalMinutes % 60;
+
+        //求出现在的小时
+        long totalHour = totalMinutes / 60;
+        long currentHour = totalHour % 24;
+
+        //显示时间
+        System.out.println("总毫秒为： " + totalMilliSeconds);
+        System.out.println(currentHour + ":" + currentMinute + ":" + currentSecond + " GMT");
+    }
 }

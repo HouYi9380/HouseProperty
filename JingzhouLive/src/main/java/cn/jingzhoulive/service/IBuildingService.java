@@ -21,6 +21,7 @@ public interface IBuildingService {
                                                           Long endPricePrice,
                                                           String startAcreage,
                                                           String endAcreage,
+                                                         String area,
                                                          int page,
                                                          int length);
 }

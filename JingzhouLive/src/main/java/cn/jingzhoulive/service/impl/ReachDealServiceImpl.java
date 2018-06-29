@@ -30,15 +30,16 @@ public class ReachDealServiceImpl implements IReachDealService{
     public PageInfo<ReachDeal> selectUserBySelected(String keyword, String startTime, String endTime, int page, int pageLenth) {
         ReachDealExample example = new ReachDealExample();
         ReachDealExample.Criteria criteria = example.createCriteria();
-//        if(keywork != null)
+//        if(keyword != null && (!keyword.isEmpty()))
 //            criteria.and(keywork);
-        if(startTime != null)
+        if(startTime != null && (!startTime.isEmpty()))
             criteria.andCreateTimeGreaterThanOrEqualTo(startTime);
-        if(endTime != null)
+        if(endTime != null && (!endTime.isEmpty()))
             criteria.andCreateTimeLessThanOrEqualTo(endTime);
 
         PageHelper.startPage(page, pageLenth);
         List<ReachDeal> vistList = rdMapper.selectByExample(example);
+        System.out.println("vistList:" + vistList.size());
         PageInfo<ReachDeal> p=new PageInfo<ReachDeal>(vistList);
         return p;
     }

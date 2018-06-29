@@ -28,7 +28,7 @@ public class ReachDealController {
 
     @RequestMapping("/list")
     @ResponseBody
-    public String getList(Integer mid,
+    public String getList(
                           @RequestParam(required = false) String keyword,
                           @RequestParam(required = false) String starttime,
                           @RequestParam(required = false) String endtime,
@@ -45,7 +45,7 @@ public class ReachDealController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public String add(Integer mid,
+    public String add(
                       Integer vid,
                       Integer uid,
                       Integer guider,
@@ -88,6 +88,17 @@ public class ReachDealController {
         }
 
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
+    }
+
+    @RequestMapping("/get")
+    @ResponseBody
+    public String getFromVid(Integer rid){
+        ReachDeal reachDeal = reachDealService.selectByPrimaryKey(rid);
+        if(reachDeal == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "获取失败", null);
+        else
+            return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", reachDeal);
+
     }
 
 

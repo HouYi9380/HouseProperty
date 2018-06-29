@@ -29,27 +29,11 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/commission.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var Data=["汪洋","王岩","张敏","张三","李四"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "3000" + "</td>" +
-                    "<td>" + "未发放" + "</td>" +
-                    "<td>" + "支付宝" + "</td>" +
-                    "<td>" + "13890998890" + "</td>" +
-                    "<td>" + "2018/09/21" + "</td>" +
-                    "<td>" + "<button type=\"button\" onclick=\" editCommission()\" class=\"btn btn-primary\">编辑</button>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
+            getCommissionAndShow(1, null, null, null, 0, 10)
         });
 
         function editCommission(data) {
@@ -58,6 +42,35 @@
             }else{
                 alert("发放中");
             }
+        }
+
+        function getCommissionAndShow(progress, keyword, startTime, endTime, page, pageSize){
+            var rlData = getCommissionProcess(progress, keyword, startTime, endTime, page, pageSize)
+            if(rlData == null)
+                return;
+            var res = rlData.res + ""
+            if(res == "false") {
+                alert(rlData.msg)
+                return;
+            }
+            var reachDeal = rlData.data[0].list
+            var html="";
+            for(var i = 0; i < reachDeal.length;  i++){
+                var num=i+1;
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" + reachDeal[i].uid + "</td>" +
+                    "<td>" + reachDeal[i].guider + "</td>" +
+                    "<td>" + reachDeal[i].price + "</td>" +
+                    "<td>" + reachDeal[i].progress + "</td>" +
+                    "<td>" + reachDeal[i].payId + "</td>" +
+                    "<td>" + reachDeal[i].toPayId + "</td>" +
+                    "<td>" + reachDeal[i].createTime + "</td>" +
+                    "<td>" + "<button type=\"button\" onclick=\" editCommission()\" class=\"btn btn-primary\">编辑</button>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML=html;
         }
 
     </script>

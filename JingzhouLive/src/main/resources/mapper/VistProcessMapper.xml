@@ -7,6 +7,9 @@
       <arg column="uid" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="guider" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="bid" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="btitle" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="commission_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="price" jdbcType="BIGINT" javaType="java.lang.Long" />
       <arg column="progress" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="is_check" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="mark" jdbcType="VARCHAR" javaType="java.lang.String" />
@@ -74,7 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    vid, uid, guider, bid, progress, is_check, mark, availability, create_time, chang_time
+    vid, uid, guider, bid, btitle, commission_id, price, progress, is_check, mark, availability, 
+    create_time, chang_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.jingzhoulive.domain.VistProcessExample" >
     select
@@ -107,27 +111,18 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyProperty="vid" parameterType="cn.jingzhoulive.domain.VistProcess" >
+  <insert id="insert" parameterType="cn.jingzhoulive.domain.VistProcess" >
     insert into visitprocess (vid, uid, guider, 
-      bid, progress, is_check, 
+      bid, btitle, commission_id, 
+      price, progress, is_check, 
       mark, availability, create_time, 
       chang_time)
     values (#{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{guider,jdbcType=INTEGER}, 
-      #{bid,jdbcType=INTEGER}, #{progress,jdbcType=INTEGER}, #{isCheck,jdbcType=INTEGER}, 
+      #{bid,jdbcType=INTEGER}, #{btitle,jdbcType=VARCHAR}, #{commissionId,jdbcType=INTEGER}, 
+      #{price,jdbcType=BIGINT}, #{progress,jdbcType=INTEGER}, #{isCheck,jdbcType=INTEGER}, 
       #{mark,jdbcType=VARCHAR}, #{availability,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
       #{changTime,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertVP" useGeneratedKeys="true" keyProperty="vid" parameterType="cn.jingzhoulive.domain.VistProcess" >
-    insert into visitprocess (vid, uid, guider,
-    bid, progress, is_check,
-    mark, availability, create_time,
-    chang_time)
-    values (#{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{guider,jdbcType=INTEGER},
-    #{bid,jdbcType=INTEGER}, #{progress,jdbcType=INTEGER}, #{isCheck,jdbcType=INTEGER},
-    #{mark,jdbcType=VARCHAR}, #{availability,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR},
-    #{changTime,jdbcType=VARCHAR})
-  </insert>
-
   <insert id="insertSelective" parameterType="cn.jingzhoulive.domain.VistProcess" >
     insert into visitprocess
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -142,6 +137,15 @@
       </if>
       <if test="bid != null" >
         bid,
+      </if>
+      <if test="btitle != null" >
+        btitle,
+      </if>
+      <if test="commissionId != null" >
+        commission_id,
+      </if>
+      <if test="price != null" >
+        price,
       </if>
       <if test="progress != null" >
         progress,
@@ -174,6 +178,15 @@
       </if>
       <if test="bid != null" >
         #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="btitle != null" >
+        #{btitle,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionId != null" >
+        #{commissionId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=BIGINT},
       </if>
       <if test="progress != null" >
         #{progress,jdbcType=INTEGER},
@@ -216,6 +229,15 @@
       <if test="record.bid != null" >
         bid = #{record.bid,jdbcType=INTEGER},
       </if>
+      <if test="record.btitle != null" >
+        btitle = #{record.btitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commissionId != null" >
+        commission_id = #{record.commissionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=BIGINT},
+      </if>
       <if test="record.progress != null" >
         progress = #{record.progress,jdbcType=INTEGER},
       </if>
@@ -245,6 +267,9 @@
       uid = #{record.uid,jdbcType=INTEGER},
       guider = #{record.guider,jdbcType=INTEGER},
       bid = #{record.bid,jdbcType=INTEGER},
+      btitle = #{record.btitle,jdbcType=VARCHAR},
+      commission_id = #{record.commissionId,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=BIGINT},
       progress = #{record.progress,jdbcType=INTEGER},
       is_check = #{record.isCheck,jdbcType=INTEGER},
       mark = #{record.mark,jdbcType=VARCHAR},
@@ -266,6 +291,15 @@
       </if>
       <if test="bid != null" >
         bid = #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="btitle != null" >
+        btitle = #{btitle,jdbcType=VARCHAR},
+      </if>
+      <if test="commissionId != null" >
+        commission_id = #{commissionId,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=BIGINT},
       </if>
       <if test="progress != null" >
         progress = #{progress,jdbcType=INTEGER},
@@ -293,6 +327,9 @@
     set uid = #{uid,jdbcType=INTEGER},
       guider = #{guider,jdbcType=INTEGER},
       bid = #{bid,jdbcType=INTEGER},
+      btitle = #{btitle,jdbcType=VARCHAR},
+      commission_id = #{commissionId,jdbcType=INTEGER},
+      price = #{price,jdbcType=BIGINT},
       progress = #{progress,jdbcType=INTEGER},
       is_check = #{isCheck,jdbcType=INTEGER},
       mark = #{mark,jdbcType=VARCHAR},
@@ -301,24 +338,4 @@
       chang_time = #{changTime,jdbcType=VARCHAR}
     where vid = #{vid,jdbcType=INTEGER}
   </update>
-
-  <select id="progressSumByGuider" resultType="java.lang.Integer">
-    select COALESCE(sum(1),0)
-    from visitprocess
-    where guider = #{guider}
-    and progress=#{progress}
-  </select>
-
-  <!--<select id="progressSumByGuider" resultMap="BaseResultMap" parameterType="java.lang.Integer" >-->
-    <!--select-->
-    <!--<include refid="Base_Column_List" />-->
-    <!--from-->
-      <!--(select-->
-        <!--<include refid="Base_Column_List" />-->
-        <!--from visitprocess-->
-        <!--where-->
-          <!--guider =#{guider}-->
-        <!--order by vid desc) a-->
-    <!--group by uid,guider,bid-->
-  <!--</select>-->
 </mapper>

@@ -29,31 +29,12 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src = "../js/zm/reachdeal.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
-            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + "汪洋" + "</td>" +
-                    "<td>" + "张敏" + "</td>" +
-                    "<td>" + "79万" + "</td>" +
-                    "<td>" + "79万" + "</td>" +
-                    "<td>" + "79万" + "</td>" +
-                    "<td>" + "政策二" + "</td>" +
-                    "<td>" + "3000" + "</td>" +
-                    "<td>" + "1000" + "</td>" +
-                    "<td>" + "2018/09/21" + "</td>" +
-                    "<td>" + "<button type=\"button\" onclick=\" turnoverDetails()\" class=\"btn btn-primary\">详情</button>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
+            console.log(("reachdeal onload"))
+           getReachDealAndShow(null, null, null, 0, 10)
         });
 
         function addTurnover(data) {
@@ -61,7 +42,39 @@
         }
 
         function turnoverDetails(data) {
-            window.location.href="liveTurnoverdetails.html";
+            window.location.href="liveTurnoverdetails.html?rid=1";
+        }
+
+        function getReachDealAndShow(keyword, startTime, endTime, page, pageSize){
+            var rlData = getReachDeal(keyword, startTime, endTime, page, pageSize)
+            if(rlData == null)
+                return;
+            var res = rlData.res + ""
+            if(res == "false") {
+                alert(rlData.msg)
+                return;
+            }
+            var reachDeal = rlData.data[0].list
+//            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
+            var html="";
+            for(var i = 0; i < reachDeal.length; i++){
+                var num=i+1;
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" + reachDeal[i].uid + "</td>" +
+                    "<td>" + reachDeal[i].guider + "</td>" +
+                    "<td>" + reachDeal[i].hostPrice + "</td>" +
+                    "<td>" + reachDeal[i].price + "</td>" +
+                    "<td>" + reachDeal[i].dealPrice + "</td>" +
+                    "<td>" + reachDeal[i].cid + "</td>" +
+                    "<td>" + reachDeal[i].firstcv + "</td>" +
+                    "<td>" + reachDeal[i].secondcv + "</td>" +
+                    "<td>" + reachDeal[i].createTime + "</td>" +
+                    "<td>" + "<button type=\"button\" onclick=\" turnoverDetails()\" class=\"btn btn-primary\">详情</button>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML=html;
         }
 
 
@@ -276,23 +289,6 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>编号</th>
-                                    <th>项目楼盘</th>
-                                    <th>最后访问编号</th>
-                                    <th>访问人</th>
-                                    <th>推荐人</th>
-                                    <th>房主金额</th>
-                                    <th>预计金额</th>
-                                    <th>成交金额</th>
-                                    <th>佣金政策</th>
-                                    <th>一级佣金</th>
-                                    <th>二级佣金</th>
-                                    <th>时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
                             </table>
 
                             <div class="pull-right">

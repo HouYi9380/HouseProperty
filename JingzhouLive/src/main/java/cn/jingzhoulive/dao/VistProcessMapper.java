@@ -14,9 +14,6 @@ public interface VistProcessMapper {
 
     int insert(VistProcess record);
 
-    //add by zm
-    int insertVP(VistProcess record);
-
     int insertSelective(VistProcess record);
 
     List<VistProcess> selectByExample(VistProcessExample example);
@@ -30,8 +27,4 @@ public interface VistProcessMapper {
     int updateByPrimaryKeySelective(VistProcess record);
 
     int updateByPrimaryKey(VistProcess record);
-
-    int progressSumByGuider(int guider, int  progress);
-
-//    List<VistProcess> selectAllLastProcess(Integer guider);
 }

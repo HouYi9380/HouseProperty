@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.jingzhoulive.dao.MineMapper">
+    <sql id="Mine_Commission_Base_Column_List" >
+         c.uid,c.vid,c.price,c.progress, c.level,v.bid,v.btitle
+    </sql>
+    <select id="getAllMyCommission" parameterType="java.lang.Integer" resultType="MyCommission">
+        select
+            <include refid="Mine_Commission_Base_Column_List"/>
+       from
+          commissionprocess c
+       join
+          visitprocess v
+       on
+          (
+            c.vid= v.vid
+          and
+            c.uid = #{uid}
+          )
+    </select>
+    <select id="getAllMyInvite" parameterType="java.lang.Integer" resultType="MyInvite">
+        select
+            A.uid,A.name,A.phone,A.pic,A.icid,B.bid,B.progress,B.is_check,B.availability
+        from
+            (select  *  from user  where guider = #{uid} and regist_type = 2) A
+        left join
+            visitprocess  B
+        on
+            A.uid = B.guider
+    </select>
+
+    <select id="getAllMyRecommend" parameterType="java.lang.Integer" resultType="MyRecommend">
+        select
+            A.vid,A.uid,A.guider,A.bid,A.btitle,A.commission_id,A.progress,A.is_check,A.price,B.type,B.firstcv,B.availablility
+        from
+            (select  *  from visitprocess  where guider = 0001 and availability =1) A
+        left join
+            commissionpolicy  B
+        on
+            A.commission_id = B. cid
+    </select>
+    <select id="getAllMySecondRecommend" parameterType="java.lang.Integer" resultType="MySecondRecommend">
+        select A.vid,A.uid,A.guider,A.bid,A.btitle,A.commission_id,A.progress,A.is_check,A.price,B.type,B.secondcv,B.availablility
+        from
+            (select  *  from visitprocess  where guider = 0002 and availability =1) A
+        left join
+            commissionpolicy  B
+        on
+            A.commission_id= B. cid
+    </select>
+</mapper>

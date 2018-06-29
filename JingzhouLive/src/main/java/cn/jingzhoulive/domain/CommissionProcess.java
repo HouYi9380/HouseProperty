@@ -21,11 +21,13 @@ public class CommissionProcess {
 
     private String toPayid;
 
+    private Integer level;
+
     private String createTime;
 
     private String changTime;
 
-    public CommissionProcess(Integer cpid, Integer uid, Integer guider, Integer vid, Long price, Integer progress, Integer payIdType, String payId, Integer toPayidType, String toPayid, String createTime, String changTime) {
+    public CommissionProcess(Integer cpid, Integer uid, Integer guider, Integer vid, Long price, Integer progress, Integer payIdType, String payId, Integer toPayidType, String toPayid, Integer level, String createTime, String changTime) {
         this.cpid = cpid;
         this.uid = uid;
         this.guider = guider;
@@ -36,6 +38,7 @@ public class CommissionProcess {
         this.payId = payId;
         this.toPayidType = toPayidType;
         this.toPayid = toPayid;
+        this.level = level;
         this.createTime = createTime;
         this.changTime = changTime;
     }
@@ -122,6 +125,14 @@ public class CommissionProcess {
 
     public void setToPayid(String toPayid) {
         this.toPayid = toPayid == null ? null : toPayid.trim();
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public String getCreateTime() {

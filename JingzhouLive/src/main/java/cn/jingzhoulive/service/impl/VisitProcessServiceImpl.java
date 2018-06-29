@@ -48,11 +48,17 @@ public class VisitProcessServiceImpl implements IVisitProcessService{
     }
 
     public int progressSumByGuider(int guider, int progress) {
-        return processMapper.progressSumByGuider(guider, progress);
+        return 0;
+//        return processMapper.progressSumByGuider(guider, progress);
     }
 
     public PageInfo<VistProcess> selectAllLastProcess(Integer guider) {
 //        List<ProprocessMapper.selectAllLastProcess(guider);
         return null;
+    }
+
+    @Override
+    public VistProcess getFromVid(Integer vid) {
+        return processMapper.selectByPrimaryKey(vid);
     }
 }

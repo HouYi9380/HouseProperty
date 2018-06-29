@@ -29,17 +29,18 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/zm/visitprocess.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function(){
 //            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
 //            var html="";
-            getVpAndShow(null, null, null ,null, 0, 10)
+            getVpAndShow(1, null, null ,null, 0, 10)
 
         });
 
         function examineDetails(data) {
-            window.location.href="liveExaminedetails.html&vid=" + 1;
+            window.location.href="liveExaminedetails.html?vid=" + 1;
         }
 
         function getVpAndShow(isCheck, keyword, startTime, endTime, page, pageSize){

@@ -1,10 +1,8 @@
 package cn.jingzhoulive.controllers;
 
-import cn.jingzhoulive.domain.CommissionProcess;
-import cn.jingzhoulive.domain.MyCommission;
-import cn.jingzhoulive.domain.MyVisitProcess;
-import cn.jingzhoulive.domain.VistProcess;
+import cn.jingzhoulive.domain.*;
 import cn.jingzhoulive.service.ICommissionProcessService;
+import cn.jingzhoulive.service.IMineService;
 import cn.jingzhoulive.service.IUserService;
 import cn.jingzhoulive.service.IVisitProcessService;
 import cn.jingzhoulive.utils.BackJsonUtils;
@@ -13,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.*;
 
 /**
  * Created by zhangmin on 18-5-4.
@@ -29,6 +29,9 @@ public class MineController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IMineService mineService;
     /**
      * 我的佣金
      * @param uid
@@ -36,19 +39,25 @@ public class MineController {
      */
     @RequestMapping("/commission")
     @ResponseBody
-    public String commission(Integer uid,
-                             int page,
-                             int length){
-        long total = commissionProcessService.priceSumByProgress(uid, null);
-        long onGoing = commissionProcessService.priceSumByProgress(uid, 1); // 发放中
-        PageInfo<CommissionProcess> commissionProcessPageInfo =
-                commissionProcessService.selectUserBySelected(uid, null,
-                        null,null,null,page, length);
-        MyCommission myCommission = new MyCommission();
-        myCommission.setData(commissionProcessPageInfo);
-        myCommission.setTotalamount(total);
-        myCommission.setOngoing(onGoing);
-        return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", myCommission);
+    public String commission(Integer uid){
+
+        List<MyCommission> myCommissionList = mineService.getAllMyCommission(uid);
+        long totalPrice = 0;
+        long onGoing = 0;
+
+        for(MyCommission myCommission : myCommissionList){
+            if(myCommission.getProgress() == 1){
+                onGoing += myCommission.getPrice();
+            }
+            totalPrice += myCommission.getPrice();
+        }
+
+        MineAllCommission mineAllCommission = new MineAllCommission();
+        mineAllCommission.setTotalamount(totalPrice);
+        mineAllCommission.setOnging(onGoing);
+        mineAllCommission.setData(myCommissionList);
+
+        return  BackJsonUtils.getInstance().getBackJsonUtils(true, "success", mineAllCommission);
     }
 
     /**
@@ -59,10 +68,44 @@ public class MineController {
     @RequestMapping("/invite")
     @ResponseBody
     public String invite(Integer uid){
-        int total = userService.getNumValideateUserByUid(uid);
-        int validate = userService.getNumValideateUserByUid(uid);
-//        PageInfo
-        return null;
+       List<MyInvite> myInvites = mineService.getAllMyInvite(uid);
+       int totalPerson = 0 ;
+       int validatePerson = 0;
+        Map<Integer, MyInvite> myInviteMap = new HashMap<>() ;
+        Map<Integer, MyInviteCountData> myInviteCountDataMap = new HashMap<>();
+
+       for(MyInvite myInvite : myInvites){
+            int uidTmp = myInvite.getUid();
+            Integer tmpBid = myInvite.getBid();
+            if(!myInviteMap.containsKey(uidTmp)){
+                myInviteMap.put(uidTmp, myInvite);
+                totalPerson += 1;
+                if(myInvite.getIcid() != null){
+                    validatePerson += 1;
+                }
+            }
+            if(tmpBid != null){
+               MyInviteCountData countData = new MyInviteCountData();// myInviteCountDataMap.get(uidTmp);
+               int remmond = countData.getRemonnd();
+               int complted = countData.getCompleted();
+               int unfinished = countData.getUnfinished();
+               int progress = myInvite.getProgress();
+               countData.setRemonnd(remmond + 1);
+               if(progress == 4){
+                   countData.setCompleted(complted + 1);
+               }else{
+                   countData.setUnfinished(unfinished + 1);
+               }
+               myInviteCountDataMap.put(uid, countData);
+            }
+       }
+       List<MyInviteCountData> myInviteCountDatas = new ArrayList<>(myInviteCountDataMap.values());
+
+       MineAllInvite mineAllInvite = new MineAllInvite();
+       mineAllInvite.setTotalperson(totalPerson);
+       mineAllInvite.setValideateperson(validatePerson);
+       mineAllInvite.setData(myInviteCountDatas);
+       return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", mineAllInvite);
     }
 
     /**
@@ -73,14 +116,39 @@ public class MineController {
     @RequestMapping("/recommend")
     @ResponseBody
     public String recommend(Integer uid){
-        int total = visitProcessService.progressSumByGuider(uid, 1);  //查询总推荐人数
-        int complited = visitProcessService.progressSumByGuider(uid, 4);  //查询忆完成人数
-        PageInfo<VistProcess> vistProcessPageInfo = visitProcessService.selectAllLastProcess(uid);
-        MyVisitProcess myVisitProcess = new MyVisitProcess();
-        myVisitProcess.setCompleted(complited);
-        myVisitProcess.setTotalrecommend(total);
-        myVisitProcess.setData(vistProcessPageInfo);
-        return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", myVisitProcess);
+       List<MyRecommend> myRecommends = mineService.getAllMyRecommend(uid);
+
+       MyAllRecommend myAllRecommend = new MyAllRecommend();
+       int totalrecommend = 0;
+       int completed = 0;
+       List<MyAllRecommendData> myAllRecommendDataList = new ArrayList<>();
+
+       for(MyRecommend myRecommend : myRecommends){
+           int check = myRecommend.getIs_check();
+           if(myRecommend.getAvailablility() != 1)
+               continue;
+            Integer bid = myRecommend.getBid();
+            if(bid != null){
+                totalrecommend++;
+                if(check == 2 && myRecommend.getProgress() == 4)
+                    completed++;
+            }
+            String firstcv = myRecommend.getFirstcv();
+            Long price = myRecommend.getPrice();
+            long countPrice = Long.valueOf(firstcv.replaceAll("a", price +""));
+            MyAllRecommendData myAllRecommendData = new MyAllRecommendData();
+            myAllRecommendData.setBid(bid);
+            myAllRecommendData.setCheck(check);
+            myAllRecommendData.setPrice(countPrice);
+            myAllRecommendData.setProgress(myRecommend.getProgress());
+            myAllRecommendData.setTitle(myRecommend.getBtitle());
+            myAllRecommendData.setUid(myRecommend.getUid());
+            myAllRecommendDataList.add(myAllRecommendData);
+       }
+       myAllRecommend.setCompleted(completed);
+       myAllRecommend.setTotalrecommend(totalrecommend);
+       myAllRecommend.setData(myAllRecommendDataList);
+       return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", myAllRecommend);
     }
 
     /**
@@ -96,7 +164,10 @@ public class MineController {
     public String addProcess(Integer uid,
                              Integer guider,
                              Integer bid,
-                             Integer progress){
+                             Integer progress,
+                             String bTitle,
+                             Long price,
+                             Integer commissionId){
         VistProcess vistProcess = new VistProcess();
         vistProcess.setUid(uid);
         vistProcess.setGuider(guider);
@@ -104,6 +175,9 @@ public class MineController {
         vistProcess.setProgress(progress);
         vistProcess.setIsCheck(1);
         vistProcess.setAvailability(1);
+        vistProcess.setBtitle(bTitle);
+        vistProcess.setCommissionId(commissionId);
+        vistProcess.setPrice(price);
         int insertBack = visitProcessService.insert(vistProcess);
         if(insertBack > 0){
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
@@ -115,6 +189,38 @@ public class MineController {
     @ResponseBody
     public String secondRecommend(Integer uid,
                                   Integer guider){
-        return null;
+        List<MySecondRecommend> myRecommends = mineService.getAllMySecondRecommend(uid);
+
+        MyAllSecondRecommend myAllRecommend = new MyAllSecondRecommend();
+        int totalrecommend = 0;
+        int completed = 0;
+        List<MyAllSecondRecommendData> myAllRecommendDataList = new ArrayList<>();
+
+        for(MySecondRecommend myRecommend : myRecommends){
+            int check = myRecommend.getIs_check();
+            if(myRecommend.getAvailablility() != 1)
+                continue;
+            Integer bid = myRecommend.getBid();
+            if(bid != null){
+                totalrecommend++;
+                if(check == 2 && myRecommend.getProgress() == 4)
+                    completed++;
+            }
+            String secondcv = myRecommend.getSecondcv();
+            Long price = myRecommend.getPrice();
+            long countPrice = Long.valueOf(secondcv.replaceAll("a", price +""));
+            MyAllSecondRecommendData myAllRecommendData = new MyAllSecondRecommendData();
+            myAllRecommendData.setBid(bid);
+            myAllRecommendData.setCheck(check);
+            myAllRecommendData.setPrice(countPrice);
+            myAllRecommendData.setProgress(myRecommend.getProgress());
+            myAllRecommendData.setTitle(myRecommend.getBtitle());
+            myAllRecommendData.setUid(myRecommend.getUid());
+            myAllRecommendDataList.add(myAllRecommendData);
+        }
+        myAllRecommend.setCompleted(completed);
+        myAllRecommend.setTotalrecommend(totalrecommend);
+        myAllRecommend.setData(myAllRecommendDataList);
+        return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", myAllRecommend);
     }
 }

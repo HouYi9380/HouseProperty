@@ -1,4 +1,5 @@
-var globalUrl = "http://localhost:1731"
+var globalUrl = "http://192.168.130.17:1731"
+// var globalUrl = "http://192.168.130.140/jz"
 
 function getPolices(page, pageSize) {
     var backData = null;

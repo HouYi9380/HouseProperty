@@ -60,7 +60,8 @@
             var informationData = getInformationFromType(keyword, type, startTime, endTime, areaId,page, pageSize)
             if(informationData == null)
                 return;
-            if(informationData.res == false) {
+            var res = informationData.res + ""
+            if(res == "false") {
                 alert(informationData.msg)
                 return;
             }

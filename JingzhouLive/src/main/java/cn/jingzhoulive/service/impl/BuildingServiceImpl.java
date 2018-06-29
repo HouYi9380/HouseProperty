@@ -32,7 +32,7 @@ public class BuildingServiceImpl implements IBuildingService{
     }
 
     public PageInfo<BuildingsWithBLOBs> selectByExamplePageable(Integer type, String keyword, String houseType, Long startPrice,
-                                                                Long endPrice, String startAcreage, String endAcreage, int page, int length) {
+                                                                Long endPrice, String startAcreage, String endAcreage, String area, int page, int length) {
         BuildingsExample example = new BuildingsExample();
         BuildingsExample.Criteria criteria = example.createCriteria();
         if(keyword != null && (!keyword.isEmpty()))
@@ -49,6 +49,9 @@ public class BuildingServiceImpl implements IBuildingService{
             criteria.andAcreageGreaterThan(startAcreage);
         if(endAcreage!= null && (!endAcreage.isEmpty()))
             criteria.andAcreageLessThan(endAcreage);
+        if(area != null && (!area.isEmpty())){
+            criteria.andAreaEqualTo(area);
+        }
 
         PageHelper.startPage(page, length);
         List<BuildingsWithBLOBs> infoList = buildingsMapper.selectByExampleWithBLOBs(example);

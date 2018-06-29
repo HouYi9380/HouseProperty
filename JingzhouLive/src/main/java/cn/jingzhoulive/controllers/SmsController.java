@@ -1,13 +1,11 @@
 package cn.jingzhoulive.controllers;
 
-import cn.jingzhoulive.dao.ISMSDao;
 import cn.jingzhoulive.domain.Sms;
 import cn.jingzhoulive.service.ISmsService;
 import cn.jingzhoulive.utils.BackJsonUtils;
 import cn.jingzhoulive.utils.DataUtils;
 import cn.jingzhoulive.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,7 +37,7 @@ public class SmsController {
         sms.setTime(DateUtils.getLongSystemTime());
         int ret = iSmsService.newSMS(sms);
 
-        String  back = null;
+        String  back;
         // 插入数据库成功
         if(ret >0){
             back = BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
@@ -48,5 +46,4 @@ public class SmsController {
         }
         return back;
     }
-
 }

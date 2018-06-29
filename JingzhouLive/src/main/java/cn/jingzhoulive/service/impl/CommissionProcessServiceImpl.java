@@ -35,9 +35,9 @@ public class CommissionProcessServiceImpl implements ICommissionProcessService{
             criteria.andUidEqualTo(uid);
 //        if(keywork != null)
 //            criteria.and(keywork);
-        if(startTime != null)
+        if(startTime != null && (!startTime.isEmpty()))
             criteria.andCreateTimeGreaterThanOrEqualTo(startTime);
-        if(endTime != null)
+        if(endTime != null && (!endTime.isEmpty()))
             criteria.andCreateTimeLessThanOrEqualTo(endTime);
         if(progress!= null)
             criteria.andProgressEqualTo(progress);
@@ -49,6 +49,7 @@ public class CommissionProcessServiceImpl implements ICommissionProcessService{
     }
 
     public long priceSumByProgress(Integer uid, Integer progress) {
-        return cpMapper.priceSumByProgress(uid, progress);
+//        return cpMapper.priceSumByProgress(uid, progress);
+        return 0;
     }
 }

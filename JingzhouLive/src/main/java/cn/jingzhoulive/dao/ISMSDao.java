@@ -1,6 +1,7 @@
 package cn.jingzhoulive.dao;
 
 import cn.jingzhoulive.domain.Sms;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,5 +12,5 @@ public interface ISMSDao {
     // 新建一条短信验证码
     int newSMS(Sms sms);
     // 获取最后一条短信验证码
-    Sms getLastSMSFromType(String phone, int type);
+    Sms getLastSMSFromType(@Param("phone") String phone, @Param("type") int type);
 }

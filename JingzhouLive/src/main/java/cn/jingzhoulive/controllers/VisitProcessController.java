@@ -47,7 +47,6 @@ public class VisitProcessController {
 
     /**
      * 审核操作
-     * @param mid
      * @param vid
      * @param ischeck
      * @param mark
@@ -55,8 +54,7 @@ public class VisitProcessController {
      */
     @RequestMapping("/check")
     @ResponseBody
-    public String check(Integer mid,
-                        Integer vid,
+    public String check(Integer vid,
                         Integer ischeck,
                         String mark){
         VistProcess vp = new VistProcess();
@@ -73,14 +71,13 @@ public class VisitProcessController {
 
     /**
      * 设置数据是否有效
-     * @param mid
      * @param vid
      * @param availability
      * @return
      */
     @RequestMapping("/availability")
     @ResponseBody
-    public String setAvailable(Integer mid,
+    public String setAvailable(
                                Integer vid,
                                Integer availability){
         VistProcess vp = new VistProcess();
@@ -91,6 +88,16 @@ public class VisitProcessController {
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "设置失败", null);
         else
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
+    }
+
+    @RequestMapping("/get")
+    @ResponseBody
+    public String getFromId(Integer vid){
+        VistProcess vp = processService.getFromVid(vid);
+        if(vp == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "获取失败", null);
+        else
+            return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", vp);
     }
 
 

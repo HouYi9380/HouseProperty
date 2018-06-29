@@ -75,17 +75,20 @@ public class UserController {
                 User user = userService.selectUserByPhone(phone);
                 if (user == null) { //添加用户
                     User newUser = new User();
-                    user.setPhone(phone);
-                    user.setPwd(pwd);
-                    user.setCode(code);
-                    user.setCreateTime(DateUtils.getSystemTime());
-                    user.setChangTime(DateUtils.getSystemTime());
+                    newUser.setPhone(phone);
+                    newUser.setPwd(pwd);
+                    newUser.setCode(code);
+                    newUser.setRegistType(1);
+                    newUser.setCreateTime(DateUtils.getSystemTime());
+                    newUser.setChangTime(DateUtils.getSystemTime());
+                    newUser.setGuider(0);
+                    newUser.setLately(1);
                     int insertUserBack = userService.insertUser(newUser);
                     if (insertUserBack > 0) {
                         state = true;
                         msg = "success";
                         data = new ArrayList<User>();
-                        data.add(user);
+                        data.add(newUser);
                     } else {
                         state = false;
                         msg = "添加用户失败";
@@ -99,7 +102,7 @@ public class UserController {
                     } else { // 密码不一致，更新密码
                         user.setPwd(pwd);
                         user.setChangTime(DateUtils.getSystemTime());
-                        if (userService.updateUser(user) > 0) {
+                        if (userService.updateByPrimaryKeySelective(user) > 0) {
                             state = true;
                             msg = "success";
                             data = new ArrayList<User>();
@@ -159,7 +162,6 @@ public class UserController {
     /**
      * 按条件查询所有用户
      *
-     * @param mid
      * @param keyword
      * @param registType
      * @param startTime
@@ -258,6 +260,8 @@ public class UserController {
      * @param guider
      * @return
      */
+    @RequestMapping("/invite")
+    @ResponseBody
     public String invite(String phone,
                          String pwd,
                          Integer guider) {
@@ -267,12 +271,13 @@ public class UserController {
         User user = userService.selectUserByPhone(phone);
         if (user == null) { //添加用户
             User newUser = new User();
-            user.setPhone(phone);
-            user.setPwd(pwd);
-            user.setGuider(guider);
-            user.setRegistType(2);
-            user.setCreateTime(DateUtils.getSystemTime());
-            user.setChangTime(DateUtils.getSystemTime());
+            newUser.setPhone(phone);
+            newUser.setPwd(pwd);
+            newUser.setGuider(guider);
+            newUser.setRegistType(2);
+            newUser.setCode("000000");
+            newUser.setCreateTime(DateUtils.getSystemTime());
+            newUser.setChangTime(DateUtils.getSystemTime());
             int insertUserBack = userService.insertUser(newUser);
             if (insertUserBack > 0) {
                 state = true;
@@ -305,7 +310,11 @@ public class UserController {
                             String icid,
                             String name,
                             Integer bid,
+                            String bTitle,
+                            Long price,
+                            Integer commissionId,
                             Integer guider){
+
         // 查guider是否存在，若不存在返回错误信息
         User guiderUser = userService.selectUser(guider);
         if(guiderUser == null)
@@ -336,9 +345,12 @@ public class UserController {
             newUser.setPhone(phone);
             newUser.setPwd(pwd);
             newUser.setCode("0");
-            user.setRegistType(3);
+            newUser.setRegistType(3);
             newUser.setCreateTime(curTime);
             newUser.setChangTime(curTime);
+            newUser.setIcid(icid);
+            newUser.setName(name);
+            newUser.setGuider(guider);
             int insertUserBack = userService.insertUser(newUser);
             if(insertUserBack <= 0)
                 return BackJsonUtils.getInstance().getBackJsonUtils(false, "添加用户失败", null);
@@ -348,8 +360,11 @@ public class UserController {
         // 添加访问流程
         VistProcess vistProcess = new VistProcess();
         vistProcess.setGuider(guider);
-        vistProcess.setUid(user.getUid());
+        vistProcess.setUid(uid);
         vistProcess.setBid(bid);
+        vistProcess.setBtitle(bTitle);
+        vistProcess.setPrice(price);
+        vistProcess.setCommissionId(commissionId);
         vistProcess.setProgress(1); // 未到访
         vistProcess.setIsCheck(1);
         vistProcess.setAvailability(1);

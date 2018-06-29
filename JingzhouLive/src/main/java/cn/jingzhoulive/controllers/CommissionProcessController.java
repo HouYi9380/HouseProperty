@@ -22,7 +22,7 @@ public class CommissionProcessController {
     private ICommissionProcessService cpService;
     @RequestMapping("/list")
     @ResponseBody
-    public String getList(Integer mid,
+    public String getList(
                           Integer progress,
                           String keyword,
                           String startTime,
@@ -41,7 +41,7 @@ public class CommissionProcessController {
 
     @RequestMapping("/progress")
     @ResponseBody
-    public String changeProgress(Integer mid,
+    public String changeProgress(
                                  Integer cpid,
                                  Integer progress){
 

@@ -27,7 +27,4 @@ public interface CommissionProcessMapper {
     int updateByPrimaryKeySelective(CommissionProcess record);
 
     int updateByPrimaryKey(CommissionProcess record);
-
-    long priceSumByProgress(Integer uid, Integer progress);
-
 }

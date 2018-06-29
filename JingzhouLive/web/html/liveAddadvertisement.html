@@ -45,7 +45,8 @@
                 if (informationData == null) {
                     return
                 }
-                if (informationData.res == false) {
+                var res = informationData.res + ""
+                if (res == "false") {
                     alert(informationData.msg)
                     return
                 }

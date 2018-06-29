@@ -27,7 +27,10 @@ public class BackJsonUtils<T> {
         BackJsonUtils<T> backJsonUtils = this.getInstance();
         backJsonUtils.setRes(res);
         backJsonUtils.setMsg(msg);
-        backJsonUtils.setData(data);
+        if(data == null)
+            backJsonUtils.setData(new ArrayList<T>());
+        else
+            backJsonUtils.setData(data);
         return JSON.toJSONString(backJsonUtils);
     }
 
@@ -38,11 +41,11 @@ public class BackJsonUtils<T> {
         backJsonUtils.setRes(res);
         backJsonUtils.setMsg(msg);
         List<T> list = new ArrayList<T>();
-        list.add(data);
+        if(data != null)
+            list.add(data);
         backJsonUtils.setData(list);
         return JSON.toJSONString(backJsonUtils);
     }
-
 
     public boolean isRes() {
         return res;
