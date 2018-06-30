@@ -1,5 +1,4 @@
-var globalUrl = "http://192.168.130.17:1731"
-// var globalUrl = "http://192.168.130.140/jz"
+document.write("<script language=javascript src='../js/zm/globalUrl.js'></script>");
 
 function getInformationFromType(keyword, type, startTime, endTime, areaId, page, pageSize){
     var backData = null;

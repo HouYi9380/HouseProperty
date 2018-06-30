@@ -10,7 +10,7 @@
         <module name="JingzhouLive" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="GeneratorMapper" target="1.8" />
       <module name="JingzhouLive" target="1.8" />
     </bytecodeTargetLevel>

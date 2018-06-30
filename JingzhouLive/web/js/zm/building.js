@@ -1,5 +1,4 @@
-var globalUrl = "http://192.168.130.10:1731"
-// var globalUrl = "http://192.168.130.140/jz"
+document.write("<script language=javascript src='../js/zm/globalUrl.js'></script>");
 function getBuilding(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, page, pageSize) {
     var backData = null;
     var postData = {

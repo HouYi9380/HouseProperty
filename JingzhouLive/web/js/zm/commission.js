@@ -1,5 +1,4 @@
-// var globalUrl = "http://192.168.130.140/jz"
-var globalUrl = "http://192.168.130.10:1731"
+document.write("<script language=javascript src='../js/zm/globalUrl.js'></script>");
 
 function getCommissionProcess(progress, keyword, startTime, endTime, page, pageSize){
     var backData = null;

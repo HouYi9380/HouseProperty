@@ -9,6 +9,12 @@ public class VistProcess {
 
     private Integer bid;
 
+    private String btitle;
+
+    private Integer commissionId;
+
+    private Long price;
+
     private Integer progress;
 
     private Integer isCheck;
@@ -21,11 +27,14 @@ public class VistProcess {
 
     private String changTime;
 
-    public VistProcess(Integer vid, Integer uid, Integer guider, Integer bid, Integer progress, Integer isCheck, String mark, Integer availability, String createTime, String changTime) {
+    public VistProcess(Integer vid, Integer uid, Integer guider, Integer bid, String btitle, Integer commissionId, Long price, Integer progress, Integer isCheck, String mark, Integer availability, String createTime, String changTime) {
         this.vid = vid;
         this.uid = uid;
         this.guider = guider;
         this.bid = bid;
+        this.btitle = btitle;
+        this.commissionId = commissionId;
+        this.price = price;
         this.progress = progress;
         this.isCheck = isCheck;
         this.mark = mark;
@@ -68,6 +77,30 @@ public class VistProcess {
 
     public void setBid(Integer bid) {
         this.bid = bid;
+    }
+
+    public String getBtitle() {
+        return btitle;
+    }
+
+    public void setBtitle(String btitle) {
+        this.btitle = btitle == null ? null : btitle.trim();
+    }
+
+    public Integer getCommissionId() {
+        return commissionId;
+    }
+
+    public void setCommissionId(Integer commissionId) {
+        this.commissionId = commissionId;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
     public Integer getProgress() {
