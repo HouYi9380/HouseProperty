@@ -1,5 +1,5 @@
 window.onload = function () {
-    alert("user show!!");
+    // alert("user show!!");
     var userJson = window.localStorage.getItem("user");
     if(userJson == null){
         alert("user error!");

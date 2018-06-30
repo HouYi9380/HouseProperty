@@ -37,9 +37,9 @@ public class BuildingServiceImpl implements IBuildingService{
         BuildingsExample.Criteria criteria = example.createCriteria();
         if(keyword != null && (!keyword.isEmpty()))
             criteria.andTitleLike(keyword);
-        if(houseType!= null && (!keyword.isEmpty()))
+        if(houseType!= null && (!houseType.isEmpty()))
             criteria.andHouseTypeEqualTo(houseType);
-        if(startPrice!= null && (!keyword.isEmpty()))
+        if(startPrice!= null)
             criteria.andPriceGreaterThan(startPrice);
         if(type != null )
             criteria.andTypeEqualTo(type);
