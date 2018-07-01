@@ -81,11 +81,20 @@ public class ManagerController {
 
     @RequestMapping("/changepwd")
     @ResponseBody
-    public String changePwd(Integer mid, String prePwd, String newPwd){
+    public String changePwd(String prePwd,
+                            String newPwd,
+                            HttpSession session){
+        Integer mid = (Integer)session.getAttribute(CommonUtils.S_ManagerId);
+        System.out.println("mid:" +mid);
+        if(mid == null || mid == 0)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "用户不存在, 请先登陆", null);
         Manager manager =service.getManagerByPrimaryKey(mid);
         if(manager == null)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "用户不存在", null);
-        if(!manager.getPwd().equals(prePwd))
+        System.out.println("pwd:" + manager.getPwd());
+        System.out.println("prepwd:" + prePwd);
+        System.out.println("prepwd=pwd?" + manager.getPwd().equals(prePwd));
+        if(!(manager.getPwd().equals(prePwd)))
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "用户密码错误", null);
         manager.setPwd(newPwd);
         if(service.updateManager(manager) <= 0)

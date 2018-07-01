@@ -78,8 +78,8 @@ function modefyManager(mid, phone, power, name, position, headImg){
 
 function modefyManagerPwdAjax(prePwd, newPwd){
     var postData = {
-        prepwd: prePwd,
-        newpwd:newPwd
+        prePwd: prePwd,
+        newPwd:newPwd
     }
     $.ajax({
         type: "post",

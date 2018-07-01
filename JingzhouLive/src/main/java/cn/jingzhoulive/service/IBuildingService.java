@@ -1,5 +1,6 @@
 package cn.jingzhoulive.service;
 
+import cn.jingzhoulive.domain.Buildings;
 import cn.jingzhoulive.domain.BuildingsExample;
 import cn.jingzhoulive.domain.BuildingsWithBLOBs;
 import com.github.pagehelper.PageInfo;
@@ -15,13 +16,13 @@ public interface IBuildingService {
     public int updateByPrimaryKeyWithBLOBs(BuildingsWithBLOBs record);
     BuildingsWithBLOBs selectByPrimaryKey(Integer bid);
     PageInfo<BuildingsWithBLOBs> selectByExamplePageable(Integer type,
-                                                          String keyword,
-                                                          String houseType,
-                                                          Long startPrice,
-                                                          Long endPricePrice,
-                                                          String startAcreage,
-                                                          String endAcreage,
-                                                         String area,
-                                                         int page,
-                                                         int length);
+                                                String keyword,
+                                                String houseType,
+                                                Long startPrice,
+                                                Long endPricePrice,
+                                                String startAcreage,
+                                                String endAcreage,
+                                                String area,
+                                                int page,
+                                                int length);
 }

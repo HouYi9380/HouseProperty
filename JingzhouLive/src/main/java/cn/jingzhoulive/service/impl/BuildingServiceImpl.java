@@ -1,6 +1,7 @@
 package cn.jingzhoulive.service.impl;
 
 import cn.jingzhoulive.dao.BuildingsMapper;
+import cn.jingzhoulive.domain.Buildings;
 import cn.jingzhoulive.domain.BuildingsExample;
 import cn.jingzhoulive.domain.BuildingsWithBLOBs;
 import cn.jingzhoulive.service.IBuildingService;
@@ -54,6 +55,8 @@ public class BuildingServiceImpl implements IBuildingService{
         }
 
         PageHelper.startPage(page, length);
+//        List<BuildingsWithBLOBs> infoList = buildingsMapper.selectByExampleWithBLOBs(example);
+//        PageInfo<BuildingsWithBLOBs> p=new PageInfo<BuildingsWithBLOBs>(infoList);
         List<BuildingsWithBLOBs> infoList = buildingsMapper.selectByExampleWithBLOBs(example);
         PageInfo<BuildingsWithBLOBs> p=new PageInfo<BuildingsWithBLOBs>(infoList);
         return p;
