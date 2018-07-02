@@ -7,10 +7,7 @@ import cn.jingzhoulive.utils.CommonUtils;
 import cn.jingzhoulive.utils.DateUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -19,6 +16,7 @@ import java.util.List;
 /**
  * Created by zhangmin on 18-4-26.
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/managers")
 public class ManagerController {
@@ -126,7 +124,6 @@ public class ManagerController {
     public String add(String name,
                       String phone,
                       String positon){
-
         Manager manager = new Manager();
         manager.setName(name);
         manager.setPhone(phone);
@@ -167,5 +164,4 @@ public class ManagerController {
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "删除失败", null);
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
     }
-
 }

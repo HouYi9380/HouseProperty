@@ -6,14 +6,12 @@ import cn.jingzhoulive.utils.BackJsonUtils;
 import cn.jingzhoulive.utils.DataUtils;
 import cn.jingzhoulive.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by zhangmin on 18-4-25.
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/sms")
 public class SmsController {

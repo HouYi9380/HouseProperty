@@ -31,7 +31,15 @@ public class ManagerServiceImpl implements IManagerService{
         criteria.andPhoneEqualTo(phone);
         criteria.andPwdEqualTo(pwd);
         List<Manager> managerList = managerMapper.selectByExample(example);
-        return (managerList != null) ? managerList.get(0): null;
+        if(managerList == null){
+            System.out.println("managerList = null");
+            return null;
+        }
+        if(managerList.size() == 0) {
+            System.out.println("managerList size = 0");
+            return null;
+        }
+        return managerList.get(0);
     }
 
 

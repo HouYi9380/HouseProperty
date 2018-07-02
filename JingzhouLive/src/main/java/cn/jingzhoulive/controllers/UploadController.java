@@ -4,10 +4,7 @@ import cn.jingzhoulive.utils.BackJsonUtils;
 import cn.jingzhoulive.utils.CommonUtils;
 import cn.jingzhoulive.utils.UUIDUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +18,7 @@ import java.util.List;
 /**
  * Created by zhangmin on 18-5-15.
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/upload")
 @RestController
 public class UploadController {
@@ -68,7 +66,7 @@ public class UploadController {
                 String backUrl = serverUrl + "/images/" + urlPath;
                 System.out.println("文件上传url:" + backUrl);
                 backJsonUtils = BackJsonUtils.getInstance().getBackJsonUtils(true, "success",
-                        serverUrl + urlPath);
+                        backUrl);
             } catch (IOException e) {
                 e.printStackTrace();
                 backJsonUtils = BackJsonUtils.getInstance().getBackJsonUtils(false, "上传失败",null);

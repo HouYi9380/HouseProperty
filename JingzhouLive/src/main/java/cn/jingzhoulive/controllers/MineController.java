@@ -8,6 +8,7 @@ import cn.jingzhoulive.service.IVisitProcessService;
 import cn.jingzhoulive.utils.BackJsonUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.*;
 /**
  * Created by zhangmin on 18-5-4.
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/mine")
 public class MineController {

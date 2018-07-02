@@ -8,9 +8,7 @@
         SELECT * FROM user WHERE uid = #{id}
     </select>
 
-    <select id="selectUserByPhone" resultType="User" parameterType="string">
-        SELECT * FROM user WHERE phone=#{phone}
-    </select>
+
 
     <insert id="insertUser" parameterType="User"  useGeneratedKeys="true" keyProperty="uid">
          insert into user (uid, phone, code,
@@ -113,6 +111,13 @@
         select
         <include refid="Base_Column_List" />
         from user
+    </select>
+
+    <select id="selectUserByPhone" resultMap="BaseResultMap" parameterType="string">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM user
+        WHERE phone=#{phone}
     </select>
 
     <select id="selectByExample" parameterType="cn.jingzhoulive.domain.UserExample" resultMap="BaseResultMap">

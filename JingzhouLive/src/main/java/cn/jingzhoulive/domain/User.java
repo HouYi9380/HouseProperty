@@ -183,4 +183,26 @@ public class User {
     public void setChangTime(String changTime) {
         this.changTime = changTime == null ? null : changTime.trim();
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid=" + uid +
+                ", phone='" + phone + '\'' +
+                ", code='" + code + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", registType=" + registType +
+                ", guider=" + guider +
+                ", name='" + name + '\'' +
+                ", nick='" + nick + '\'' +
+                ", pic='" + pic + '\'' +
+                ", icid='" + icid + '\'' +
+                ", payType=" + payType +
+                ", payId='" + payId + '\'' +
+                ", residence='" + residence + '\'' +
+                ", lately=" + lately +
+                ", createTime='" + createTime + '\'' +
+                ", changTime='" + changTime + '\'' +
+                '}';
+    }
 }

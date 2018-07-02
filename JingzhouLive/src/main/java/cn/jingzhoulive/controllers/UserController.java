@@ -19,6 +19,7 @@ import java.util.List;
 /**
  * Created by zhangmin on 18-4-24.
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -94,12 +95,15 @@ public class UserController {
                         msg = "添加用户失败";
                     }
                 } else { //更新密码
+                    System.out.println("login--->user exist:" + user.toString());
                     if (user.getPwd().equals(pwd)) { //密码一致，成功
+                        System.out.println("login--->user exist,==pwd" + user.toString());
                         state = true;
                         msg = "success";
                         data = new ArrayList<User>();
                         data.add(user);
                     } else { // 密码不一致，更新密码
+                        System.out.println("login--->user exist,!=pwd");
                         user.setPwd(pwd);
                         user.setChangTime(DateUtils.getSystemTime());
                         if (userService.updateByPrimaryKeySelective(user) > 0) {
