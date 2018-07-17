@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
     <meta name="description" content="">
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="#" type="image/png">
@@ -20,26 +21,34 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src = "../js/zm/common.js"></script>
-    <script src = "../js/zm/building.js"></script>
+    <script src="../js/zm/common.js"></script>
+    <script src="../js/zm/building.js"></script>
+    <script src="../js/zm/police.js"></script>
+
     <script type="text/javascript">
-        var longitude1=localStorage.getItem("longitude");
-        var latitude1=localStorage.getItem("latitude");
-//
-//        $(document).ready(function(){
-//            $("#lngandlat").html("纬度:"+longitude+" 经度:"+latitude);
-//        });
+        var longitude1 = localStorage.getItem("longitude");
+        var latitude1 = localStorage.getItem("latitude");
+
+        var picsArray;
+
+        var policeArray = new Array;
+
+
         var isAdd = null
         var bid = null;
+        var type =null
         window.onload = function () {
+            getPolice();
             isAdd = getUrlParam("add");
-            document.getElementById("lng").innerHTML= longitude1
-            document.getElementById("lat").innerHTML= latitude1
+            type= getUrlParam("type");
+            document.getElementById("lng").innerHTML = longitude1
+            document.getElementById("lat").innerHTML = latitude1
             if (isAdd == null) {
                 alert("add参数错误")
                 return
             }
             alert("add=" + isAdd)
+            alert("type=" + type)
             bid = getUrlParam("bid");
             if (bid != null) {
                 alert("bid:" + bid)
@@ -54,21 +63,23 @@
                 var building = buildingBack.data[0]
                 alert("title:" + building.title)
                 console.log("title:" + building.title)
-                document.getElementById("title").value =building.title
+                picsArray = building.pics;
+                showPic(building.pics);
+                document.getElementById("title").value = building.title
                 document.getElementById("address").value = building.address
                 document.getElementById("contact").value = building.contacts
                 document.getElementById("phone").value = building.phone
-                document.getElementById("lat").value= building.latitude
-                document.getElementById("lng").value= building.longtitude
+                document.getElementById("lat").innerHTML = building.latitude
+                document.getElementById("lng").innerHTML = building.longtitude
 //                document.getElementById("lngandlat").innerHTML ="纬度:"+building.longtitude+" 经度:"+building.latitude
 
                 document.getElementById("favourable").value = building.favourable
                 document.getElementById("traffic").value = building.traffic
-                document.getElementById("buildingInfo"). value = building.buildingInfo
-                document.getElementById("decoration").value = building.decoration
-                document.getElementById("shared").value = building.shared
-                document.getElementById("commissionId").value = building.commissionId
-//                document.getElementById("price").value = data.price
+                document.getElementById("buildingInfo").value = building.buildingInfo
+                document.getElementById("decoration").selectedIndex = building.decoration
+                document.getElementById("shared").selectedIndex = building.shared
+                document.getElementById("commissionId").value = getPoliceNameFromId(building.commissionId)
+                document.getElementById("price").value = building.price
                 document.getElementById("acreage").value = building.acreage
                 document.getElementById("houseType").value = building.houseType
 //                document.getElementById("recommend").innerHTML = data.recommend
@@ -76,27 +87,67 @@
             }
         }
 
+        function getPoliceNameFromId(cpid) {
+            var data = getPoliceFromId(cpid);
+            if (data.res == false) {
+                alert("获取失败")
+                return;
+            }
+            return data.data[0].title
+        }
+
+        function getPolice() {
+            var data = getPolices(1, 20);
+            var strHtml = ""
+            if (data.res == false) {
+                alert("获取失败")
+                return;
+            }
+
+            var array = data.data[0].list
+
+            for (var i = 0; i < array.length; i++) {
+                if (array[i].availablility == 1) {
+                    policeArray.push(array[i])
+                    strHtml += "<option>" + array[i].title + "</option>"
+                }
+            }
+            document.getElementById("commissionId").innerHTML = strHtml;
+        }
+        function getPoliceIdFromName(name) {
+            var result
+            for (var i = 0; i < policeArray.length; i++) {
+                if (name == policeArray[i].title) {
+                    result = policeArray[i].cid
+                }
+            }
+            return result
+        }
         function submitData() {
-             //编辑时，图片显示问题
+            //编辑时，图片显示问题
             //add
+
+            var fileObj = document.getElementById("file").files;
+            console.log(fileObj)
             var title = document.getElementById("title").value
             var address = document.getElementById("address").value
             var contact = document.getElementById("contact").value
             var phone = document.getElementById("phone").value
-            var longitude=document.getElementById("lng").innerText;
-            var latitude=document.getElementById("lat").innerText;
+            var longitude = document.getElementById("lng").innerText;
+            var latitude = document.getElementById("lat").innerText;
 
             var favourable = document.getElementById("favourable").value
             var traffic = document.getElementById("traffic").value
             var buildingInfo = document.getElementById("buildingInfo").value
-            var decoration = document.getElementById("decoration").value
-            var shared = document.getElementById("shared").value
-            var commissionId = document.getElementById("commissionId").value
-//                document.getElementById("price").innerHTML = data.price
+            var decoration = document.getElementById("decoration").selectedIndex
+            var shared = document.getElementById("shared").selectedIndex
+            var commissionId = getPoliceIdFromName(document.getElementById("commissionId").value)
+            var price = document.getElementById("price").value
             var acreage = document.getElementById("acreage").value
             var houseType = document.getElementById("houseType").value
             var building = new Object();
-            building.type = 1 // 新房
+            building.pics = picsArray
+            building.type = type // 新房
             building.title = title
             building.address = address
             building.contacts = contact
@@ -104,95 +155,150 @@
             building.area = "027"
             building.latitude = latitude
             building.longtitude = longitude
-            building.pics = null
             building.favourable = favourable
             building.traffic = traffic
             building.buildingInfo = buildingInfo
             building.decoration = decoration
             building.shared = shared
             building.commissionId = commissionId
-            building.price = 12300
+            building.price = price
             building.acreage = acreage
             building.houseType = houseType
             building.recommend = 5 // default
-            if(isAdd == "true"){
+            if (isAdd == "true") {
                 //先上传多图,图片
                 // 然后上传其它数据
-
-                var addBack = addBuilding(building)
-                if(addBack == null){
+                var data = addBuilding(building)
+                if (data.res == false) {
+                    alert("提交失败")
                     return;
+                } else {
+                    history.back(-1)
                 }
-                if(addBack.res == false){
-                    alert("添加失败")
+            } else {
+                building.bid = bid;
+                var data = updateBuilding(building)
+                if (data.res == false) {
+                    alert("提交失败")
                     return;
+                } else {
+                    history.back(-1)
                 }
-                window.location.href = "/html/liveNewhouse.html"
-            }else{
-                alert("update")
-                //上传图片
-                // 更新内容
-                building.bid = 1
-                var updateBack = updateBuilding(building)
-                if(updateBack == null){
-                    return
-                }
-                if(updateBack.res == false){
-                    alert("更新失败")
-                    return
-                }
-                window.location.href = "/html/liveNewhouse.html"
             }
         }
 
-        function cancel(){
+        function showPic(pics) {
 
+            var strHtml = "";
+            var array = pics.split("#");
+            if (array.length > 1) {
+                for (var i = 0; i < array.length; i++) {
+                    strHtml += "<img class='col-lg-2' onclick=" + "'delpic(" + i + ")' style='height: 100px;width: 100px;margin: 2px' src='" + array[i] + "' alt=''/>";
+                }
+            } else {
+                strHtml += "<img class='col-lg-2' onclick=" + "'delpic(" + i + ")' style='height: 100px;width: 100px;margin: 2px' src='" + pics + "' alt=''/>";
+            }
+            document.getElementById("imgContent").innerHTML = strHtml;
+        }
+
+        function delpic(data) {
+            var array = picsArray.split("#")
+            var newArray = "";
+            if (array.length > 1) {
+                for (var i = 0; i < array.length; i++) {
+                    if (data != i) {
+                        if (!isEmpty(newArray)) {
+                            newArray += "#" + array[i]
+                        } else {
+                            newArray = array[i]
+                        }
+                        continue
+                    }
+                }
+                console.log(newArray)
+                picsArray = newArray
+            }
+
+            showPic(picsArray)
         }
 
         function isNull(arg1) {
-            return !arg1 && arg1!==0 && typeof arg1!=="boolean"?true:false;
+            return !arg1 && arg1 !== 0 && typeof arg1 !== "boolean" ? true : false;
         }
 
         function getLbs() {
-            var city=$("#address").val();
-            if(!isNull(city)){
-                window.location.href="liveLbs.html?city="+city;
-            }else{
-                alert('请填写地址,例如：武汉');
+            var city = $("#address").val();
+            if (!isNull(city)) {
+                window.location.href = "liveLbs.html?city=荆州市";
+            } else {
+                window.location.href = "liveLbs.html?city=荆州市";
             }
         }
 
-        function imgPreview(fileDom){
-            var strHtml = "";
+        function imgPreview(fileDom) {
+            var fileObj = document.getElementById("file").files;
+            uploadMoreImg(fileDom.files)
+        }
 
-            //判断是否支持FileReader
-            if (window.FileReader) {
-            } else {
-                alert("您的设备不支持图片预览功能，如需该功能请升级您的设备！");
+        function uploadMoreImg(fileArray) {
+            var filedata = new FormData();
+            console.log(fileArray)
+            for (var i = 0; i < fileArray.length; i++) {
+                filedata.append("files", fileArray[i]);
             }
 
-            var fils = fileDom.files;
+            var data = filedata;
 
-            for(var i=0;i<fils.length;i++){
-                //获取文件
-                var file = fils[i];
+            console.log(data)
 
-                var reader = new FileReader();
+            $.ajax({
+                type: "post",
+                url: globalUrl + "/upload/multifile",
+                data: data,
+                dataType: "json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    console.log(result);
+                    // var jsonData = JSON.parse(result);
+                    var res = result.res;
+                    var msg = result.msg;
+                    var array = result.data;
 
-                reader.readAsDataURL(file);
+                    if (res != true) {
+                        alert(msg);
+                        return;
+                    } else {
+                        for (var i = 0; i < array.length; i++) {
+                            if (!isEmpty(picsArray)) {
+                                picsArray += "#" + array[i]
+                            } else {
+                                picsArray = array[i]
+                            }
+                        }
 
-                //读取完成
-                reader.onload = function(e) {
-                    strHtml += "<img class='col-lg-2' style='height: 100px;width: 100px;margin: 2px' src='"+e.target.result+"' alt=''/>";
-                    document.getElementById("imgContent").innerHTML=strHtml;
-                };
+                        showPic(picsArray)
+                        console.log(array)
+                    }
+                },
+                error: function () {
+                    alert("服务异常");
+                }
+            })
+        }
 
+        function isEmpty(obj) {
+            if (typeof obj == "undefined" || obj == null || obj == "") {
+                return true;
+            } else {
+                return false;
             }
         }
 
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 <section>
     <!-- left side start-->
     <div class="left-side sticky-left-side">
@@ -211,7 +317,7 @@
 
 
             <!-- visible to small devices only -->
-            <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div id="leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
 
             </div>
 
@@ -278,7 +384,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -288,7 +394,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div id="rightHeadDiv" class="menu-right">
 
             </div>
             <!--notification menu end -->
@@ -323,22 +429,23 @@
                         <div class="panel-body">
                             <form class="form-horizontal" role="form">
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">楼盘名称</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">楼盘名称</label>
                                     <div class="col-lg-9">
-                                        <input id = "title" type="text" required class="form-control" placeholder="楼盘名称">
+                                        <input id="title" type="text" required class="form-control" placeholder="楼盘名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-3 col-sm-3 control-label">选择图片</label>
                                     <div class="col-lg-9">
-                                        <input onchange="imgPreview(this)" type="file"  multiple="multiple" accept="image/png,image/gif,image/jpg,image/jpeg"/>
+                                        <input id="file" onchange="imgPreview(this)" type="file" multiple="multiple"
+                                               accept="image/png,image/gif,image/jpg,image/jpeg"/>
                                     </div>
                                     <div class="col-lg-9 row" id="imgContent">
 
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">地址</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">地址</label>
                                     <div class="col-lg-9">
                                         <input type="text" required class="form-control" placeholder="地址" id="address">
                                     </div>
@@ -346,72 +453,97 @@
                                 <div class="form-group">
                                     <label class="col-lg-3 col-sm-3 control-label">选择位置</label>
                                     <div class="col-lg-9 form-inline">
-                                        <button type="button" onclick="getLbs()" class="btn btn-primary col-lg-2">选择</button>
-                                        <label class="col-lg-10 col-sm-10 control-label"><span>纬度：</span><span id="lng"></span></label>
-                                        <label class="col-lg-10 col-sm-10 control-label"><span>经度:</span><span id="lat"></span></label>
+                                        <button type="button" onclick="getLbs()" class="btn btn-primary col-lg-2">选择
+                                        </button>
+                                        <label class="col-lg-10 col-sm-10 control-label"><span>纬度：</span><span
+                                                id="lng"></span></label>
+                                        <label class="col-lg-10 col-sm-10 control-label"><span>经度:</span><span
+                                                id="lat"></span></label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">联系人</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">联系人</label>
                                     <div class="col-lg-9">
-                                        <input id = "contact" type="text"required  class="form-control" placeholder="联系人">
+                                        <input id="contact" type="text" required class="form-control" placeholder="联系人">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">联系人电话</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">联系人电话</label>
                                     <div class="col-lg-9">
-                                        <input id = "phone" type="text" required class="form-control" placeholder="联系人电话">
+                                        <input id="phone" type="text" required class="form-control" placeholder="联系人电话">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">优惠</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">优惠</label>
                                     <div class="col-lg-9">
-                                        <input id = "favourable" type="text" required class="form-control" placeholder="优惠">
+                                        <input id="favourable" type="text" required class="form-control"
+                                               placeholder="优惠">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">装修</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">装修</label>
                                     <div class="col-lg-9">
-                                        <input id = "decoration" type="text" required class="form-control" placeholder="装修">
+                                        <select id="decoration" required class="form-control">
+                                            <option></option>
+                                            <option>毛坯</option>
+                                            <option>精装</option>
+                                            <option>简装</option>
+                                            <option>其他（二手，出租）</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">房屋户型</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">房屋户型</label>
                                     <div class="col-lg-9">
-                                        <input id = "houseType" type="text" required class="form-control" placeholder="房屋户型">
+                                        <input id="houseType" type="text" required class="form-control"
+                                               placeholder="房屋户型">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">房源</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">房源</label>
                                     <div class="col-lg-9">
-                                        <input id = "shared" type="text" required class="form-control" placeholder="房源">
+                                        <select id="shared" required class="form-control">
+                                            <option></option>
+                                            <option>独立房源</option>
+                                            <option>共享房源</option>
+                                            <option>其他（新楼，出租）</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">佣金政策</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">佣金政策</label>
                                     <div class="col-lg-9">
-                                        <input id="commissionId" type="text" required class="form-control" placeholder="佣金政策">
+                                        <select id="commissionId" required class="form-control">
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">面积</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">面积（㎡）</label>
                                     <div class="col-lg-9">
-                                        <input id = "acreage" type="text" required class="form-control" placeholder="面积">
+                                        <input id="acreage" type="text" required class="form-control" placeholder="面积">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">交通配套</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">房屋总价（元）</label>
                                     <div class="col-lg-9">
-                                        <input id = "traffic" type="text" required class="form-control" placeholder="交通配套">
+                                        <input id="price" type="text" required class="form-control" placeholder="房屋总价">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">介绍</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">交通配套</label>
                                     <div class="col-lg-9">
-                                        <textarea id = "buildingInfo" rows="6" required class="form-control"></textarea>
+                                        <input id="traffic" type="text" required class="form-control"
+                                               placeholder="交通配套">
                                     </div>
                                 </div>
-                                <button type="button" onclick="submitData()" class="btn btn-primary pull-right">提交</button>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">介绍</label>
+                                    <div class="col-lg-9">
+                                        <textarea id="buildingInfo" rows="6" required class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="submitData()" class="btn btn-primary pull-right">提交
+                                </button>
                             </form>
                         </div>
                     </section>

@@ -2,6 +2,7 @@ package cn.jingzhoulive.controllers;
 
 import cn.jingzhoulive.domain.Manager;
 import cn.jingzhoulive.service.IManagerService;
+import cn.jingzhoulive.service.IOperationLogsService;
 import cn.jingzhoulive.utils.BackJsonUtils;
 import cn.jingzhoulive.utils.CommonUtils;
 import cn.jingzhoulive.utils.DateUtils;
@@ -22,6 +23,9 @@ import java.util.List;
 public class ManagerController {
 
     @Autowired
+    private IOperationLogsService operationLogsService;
+
+    @Autowired
     private IManagerService service;
 
     @RequestMapping("/login")
@@ -34,6 +38,8 @@ public class ManagerController {
             List<Manager> managers = new ArrayList<Manager>();
             managers.add(manager);
             httpSession.setAttribute(CommonUtils.S_ManagerId, manager.getMid());
+            int addOp = operationLogsService.addLog("用户登陆，用户名："+ phone,
+                    manager.getMid(), 1, "Manager");
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", managers);
         }
         return BackJsonUtils.getInstance().getBackJsonUtils(false, "用户名或密码错误", null);
@@ -48,32 +54,40 @@ public class ManagerController {
 
     /**
      * 修改用户信息，成功返回用户数据
-     * @param mid
      * @param name
      * @param nick
-     * @param position
      * @return
      */
 
     @RequestMapping("/extend")
     @ResponseBody
-    public String modefyUserInfo(@RequestParam Integer mid,
-                                 @RequestParam (required = false) String name,
+    public String modefyUserInfo(@RequestParam (required = false) String name,
                                  @RequestParam (required = false) String nick,
-                                 @RequestParam (required = false) String position){
-        if(name == null && nick == null && position == null || mid == null)
+                                 @RequestParam (required = false) String phone,
+                                 @RequestParam (required = false) String pic,
+                                 HttpSession httpSession){
+        if(name == null && nick == null && phone == null && pic == null)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "信息不能为空", null);
+
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
 
         Manager manager = new Manager();
         manager.setMid(mid);
         manager.setName(name);
         manager.setNick(nick);
-        manager.setPositon(position);
+        manager.setPics(pic);
+        manager.setPhone(phone);
         Manager backManager = service.updateByPrimaryKeySelective(manager);
         if(backManager == null)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "更新失败", null);
         List<Manager> managers = new ArrayList<Manager>();
         managers.add(backManager);
+
+        int addOp = operationLogsService.addLog("完善用户信息,管理员id=" + mid,
+                mid, 2, "Manager");
+
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", managers);
     }
 
@@ -99,6 +113,8 @@ public class ManagerController {
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "更新密码失败", null);
         List<Manager> managers = new ArrayList<Manager>();
         managers.add(manager);
+        int addOp = operationLogsService.addLog("修改管理员密码,管理员id=" + mid,
+                mid, 2, "Manager");
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", managers);
     }
 
@@ -123,7 +139,11 @@ public class ManagerController {
     @ResponseBody
     public String add(String name,
                       String phone,
-                      String positon){
+                      String positon,
+                      HttpSession httpSession){
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
         Manager manager = new Manager();
         manager.setName(name);
         manager.setPhone(phone);
@@ -136,19 +156,26 @@ public class ManagerController {
         int insertBack = service.insert(manager);
         if(insertBack < 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "添加失败", null);
+        int addOp = operationLogsService.addLog("添加管理员密码,管理员id=" + mid,
+                mid, 1, "Manager");
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
     }
 
     @RequestMapping("/delete")
     @ResponseBody
-    public String setInvalid(Integer mid,
-                             Integer onemid){
+    public String setInvalid(Integer onemid,
+                             HttpSession httpSession){
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
         Manager manager = new Manager();
         manager.setMid(onemid);
         manager.setAvailability(2); // 无效
         Manager updateBack = service.updateByPrimaryKeySelective(manager);
         if(updateBack == null)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "删除失败", null);
+        int addOp = operationLogsService.addLog("删除管理员,mid=" + mid,
+                mid, 1, "Manager");
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
     }
 

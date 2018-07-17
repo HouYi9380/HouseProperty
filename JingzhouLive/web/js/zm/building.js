@@ -2,16 +2,16 @@ document.write("<script language=javascript src='../js/zm/globalUrl.js'></script
 function getBuilding(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, page, pageSize) {
     var backData = null;
     var postData = {
-       type : type,
+        type: type,
         areaid: areaId,
-       keyword : keyword,
-       houseType : houseType,
-       startPrice : startPrice,
-       endPrice : endPrice,
-       startAcreage : startAcreage,
-       endAcreage : endAcreage,
-       page : page,
-       length : pageSize
+        keyword: keyword,
+        houseType: houseType,
+        startPrice: startPrice,
+        endPrice: endPrice,
+        startAcreage: startAcreage,
+        endAcreage: endAcreage,
+        page: page,
+        length: pageSize
     }
 
     $.ajax({
@@ -37,10 +37,10 @@ function getBuilding(areaId, type, keyword, houseType, startPrice, endPrice, sta
     return backData
 }
 
-function getBuildingFromId(bid){
+function getBuildingFromId(bid) {
     var backData = null;
     var postData = {
-        bid : bid
+        bid: bid
     }
 
     $.ajax({
@@ -66,28 +66,28 @@ function getBuildingFromId(bid){
     return backData
 }
 
-function addBuilding(building){
+function addBuilding(building) {
     var backData = null;
     var postData = {
-        type : building.type,
-        title : building.type,
-        address : building.address,
-        contacts : building.contacts,
-        phone : building.phone,
-        area : building.area,
-        latitude : building.latitude,
-        longtitude : building.longtitude,
-        pics : building.pics,
-        favourable : building.favourable,
-        traffic : building.traffic,
-        buildingInfo : building.buildingInfo,
-        decoration : building.decoration,
-        shared : building.shared,
-        commissionId : building.commissionId,
-        price : building.price,
-        acreage : building.acreage,
-        houseType : building.houseType,
-        recommend : building.recommend,
+        type: building.type,
+        title: building.title,
+        address: building.address,
+        contacts: building.contacts,
+        phone: building.phone,
+        area: building.area,
+        latitude: building.latitude,
+        longtitude: building.longtitude,
+        pics: building.pics,
+        favourable: building.favourable,
+        traffic: building.traffic,
+        buildingInfo: building.buildingInfo,
+        decoration: building.decoration,
+        shared: building.shared,
+        commissionId: building.commissionId,
+        price: building.price,
+        acreage: building.acreage,
+        houseType: building.houseType,
+        recommend: building.recommend,
     }
 
     $.ajax({
@@ -113,29 +113,30 @@ function addBuilding(building){
     return backData
 }
 
-function updateBuilding(building){
+function updateBuilding(building) {
+    alert(building.pics)
     var backData = null;
     var postData = {
-        bid : bid,
-        type : building.type,
-        title : building.title,
-        address : building.address,
-        contacts : building.contacts,
-        phone : building.phone,
-        area : building.area,
-        latitude : building.latitude,
-        longtitude : building.longtitude,
-        pics : building.pics,
-        favourable : building.favourable,
-        traffic : building.traffic,
-        buildingInfo : building.buildingInfo,
-        decoration : building.decoration,
-        shared : building.shared,
-        commissionId : building.commissionId,
-        price : building.price,
-        acreage : building.acreage,
-        houseType : building.houseType,
-        recommend : building.recommend,
+        bid: building.bid,
+        pics: building.pics,
+        type: building.type,
+        title: building.title,
+        address: building.address,
+        contacts: building.contacts,
+        phone: building.phone,
+        area: building.area,
+        latitude: building.latitude,
+        longtitude: building.longtitude,
+        favourable: building.favourable,
+        traffic: building.traffic,
+        buildingInfo: building.buildingInfo,
+        decoration: building.decoration,
+        shared: building.shared,
+        commissionId: building.commissionId,
+        price: building.price,
+        acreage: building.acreage,
+        houseType: building.houseType,
+        recommend: building.recommend,
     }
 
     $.ajax({
@@ -152,6 +153,7 @@ function updateBuilding(building){
         success: function (data) {
             var jsonData = JSON.parse(data);
             backData = jsonData;
+
         },
         error: function () {
             alert("服务异常");

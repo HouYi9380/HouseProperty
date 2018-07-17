@@ -10,11 +10,11 @@
     <title>二手房房源</title>
 
     <!--pickers css-->
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css" />
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css"/>
     <!--dynamic table-->
     <link href="../js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
     <link href="../js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
@@ -23,49 +23,133 @@
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+
+    <style type="text/css">
+        .pageTest {
+            width: 500px;
+            height: 50px;
+            margin-top: 100px;
+        }
+
+        .activP {
+            background-color: #69cda8 !important;
+            color: #fff !important;
+        }
+    </style>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/zm/building.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"]; var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
+        var totlepage = 0;
+        var areaId
+        var type = 2;
+        var keyword
+        var houseType
+        var startPrice
+        var endPrice
+        var startAcreage
+        var endAcreage
+
+        $(document).ready(function () {
+            searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, 1, 5)
+        });
+
+        function searchSecondHouse() {
+            keyword = document.getElementById("keyword").value;
+            startPrice = document.getElementById("startPrice").value * 10000;
+            endPrice = document.getElementById("endPrice").value * 10000;
+            startAcreage = document.getElementById("startAcreage").value;
+            endAcreage = document.getElementById("endAcreage").value;
+
+
+            searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, 1, 5)
+        }
+
+        function searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice,
+                                       startAcreage, endAcreage, page, pageSize) {
+            var buildingBack = getBuilding(areaId, type, keyword, houseType, startPrice, endPrice,
+                startAcreage, endAcreage, page, pageSize)
+            if (buildingBack == null) {
+                alert("搜索失败")
+                return
+            }
+            if (buildingBack.res == false) {
+                alert(buildingBack.msg)
+                return
+            }
+
+            var list = buildingBack.data
+
+            if (list[0].list.length < 1) {
+                alert("搜索结果为空")
+                this.keyword = "";
+                this.startPrice = "";
+                this.endPrice = "";
+                this.startAcreage = "";
+                this.endAcreage = "";
+
+                document.getElementById("keyword").value = "";
+                document.getElementById("startPrice").value = "";
+                document.getElementById("endPrice").value = "";
+                document.getElementById("startAcreage").value = "";
+                document.getElementById("endAcreage").value = "";
+                return
+            }
+
+            totlepage = list[0].pages;
+
+            if (page == 1) {
+                setPage(totlepage);
+            }
+
+            var dataList = list[0].list
+            var html = "";
+            for (var i = 0; i < dataList.length; i++) {
+                var num = i + 1;
+                var bid = dataList[i].bid;
+
                 html += "<tr class=\"gradeX\">" +
                     "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "王岩" + "</td>" +
-                    "<td>" + "13890987654" + "</td>" +
-                    "<td>" + "湖北省武汉市江夏区杨桥湖大道27号" + "</td>" +
-                    "<td>" + "2018/09/21" + "</td>" +
-                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"newHouseDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"editNewHouseDetails()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delNewHouseDetails()\" type=\"button\">删除</button> </div>" + "</td>" +
+                    "<td>" + dataList[i].title + "</td>" +
+                    "<td>" + dataList[i].contacts + "</td>" +
+                    "<td>" + dataList[i].phone + "</td>" +
+                    "<td>" + dataList[i].address + "</td>" +
+                    "<td>" + dataList[i].createTime + "</td>" +
+                    "<td>" + "<div class='btn-group'> <button class='btn btn-default btn-xs' onclick=" + "'newHouseDetails(" + bid + ")'  type='button'>详情</button> <button class='btn btn-primary btn-xs' onclick=" + "'editNewHouseDetails(" + bid + ")' type='button'>编辑</button> <button class='btn btn-danger btn-xs' onclick=" + "'delNewHouseDetails(" + bid + ")' type='button'>删除</button> </div>" + "</td>" +
                     //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
                     "</tr>";
             }
-            document.getElementById("content").innerHTML=html;
-        });
+            document.getElementById("content").innerHTML = html;
+        }
 
         function newHouseDetails(data) {
-            window.location.href="liveProjectdetails.html";
+            window.location.href = "liveProjectdetails.html?bid="+data+"&type=2";
+        }
+
+        function addNewHouse() {
+            window.location.href = "liveEditprojectdetails.html?add=true&type=2";
         }
 
         function editNewHouseDetails(data) {
-            window.location.href="liveEditprojectdetails.html";
+            window.location.href = "liveEditprojectdetails.html?add=false&type=2&bid="+data;
         }
 
         function delNewHouseDetails() {
-            if(confirm("确定要删除这条数据吗？")){
+            if (confirm("确定要删除这条数据吗？")) {
                 alert("确定");
-            }else{
+            } else {
                 alert("放弃");
             }
         }
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -135,7 +219,7 @@
                     <ul class="sub-menu-list">
                         <li><a href="liveUnaudited.html"> 未审核列表</a></li>
                         <li><a href="liveAudited.html"> 已审核列表</a></li>
-                   </ul>
+                    </ul>
                 </li>
                 <li class="menu-list"><a href=""><i class="fa fa-gavel"></i> <span>成交管理</span></a>
                     <ul class="sub-menu-list">
@@ -165,7 +249,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -177,14 +261,14 @@
             <!--notification menu start -->
             <div class="menu-right">
                 <ul class="notification-menu">
-                      <li>
+                    <li>
                         <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="../images/photos/user2.png" alt="" />
-                            金涛   超级管理员
+                            <img src="../images/photos/user2.png" alt=""/>
+                            金涛 超级管理员
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                             <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
+                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
                         </ul>
                     </li>
 
@@ -226,46 +310,70 @@
                                         <input type="text" class="form-control" id="keyword">
                                     </div>
                                     <div class="form-group">
-                                        <label>价格范围</label>
+                                        <label>价格范围（万）</label>
                                         <div class="input-group input-large custom-date-range">
-                                            <select class="form-control">
-                                                <option>50万</option>
-                                                <option>60万</option>
-                                                <option>70万</option>
-                                                <option>80万</option>
-                                                <option>90万</option>
-                                                <option>100万</option>
+                                            <select id="startPrice" class="form-control">
+                                                <option></option>
+                                                <option>50</option>
+                                                <option>100</option>
+                                                <option>150</option>
+                                                <option>200</option>
+                                                <option>250</option>
+                                                <option>300</option>
+                                                <option>350</option>
+                                                <option>400</option>
+                                                <option>450</option>
+                                                <option>500</option>
+                                                <option>550</option>
+                                                <option>600</option>
                                             </select>
                                             <span class="input-group-addon">至</span>
-                                            <select class="form-control">
-                                                <option>50万</option>
-                                                <option>60万</option>
-                                                <option>70万</option>
-                                                <option>80万</option>
-                                                <option>90万</option>
-                                                <option>100万</option>
+                                            <select id="endPrice" class="form-control">
+                                                <option></option>
+                                                <option>50</option>
+                                                <option>100</option>
+                                                <option>150</option>
+                                                <option>200</option>
+                                                <option>250</option>
+                                                <option>300</option>
+                                                <option>350</option>
+                                                <option>400</option>
+                                                <option>450</option>
+                                                <option>500</option>
+                                                <option>550</option>
+                                                <option>600</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>面积范围</label>
+                                        <label>积范围（㎡）</label>
                                         <div class="input-group input-large custom-date-range">
-                                            <select class="form-control">
-                                                <option>30平</option>
-                                                <option>40平</option>
-                                                <option>50平</option>
-                                                <option>60平</option>
-                                                <option>70平</option>
-                                                <option>80平</option>
+                                            <select id="startAcreage" class="form-control">
+                                                <option></option>
+                                                <option>0</option>
+                                                <option>50</option>
+                                                <option>70</option>
+                                                <option>100</option>
+                                                <option>120</option>
+                                                <option>140</option>
+                                                <option>170</option>
+                                                <option>200</option>
+                                                <option>300</option>
+                                                <option>500</option>
                                             </select>
                                             <span class="input-group-addon">至</span>
-                                            <select class="form-control">
-                                                <option>30平</option>
-                                                <option>40平</option>
-                                                <option>50平</option>
-                                                <option>60平</option>
-                                                <option>70平</option>
-                                                <option>80平</option>
+                                            <select id="endAcreage" class="form-control">
+                                                <option></option>
+                                                <option>0</option>
+                                                <option>50</option>
+                                                <option>70</option>
+                                                <option>100</option>
+                                                <option>120</option>
+                                                <option>140</option>
+                                                <option>170</option>
+                                                <option>200</option>
+                                                <option>300</option>
+                                                <option>500</option>
                                             </select>
                                         </div>
                                     </div>
@@ -275,7 +383,8 @@
                                     <div class="form-group">
                                         <label>起止时间</label>
                                         <div>
-                                            <div class="input-group input-large custom-date-range" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
+                                            <div class="input-group input-large custom-date-range"
+                                                 data-date="13/07/2013" data-date-format="mm/dd/yyyy">
                                                 <input type="text" class="form-control dpd1" name="from">
                                                 <span class="input-group-addon">至</span>
                                                 <input type="text" class="form-control dpd2" name="to">
@@ -283,7 +392,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none">
                                         <label>选择位置</label>
                                         <div class="input-group input-large custom-date-range">
                                             <select class="form-control">
@@ -319,8 +428,9 @@
 
                                 <div class="pull-right">
                                     <br><br>
-                                    <button type="button" onclick="editNewHouseDetails()" class="btn btn-primary ">添加</button>
-                                    <button type="button" class="btn btn-primary ">搜索</button>
+                                    <button type="button" onclick="addNewHouse()" class="btn btn-primary ">添加
+                                    </button>
+                                    <button type="button" onclick="searchSecondHouse()" class="btn btn-primary ">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -352,29 +462,26 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>房屋编号</th>
-                                    <th>楼盘名称</th>
-                                    <th>联系姓名</th>
-                                    <th>联系电话</th>
-                                    <th>地址</th>
-                                    <th>时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
+
                             </table>
 
                             <div class="pull-right">
-                                <ul class="pagination">
-                                    <li><a href="#">«</a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">»</a></li>
-                                </ul>
+                                <div class="pageTest"></div>
+                                <script type="text/javascript" src="../js/page.js"></script>
+                                <script type="text/javascript">
+                                    function setPage(page) {
+                                        $('.pageTest').setLength(page)
+                                    }
+
+                                    $('.pageTest').page({
+                                        leng: 0,//分页总数
+                                        activeClass: 'activP', //active 类样式定义
+                                        clickBack: function (page) {
+                                            searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, page, 5)
+                                            console.log(page)
+                                        }
+                                    })
+                                </script>
                             </div>
                         </div>
                     </section>

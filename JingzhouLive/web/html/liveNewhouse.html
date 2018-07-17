@@ -10,11 +10,11 @@
     <title>新房房源</title>
 
     <!--pickers css-->
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css" />
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css"/>
     <!--dynamic table-->
     <link href="../js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
     <link href="../js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
@@ -23,73 +23,30 @@
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+
+    <style type="text/css">
+        .pageTest {
+            width: 500px;
+            height: 50px;
+            margin-top: 100px;
+        }
+
+        .activP {
+            background-color: #69cda8 !important;
+            color: #fff !important;
+        }
+    </style>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
-    <script src = "../js/zm/building.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            searchBuildingAndShow(null, null, null, null, null, null, null, null, 0, 10)
-        });
-
-        function newHouseDetails(data) {
-            window.location.href="liveProjectdetails.html?bid=1";
-        }
-
-        function addNewHouse(){
-            window.location.href="liveEditprojectdetails.html?add=true";
-        }
-        function editNewHouseDetails(data) {
-            window.location.href="liveEditprojectdetails.html?add=false&bid=1";
-        }
-
-        function delNewHouseDetails() {
-            if(confirm("确定要删除这条数据吗？")){
-                alert("确定");
-            }else{
-                alert("放弃");
-            }
-        }
-        function searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice,
-                                       startAcreage, endAcreage, page, pageSize) {
-            var buildingBack = getBuilding(areaId, type, keyword, houseType, startPrice, endPrice,
-                                        startAcreage, endAcreage, page, pageSize)
-            if(buildingBack == null){
-                alert("搜索失败")
-                return
-            }
-            if(buildingBack.res == false){
-                alert(buildingBack.msg)
-                return
-            }
-            var list = buildingBack.data
-            var firstPage = list[0].firstPage
-            console.log("firstPage:" + firstPage)
-            var lastPage = list[0].lastPage
-            console.log("lastPage:" + lastPage)
-            var dataList = list[0].list
-            var html="";
-            for(var i = 0; i < dataList.length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" +dataList[i].title + "</td>" +
-                    "<td>" + dataList[i].contacts + "</td>" +
-                    "<td>" + dataList[i].phone + "</td>" +
-                    "<td>" + dataList[i].address + "</td>" +
-                    "<td>" + dataList[i].createTime + "</td>" +
-                    "<td>" + "<div class='btn-group'> <button class='btn btn-default' onclick='newHouseDetails(this)' type='button'>详情</button> <button class='btn btn-primary' onclick='editNewHouseDetails()' type='button'>编辑</button> <button class='btn btn-danger' onclick='delNewHouseDetails()' type='button'>删除</button> </div>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
-        }
-    </script>
+    <script src="../js/zm/building.js"></script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -109,7 +66,7 @@
 
 
             <!-- visible to small devices only -->
-            <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div id="leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
 
             </div>
 
@@ -176,7 +133,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -186,7 +143,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div id="rightHeadDiv" class="menu-right">
             </div>
             <!--notification menu end -->
 
@@ -225,46 +182,70 @@
                                         <input type="text" class="form-control" id="keyword">
                                     </div>
                                     <div class="form-group">
-                                        <label>价格范围</label>
+                                        <label>价格范围（万）</label>
                                         <div class="input-group input-large custom-date-range">
-                                            <select class="form-control">
-                                                <option>50万</option>
-                                                <option>60万</option>
-                                                <option>70万</option>
-                                                <option>80万</option>
-                                                <option>90万</option>
-                                                <option>100万</option>
+                                            <select id="startPrice" class="form-control">
+                                                <option></option>
+                                                <option>50</option>
+                                                <option>100</option>
+                                                <option>150</option>
+                                                <option>200</option>
+                                                <option>250</option>
+                                                <option>300</option>
+                                                <option>350</option>
+                                                <option>400</option>
+                                                <option>450</option>
+                                                <option>500</option>
+                                                <option>550</option>
+                                                <option>600</option>
                                             </select>
                                             <span class="input-group-addon">至</span>
-                                            <select class="form-control">
-                                                <option>50万</option>
-                                                <option>60万</option>
-                                                <option>70万</option>
-                                                <option>80万</option>
-                                                <option>90万</option>
-                                                <option>100万</option>
+                                            <select id="endPrice" class="form-control">
+                                                <option></option>
+                                                <option>50</option>
+                                                <option>100</option>
+                                                <option>150</option>
+                                                <option>200</option>
+                                                <option>250</option>
+                                                <option>300</option>
+                                                <option>350</option>
+                                                <option>400</option>
+                                                <option>450</option>
+                                                <option>500</option>
+                                                <option>550</option>
+                                                <option>600</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>面积范围</label>
+                                        <label>面积范围（㎡）</label>
                                         <div class="input-group input-large custom-date-range">
-                                            <select class="form-control">
-                                                <option>30平</option>
-                                                <option>40平</option>
-                                                <option>50平</option>
-                                                <option>60平</option>
-                                                <option>70平</option>
-                                                <option>80平</option>
+                                            <select id="startAcreage" class="form-control">
+                                                <option></option>
+                                                <option>0</option>
+                                                <option>50</option>
+                                                <option>70</option>
+                                                <option>100</option>
+                                                <option>120</option>
+                                                <option>140</option>
+                                                <option>170</option>
+                                                <option>200</option>
+                                                <option>300</option>
+                                                <option>500</option>
                                             </select>
                                             <span class="input-group-addon">至</span>
-                                            <select class="form-control">
-                                                <option>30平</option>
-                                                <option>40平</option>
-                                                <option>50平</option>
-                                                <option>60平</option>
-                                                <option>70平</option>
-                                                <option>80平</option>
+                                            <select id="endAcreage" class="form-control">
+                                                <option></option>
+                                                <option>0</option>
+                                                <option>50</option>
+                                                <option>70</option>
+                                                <option>100</option>
+                                                <option>120</option>
+                                                <option>140</option>
+                                                <option>170</option>
+                                                <option>200</option>
+                                                <option>300</option>
+                                                <option>500</option>
                                             </select>
                                         </div>
                                     </div>
@@ -274,7 +255,8 @@
                                     <div class="form-group">
                                         <label>起止时间</label>
                                         <div>
-                                            <div class="input-group input-large custom-date-range" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
+                                            <div class="input-group input-large custom-date-range"
+                                                 data-date="13/07/2013" data-date-format="yyyy-mm-dd">
                                                 <input type="text" class="form-control dpd1" name="from">
                                                 <span class="input-group-addon">至</span>
                                                 <input type="text" class="form-control dpd2" name="to">
@@ -282,36 +264,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group" style="display: none">
                                         <label>选择位置</label>
                                         <div class="input-group input-large custom-date-range">
-                                            <select class="form-control">
-                                                <option>湖北</option>
-                                                <option>湖南</option>
-                                                <option>安徽</option>
-                                                <option>广东</option>
-                                                <option>广西</option>
-                                                <option>河南</option>
+                                            <select id="province" runat="server" onchange="selectprovince(this);"
+                                                    class="form-control">
                                             </select>
                                             <span class="input-group-btn"></span>
-                                            <select class="form-control">
-                                                <option>武汉</option>
-                                                <option>黄冈</option>
-                                                <option>南昌</option>
-                                                <option>信阳</option>
-                                                <option>恩施</option>
-                                                <option>咸宁</option>
+                                            <select id="city" runat="server" class="form-control">
                                             </select>
-                                            <span class="input-group-btn"></span>
-                                            <select class="form-control">
-                                                <option>溪水</option>
-                                                <option>武昌</option>
-                                                <option>洪山</option>
-                                                <option>江夏</option>
-                                                <option>沙市</option>
-                                                <option>荆门</option>
-                                            </select>
-                                            <span class="input-group-btn"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -319,7 +280,7 @@
                                 <div class="pull-right">
                                     <br><br>
                                     <button type="button" onclick="addNewHouse()" class="btn btn-primary ">添加</button>
-                                    <button type="button" class="btn btn-primary ">搜索</button>
+                                    <button type="button" onclick="searchNewHouse()" class="btn btn-primary ">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -355,15 +316,22 @@
                             </table>
 
                             <div class="pull-right">
-                                <ul class="pagination">
-                                    <li><a href="#">«</a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">»</a></li>
-                                </ul>
+                                <div class="pageTest"></div>
+                                <script type="text/javascript" src="../js/page.js"></script>
+                                <script type="text/javascript">
+                                    function setPage(page) {
+                                        $('.pageTest').setLength(page)
+                                    }
+
+                                    $('.pageTest').page({
+                                        leng: 0,//分页总数
+                                        activeClass: 'activP', //active 类样式定义
+                                        clickBack: function (page) {
+                                            searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, page, 5)
+                                            console.log(page)
+                                        }
+                                    })
+                                </script>
                             </div>
                         </div>
                     </section>
@@ -406,4 +374,250 @@
 
 
 </body>
+
+<script type="text/javascript">
+    var totlepage = 0;
+    var areaId
+    var type = 1;
+    var keyword
+    var houseType
+    var startPrice
+    var endPrice
+    var startAcreage
+    var endAcreage
+
+
+    var list1 = new Array;
+    var list2 = new Array;
+    list1[list1.length] = "";
+    list1[list1.length] = "北京市";
+    list1[list1.length] = "天津市";
+    list1[list1.length] = "河北省";
+    list1[list1.length] = "山西省";
+    list1[list1.length] = "内蒙古";
+    list1[list1.length] = "辽宁省";
+    list1[list1.length] = "吉林省";
+    list1[list1.length] = "黑龙江省";
+    list1[list1.length] = "上海市";
+    list1[list1.length] = "江苏省";
+    list1[list1.length] = "浙江省";
+    list1[list1.length] = "安徽省";
+    list1[list1.length] = "福建省";
+    list1[list1.length] = "江西省";
+    list1[list1.length] = "山东省";
+    list1[list1.length] = "河南省";
+    list1[list1.length] = "湖北省";
+    list1[list1.length] = "湖南省";
+    list1[list1.length] = "广东省";
+    list1[list1.length] = "广西自治区";
+    list1[list1.length] = "海南省";
+    list1[list1.length] = "重庆市";
+    list1[list1.length] = "四川省";
+    list1[list1.length] = "贵州省";
+    list1[list1.length] = "云南省";
+    list1[list1.length] = "西藏自治区";
+    list1[list1.length] = "陕西省";
+    list1[list1.length] = "甘肃省";
+    list1[list1.length] = "青海省";
+    list1[list1.length] = "宁夏回族自治区";
+    list1[list1.length] = "新疆维吾尔自治区";
+    list1[list1.length] = "香港特别行政区";
+    list1[list1.length] = "澳门特别行政区";
+    list1[list1.length] = "台湾省";
+    list1[list1.length] = "其它";
+
+    list2[list2.length] = new Array("","北京", "东城区", "西城区", "崇文区", "宣武区", "朝阳区", "丰台区", "石景山区", " 海淀区（中关村）", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云县", "延庆县", " 其他");
+    list2[list2.length] = new Array("和平区", "河东区", "河西区", "南开区", "红桥区", "塘沽区", "汉沽区", "大港区",
+        "西青区", "津南区", "武清区", "蓟县", "宁河县", "静海县", "其他");
+    list2[list2.length] = new Array("石家庄市", "张家口市", "承德市", "秦皇岛市", "唐山市", "廊坊市", "衡水市",
+        "沧州市", "邢台市", "邯郸市", "保定市", "其他");
+    list2[list2.length] = new Array("太原市", "朔州市", "大同市", "长治市", "晋城市", "忻州市", "晋中市", "临汾市",
+        "吕梁市", "运城市", "其他");
+    list2[list2.length] = new Array("呼和浩特市", "包头市", "赤峰市", "呼伦贝尔市", "鄂尔多斯市", "乌兰察布市",
+        "巴彦淖尔市", "兴安盟", "阿拉善盟", "锡林郭勒盟", "其他");
+    list2[list2.length] = new Array("沈阳市", "朝阳市", "阜新市", "铁岭市", "抚顺市", "丹东市", "本溪市", "辽阳市",
+        "鞍山市", "大连市", "营口市", "盘锦市", "锦州市", "葫芦岛市", "其他");
+    list2[list2.length] = new Array("长春市", "白城市", "吉林市", "四平市", "辽源市", "通化市", "白山市", "延边朝鲜族自治州", "其他");
+    list2[list2.length] = new Array("哈尔滨市", "七台河市", "黑河市", "大庆市", "齐齐哈尔市", "伊春市", "佳木斯市",
+        "双鸭山市", "鸡西市", "大兴安岭地区(加格达奇)", "牡丹江", "鹤岗市", "绥化市　", "其他");
+    list2[list2.length] = new Array("黄浦区", "卢湾区", "徐汇区", "长宁区", "静安区", "普陀区", "闸北区", "虹口区",
+        "杨浦区", "闵行区", "宝山区", "嘉定区", "浦东新区", "金山区", "松江区", "青浦区", "南汇区", "奉贤区", "崇明县", "其他");
+    list2[list2.length] = new Array("南京市", "徐州市", "连云港市", "宿迁市", "淮安市", "盐城市", "扬州市", "泰州市",
+        "南通市", "镇江市", "常州市", "无锡市", "苏州市", "其他");
+    list2[list2.length] = new Array("杭州市", "湖州市", "嘉兴市", "舟山市", "宁波市", "绍兴市", "衢州市", "金华市",
+        "台州市", "温州市", "丽水市", "其他");
+    list2[list2.length] = new Array("合肥市", "宿州市", "淮北市", "亳州市", "阜阳市", "蚌埠市", "淮南市", "滁州市",
+        "马鞍山市", "芜湖市", "铜陵市", "安庆市", "黄山市", "六安市", "巢湖市", "池州市", "宣城市", "其他");
+    list2[list2.length] = new Array("福州市", "南平市", "莆田市", "三明市", "泉州市", "厦门市", "漳州市", "龙岩市", "宁德市", "其他");
+    list2[list2.length] = new Array("南昌市", "九江市", "景德镇市", "鹰潭市", "新余市", "萍乡市", "赣州市", "上饶市",
+        "抚州市", "宜春市", "吉安市", "其他");
+    list2[list2.length] = new Array("济南市", "聊城市", "德州市", "东营市", "淄博市", "潍坊市", "烟台市", "威海市",
+        "青岛市", "日照市", "临沂市", "枣庄市", "济宁市", "泰安市", "莱芜市", "滨州市", "菏泽市", "其他");
+    list2[list2.length] = new Array("郑州市", "三门峡市", "洛阳市", "焦作市", "新乡市", "鹤壁市", "安阳市", "濮阳市",
+        "开封市", "商丘市", "许昌市", "漯河市", "平顶山市", "南阳市", "信阳市", "周口市", "驻马店市", "其他");
+    list2[list2.length] = new Array("武汉市", "十堰市", "襄樊市", "荆门市", "孝感市", "黄冈市", "鄂州市", "黄石市",
+        "咸宁市", "荆州市", "宜昌市", "随州市", "恩施土家族苗族自治州", "仙桃市", "天门市", "潜江市", "神农架林区", "其他");
+    list2[list2.length] = new Array("长沙市", "张家界市", "常德市", "益阳市", "岳阳市", "株洲市", "湘潭市", "衡阳市",
+        "郴州市", "永州市", "邵阳市", "怀化市", "娄底市", "湘西土家族苗族自治州", "其他");
+    list2[list2.length] = new Array("广州市", "清远市市", "韶关市", "河源市", "梅州市", "潮州市", "汕头市", "揭阳市",
+        "汕尾市", " 惠州市", "东莞市", "深圳市", "珠海市", "中山市", "江门市", "佛山市", "肇庆市", "云浮市",
+        "阳江市", "茂名市", "湛江市", " 其他");
+    list2[list2.length] = new Array("南宁市", "桂林市", "柳州市", "梧州市", "贵港市", "玉林市", "钦州市", "北海市",
+        "防城港市", "崇左市", "百色市", "河池市", "来宾市", "贺州市", "其他");
+    list2[list2.length] = new Array("海口市", "三亚市", "其他");
+    list2[list2.length] = new Array("渝中区", "大渡口区", "江北区", "沙坪坝区", "九龙坡区", "南岸区", "北碚区",
+        "万盛区", "双桥区", "渝北区", "巴南区", "万州区", "涪陵区", "黔江区", "长寿区", "合川市", "永川市",
+        "江津市", "南川市", "綦江县", "潼南县", "铜梁县", "大足县", "璧山县", "垫江县", "武隆县", "丰都县",
+        "城口县", "开县", "巫溪县", "巫山县", "奉节县", "云阳县", "忠县", "石柱土家族自治县", "彭水苗族土家族自治县",
+        "酉阳土家族苗族自治县", "秀山土家族苗族自治县", "其他");
+    list2[list2.length] = new Array("成都市", "广元市", "绵阳市", "德阳市", "南充市", "广安市", "遂宁市",
+        "内江市", "乐山市", "自贡市", "泸州市", "宜宾市", "攀枝花市", "巴中市", "资阳市", "眉山市", "雅安",
+        "阿坝藏族羌族自治州", "甘孜藏族自治州", "凉山彝族自治州县", "其他");
+    list2[list2.length] = new Array("贵阳市", "六盘水市", "遵义市", "安顺市", "毕节地区", "铜仁地区",
+        "黔东南苗族侗族自治州", "黔南布依族苗族自治州", "黔西南布依族苗族自治州", "其他");
+    list2[list2.length] = new Array("昆明市", "曲靖市", "玉溪市", "保山市", "昭通市", "丽江市", "普洱市",
+        "临沧市", "宁德市", "德宏傣族景颇族自治州", "怒江傈僳族自治州", "楚雄彝族自治州", "红河哈尼族彝族自治州",
+        "文山壮族苗族自治州", "大理白族自治州", "迪庆藏族自治州", "西双版纳傣族自治州", "其他");
+    list2[list2.length] = new Array("拉萨市", "那曲地区", "昌都地区", "林芝地区", "山南地区", "日喀则地区", "阿里地区", "其他");
+    list2[list2.length] = new Array("西安市", "延安市", "铜川市", "渭南市", "咸阳市", "宝鸡市", "汉中市", "安康市", "商洛市", "其他");
+    list2[list2.length] = new Array("兰州市 ", "嘉峪关市", "金昌市", "白银市", "天水市", "武威市", "酒泉市",
+        "张掖市", "庆阳市", "平凉市", "定西市", "陇南市", "临夏回族自治州", "甘南藏族自治州", "其他");
+    list2[list2.length] = new Array("西宁市", "海东地区", "海北藏族自治州", "黄南藏族自治州", "玉树藏族自治州",
+        "海南藏族自治州", "果洛藏族自治州", "海西蒙古族藏族自治州", "其他");
+    list2[list2.length] = new Array("银川市", "石嘴山市", "吴忠市", "固原市", "中卫市", "其他");
+    list2[list2.length] = new Array("乌鲁木齐市", "克拉玛依市", "喀什地区", "阿克苏地区", "和田地区", "吐鲁番地区",
+        "哈密地区", "塔城地区", "阿勒泰地区", "克孜勒苏柯尔克孜自治州", "博尔塔拉蒙古自治州",
+        "昌吉回族自治州伊犁哈萨克自治州", "巴音郭楞蒙古自治州", "河子市", "阿拉尔市", "五家渠市", "图木舒克市", "其他");
+    list2[list2.length] = new Array("香港", "其他");
+    list2[list2.length] = new Array("澳门", "其他");
+    list2[list2.length] = new Array("台湾", "其他");
+
+    var ddlProvince = document.getElementById("province");
+    var ddlCity = document.getElementById("city");
+    for (var i = 0; i < list1.length; i++) {
+        var option = document.createElement("option");
+        option.appendChild(document.createTextNode(list1[i]));
+        option.value = list1[i];
+        ddlProvince.appendChild(option);
+        //city initialize
+        var firstprovince = list2[0];
+        for (var j = 0; j < firstprovince.length; j++) {
+            var optioncity = document.createElement("option");
+            optioncity.appendChild(document.createTextNode(firstprovince[j]));
+            optioncity.value = firstprovince[j];
+            ddlCity.appendChild(optioncity);
+        }
+    }
+    function indexof(obj, value) {
+        var k = 0;
+        for (; k < obj.length; k++) {
+            if (obj[k] == value)
+                return k;
+        }
+        return k;
+    }
+    function selectprovince(obj) {
+        ddlCity.options.length = 0;//clear
+        var index = indexof(list1, obj.value);
+        var list2element = list2[index];
+        for (var i = 0; i < list2element.length; i++) {
+            var option = document.createElement("option");
+            option.appendChild(document.createTextNode(list2element[i]));
+            option.value = list2element[i];
+            ddlCity.appendChild(option);
+        }
+    }
+
+    $(document).ready(function () {
+        searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, 1, 5)
+    });
+
+    function searchNewHouse() {
+        keyword = document.getElementById("keyword").value;
+        startPrice = document.getElementById("startPrice").value * 10000;
+        endPrice = document.getElementById("endPrice").value * 10000;
+        startAcreage = document.getElementById("startAcreage").value;
+        endAcreage = document.getElementById("endAcreage").value;
+
+
+        searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice, startAcreage, endAcreage, 1, 5)
+    }
+    function newHouseDetails(data) {
+        alert(data);
+        window.location.href = "liveProjectdetails.html?bid="+data+"&type=1";
+    }
+
+    function addNewHouse() {
+        window.location.href = "liveEditprojectdetails.html?add=true&type=1";
+    }
+    function editNewHouseDetails(data) {
+        alert(data);
+        window.location.href = "liveEditprojectdetails.html?add=false&type=1&bid="+data;
+    }
+
+    function delNewHouseDetails(data) {
+        alert(data);
+        if (confirm("确定要删除这条数据吗？")) {
+            alert("确定");
+        } else {
+            alert("放弃");
+        }
+    }
+    function searchBuildingAndShow(areaId, type, keyword, houseType, startPrice, endPrice,
+                                   startAcreage, endAcreage, page, pageSize) {
+        var buildingBack = getBuilding(areaId, type, keyword, houseType, startPrice, endPrice,
+            startAcreage, endAcreage, page, pageSize)
+        if (buildingBack == null) {
+            alert("搜索失败")
+            return
+        }
+        if (buildingBack.res == false) {
+            alert(buildingBack.msg)
+            return
+        }
+
+        var list = buildingBack.data
+
+        if (list[0].list.length < 1) {
+            alert("搜索结果为空")
+            this.keyword = "";
+            this.startPrice = "";
+            this.endPrice = "";
+            this.startAcreage = "";
+            this.endAcreage = "";
+
+            document.getElementById("keyword").value = "";
+            document.getElementById("startPrice").value = "";
+            document.getElementById("endPrice").value = "";
+            document.getElementById("startAcreage").value = "";
+            document.getElementById("endAcreage").value = "";
+            return
+        }
+
+        totlepage = list[0].pages;
+
+        if (page == 1) {
+            setPage(totlepage);
+        }
+
+        var dataList = list[0].list
+        var html = "";
+        for (var i = 0; i < dataList.length; i++) {
+            var num = i + 1;
+            var bid = dataList[i].bid;
+
+            html += "<tr class=\"gradeX\">" +
+                "<td>" + num + "</td>" +
+                "<td>" + dataList[i].title + "</td>" +
+                "<td>" + dataList[i].contacts + "</td>" +
+                "<td>" + dataList[i].phone + "</td>" +
+                "<td>" + dataList[i].address + "</td>" +
+                "<td>" + dataList[i].createTime + "</td>" +
+                "<td>" + "<div class='btn-group'> <button class='btn btn-default btn-xs' onclick=" + "'newHouseDetails(" + bid + ")'  type='button'>详情</button> <button class='btn btn-primary btn-xs' onclick=" + "'editNewHouseDetails(" + bid + ")' type='button'>编辑</button> <button class='btn btn-danger btn-xs' onclick=" + "'delNewHouseDetails(" + bid + ")' type='button'>删除</button> </div>" + "</td>" +
+                //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                "</tr>";
+        }
+        document.getElementById("content").innerHTML = html;
+    }
+</script>
 </html>

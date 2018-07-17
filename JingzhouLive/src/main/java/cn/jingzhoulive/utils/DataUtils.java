@@ -26,6 +26,7 @@ public class DataUtils {
         for (int i = 0; i < length; i ++) {
             sb.append(buffer.charAt(random.nextInt(range)));
         }
-        return sb.toString();
+        return "888888";
+//        return sb.toString();
     }
 }

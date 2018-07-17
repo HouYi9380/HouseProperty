@@ -2,12 +2,15 @@ package cn.jingzhoulive.controllers;
 
 import cn.jingzhoulive.domain.User;
 import cn.jingzhoulive.domain.VistProcess;
+import cn.jingzhoulive.service.IOperationLogsService;
 import cn.jingzhoulive.service.IVisitProcessService;
 import cn.jingzhoulive.utils.BackJsonUtils;
+import cn.jingzhoulive.utils.CommonUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,9 @@ import java.util.List;
 public class VisitProcessController {
     @Autowired
     private IVisitProcessService processService;
+
+    @Autowired
+    private IOperationLogsService operationLogsService;
 
     @RequestMapping("/list")
     @ResponseBody
@@ -54,7 +60,12 @@ public class VisitProcessController {
     @ResponseBody
     public String check(Integer vid,
                         Integer ischeck,
-                        String mark){
+                        String mark,
+                        HttpSession httpSession){
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
+
         VistProcess vp = new VistProcess();
         vp.setVid(vid);
         vp.setIsCheck(ischeck);
@@ -62,8 +73,11 @@ public class VisitProcessController {
         int back = processService.updateByPrimaryKeySelective(vp);
         if(back <= 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "设置失败", null);
-        else
+        else {
+            int addOp = operationLogsService.addLog("访问流程审核，vid"+vid+";状态更改为"+ischeck,
+                    mid, 3, "vistorprocess");
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
+        }
     }
 
 
@@ -75,17 +89,23 @@ public class VisitProcessController {
      */
     @RequestMapping("/availability")
     @ResponseBody
-    public String setAvailable(
-                               Integer vid,
-                               Integer availability){
+    public String setAvailable(Integer vid,
+                               Integer availability,
+                               HttpSession httpSession){
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
         VistProcess vp = new VistProcess();
         vp.setVid(vid);
         vp.setAvailability(availability);
         int back = processService.updateByPrimaryKeySelective(vp);
         if(back <= 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(false, "设置失败", null);
-        else
+        else {
+            int addOp = operationLogsService.addLog("设置访问流程是否有效，vid"+vid,
+                    mid, 1, "vistorprocess");
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
+        }
     }
 
     @RequestMapping("/get")
@@ -97,6 +117,4 @@ public class VisitProcessController {
         else
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", vp);
     }
-
-
 }

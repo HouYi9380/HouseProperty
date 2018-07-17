@@ -10,7 +10,7 @@
     <title>成交详情</title>
 
     <!--gritter css-->
-    <link rel="stylesheet" type="text/css" href="../js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="../js/gritter/css/jquery.gritter.css"/>
 
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
@@ -21,47 +21,46 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
 
-    <script src = "../js/zm/reachdeal.js"></script>
-    <script src = "../js/zm/common.js"></script>
+    <script src="../js/zm/reachdeal.js"></script>
+    <script src="../js/zm/common.js"></script>
     <script type="text/javascript">
-        var rid = null
+
         window.onload = function () {
-            console.log("onload")
-            rid = getUrlParam("rid");
-            if(rid != null) {
-                console.log("rid=" + rid)
-                var reachReal = getReachDealFromRid(rid);
-                if (reachReal == null) {
-                    return
-                }
-                var res = reachReal.res + ""
-                if (res == "false") {
-                    alert(reachReal.msg)
-                    return
-                }
-                var rl = reachReal.data[0]
-                console.log("vid=" + rl.vid)
-                console.log("uid=" + rl.uid)
-                document.getElementById("vid").innerText = rl.vid
-                document.getElementById("uid").innerText = rl.uid
-                document.getElementById("guider").innerText = rl.guider
-                document.getElementById("bid").innerText = rl.bid
-                document.getElementById("hostPrice").innerText = rl.hostPrice
-                document.getElementById("price").innerText = rl.price
-                document.getElementById("dealPrice").innerText = rl.dealPrice
-                document.getElementById("cid").innerText = rl.cid
-                document.getElementById("firstcv").innerText = rl.firstcv
-                document.getElementById("secondcv").innerText = rl.secondcv
+            var bname = window.localStorage.getItem("bname");
+            var progress = window.localStorage.getItem("progress");
+            var user = window.localStorage.getItem("uname");
+            var guider = window.localStorage.getItem("guider");
+            var hprice = window.localStorage.getItem("hprice");
+            var price = window.localStorage.getItem("price");
+            var dprice = window.localStorage.getItem("dprice");
+            var pname = window.localStorage.getItem("pname");
+            var fcv = window.localStorage.getItem("fcv");
+            var scv = window.localStorage.getItem("scv");
+            var time = window.localStorage.getItem("time");
+
+            if (bname != null) {
+                document.getElementById("bid").innerText = bname
+                document.getElementById("vid").innerText = progress
+                document.getElementById("uid").innerText = user
+                document.getElementById("guider").innerText = guider
+
+                document.getElementById("hostPrice").innerText = hprice
+                document.getElementById("price").innerText = price
+                document.getElementById("dealPrice").innerText = dprice
+                document.getElementById("cid").innerText = pname
+                document.getElementById("firstcv").innerText = fcv
+                document.getElementById("secondcv").innerText = scv
+                document.getElementById("createTime").innerText = time
             }
 
         }
 
-        function editNewHouseDetails(data) {
-            window.location.href="liveEditprojectdetails.html";
+        function editTurnoverDetails(data) {
+//            window.location.href="liveEditprojectdetails.html";
         }
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -159,7 +158,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -173,8 +172,8 @@
                 <ul class="notification-menu">
                     <li>
                         <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="../images/photos/user2.png" alt="" />
-                            金涛   超级管理员
+                            <img src="../images/photos/user2.png" alt=""/>
+                            金涛 超级管理员
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
@@ -247,11 +246,11 @@
                                     <ul class="p-info">
                                         <li>
                                             <div class="title">楼盘名称</div>
-                                            <div id = "bid" class="desk">碧桂园</div>
+                                            <div id="bid" class="desk">碧桂园</div>
                                         </li>
                                         <li>
-                                            <div class="title">最后访问编号</div>
-                                            <div id = "vid" class="desk">01</div>
+                                            <div class="title">访问编号</div>
+                                            <div id="vid" class="desk">01</div>
                                         </li>
                                         <li>
                                             <div class="title">访问人</div>
@@ -263,19 +262,19 @@
                                         </li>
                                         <li>
                                             <div class="title">房主金额</div>
-                                            <div id = "hostPrice" class="desk">79万</div>
+                                            <div id="hostPrice" class="desk">79万</div>
                                         </li>
                                         <li>
                                             <div class="title">预计金额</div>
-                                            <div id = "price" class="desk">79万</div>
+                                            <div id="price" class="desk">79万</div>
                                         </li>
                                         <li>
                                             <div class="title">成交金额</div>
-                                            <div id = "dealPrice" class="desk">79万</div>
+                                            <div id="dealPrice" class="desk">79万</div>
                                         </li>
                                         <li>
                                             <div class="title">佣金政策</div>
-                                            <div id = "cid" class="desk">政策1</div>
+                                            <div id="cid" class="desk">政策1</div>
                                         </li>
                                         <li>
                                             <div class="title">一级佣金</div>
@@ -294,7 +293,9 @@
                             </div>
 
 
-                            <button type="button" onclick="editNewHouseDetails()" class="btn btn-primary pull-right">编辑</button>
+                            <button type="button" onclick="editTurnoverDetails()" class="btn btn-primary pull-right">
+                                编辑
+                            </button>
                         </div>
                     </section>
                 </div>

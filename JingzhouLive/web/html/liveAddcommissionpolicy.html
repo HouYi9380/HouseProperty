@@ -20,8 +20,10 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
 
+
+
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 <section>
     <!-- left side start-->
     <div class="left-side sticky-left-side">
@@ -162,8 +164,9 @@
                                     <label  class="col-lg-3 col-sm-3 control-label">类型</label>
                                     <div class="col-lg-9">
                                         <select id = "type" class="form-control">
-                                            <option>新房</option>
-                                            <option>二手房</option>
+                                            <option>新楼盘</option>
+                                            <option>独立房源二手房</option>
+                                            <option>共享房源二手房</option>
                                             <option>出租房</option>
                                         </select>
                                     </div>
@@ -277,7 +280,7 @@
                 alert("添加失败")
                 return
             }
-            window.location.href = "/html/liveCommissionpolicy.html"
+            history.back(-1)
         }else{
             alert("update; cid=" + cid)
             police.cpid = cid
@@ -289,7 +292,7 @@
                 alert("修改失败")
                 return
             }
-            window.location.href = "/html/liveCommissionpolicy.html"
+            history.back(-1)
         }
     }
 </script>

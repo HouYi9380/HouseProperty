@@ -1,12 +1,13 @@
 window.onload = function () {
     // alert("user show!!");
+
     var userJson = window.localStorage.getItem("user");
-    if(userJson == null){
+    if (userJson == null) {
         alert("user error!");
         return;
     }
-    var  user = JSON.parse(userJson);
-    if(user == null){
+    var user = JSON.parse(userJson);
+    if (user == null) {
         alert("user error!");
         return;
     }
@@ -15,12 +16,13 @@ window.onload = function () {
     var phone = user.phone;
     var name = user.name;
     var positon = user.positon;
+    var img = user.pics;
 
-    var leftheaddiv= '<div class="media logged-user"> \
-                <img alt="" src="../images/photos/user2.png" class="media-object"> \
+    var leftheaddiv = '<div class="media logged-user"> \
+                <img alt="" src=' + img + '  class="media-object"> \
                 <div class="media-body"> \
                 <h4><a id="userid" href="#">' + name + '</a></h4> \
-                <span id = "userpower">"' + positon +  '"</span> \
+                <span id = "userpower">"' + positon + '"</span> \
                 </div> \
                 </div> \
                 <h5 class="left-nav-title">Account Information</h5> \
@@ -30,7 +32,7 @@ window.onload = function () {
     var rightheaddiv = '<ul class="notification-menu"> \
                <li> \
                <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown"> \
-                <img src="../images/photos/user2.png" alt="" /> '
+                <img src=' + img + ' alt="" /> '
         + name + '  ' + positon +
 
         '<span class="caret"></span> \

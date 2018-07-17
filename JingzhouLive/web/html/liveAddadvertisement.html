@@ -24,23 +24,37 @@
             max-width:100%;
             height:auto;
         }
+        .text{
+            padding:0em 0.6em;
+         }
+        .text p{
+            line-height: 1.8em;
+        }
+        .text h3{
+            color: #333;
+        }
+
     </style>
    <script src="../js/zm/information.js"></script>
     <script src = "../js/zm/common.js"></script>
 
     <script type="text/javascript">
+
         var isAdd = null
         var iid = null;
-        window.onload = function () {
+        var type=null;
+
+         function setContentInBody() {
             isAdd = getUrlParam("add");
+             type=getUrlParam("type");
             if (isAdd == null) {
                 alert("add参数错误")
                 return
             }
-            alert("add=" + isAdd)
+//            alert("add=" + isAdd)
             iid = getUrlParam("iid");
-            if(iid != null && isAdd == "false"){
-               alert("update")
+            if (iid != null && isAdd == "false") {
+//                alert("update")
                 var informationData = getInformationFromIId(iid);
                 if (informationData == null) {
                     return
@@ -49,52 +63,55 @@
                 if (res == "false") {
                     alert(informationData.msg)
                     return
+                } else {
+                    var information = informationData.data[0]
+                    document.getElementById("title").value = information.title
+                    UE.getEditor('container').setContent(information.html)
                 }
-                var information = informationData.data[0]
-                document.getElementById("title").value = information.title
-                UE.getEditor('container').setContent(information.html)
-            }else{
+            } else {
                 alert("add");
             }
         }
+
+
         function preview() {
-            var ueContent=UE.getEditor('container').getContent();
+            var ueContent = UE.getEditor('container').getContent();
             console.log("content:" + ueContent)
-            document.getElementById("content").innerHTML="<img src='http://cms-bucket.nosdn.127.net/catchpic/6/62/628f81ce5ac4285c837cc25ba2f33abc.jpg?imageView&thumbnail=550x0'/>"+ueContent;
+            document.getElementById("content").innerHTML = ueContent;
         }
 
         function addOrEditDetails() {
-            if(isAdd == null)
+            if (isAdd == null)
                 return;
             var title = document.getElementById("title").value;
-            var ueContent=UE.getEditor('container').getContent();
+            var ueContent = UE.getEditor('container').getContent();
             console.log("editDetail,content:" + ueContent)
             var information = new Object();
             information.title = title
-            information.type = 1
+            information.type = type
             information.pics = "http://slide.news.sina.com.cn/y/slide_1_88490_258657.html#p=1";
-            information.html = ueContent
+            information.html =ueContent
             var back = null
-            if(isAdd == "true"){
+            if (isAdd == "true") {
                 back = addInformation(information);
-            }else{
-                if(iid == null)
+            } else {
+                if (iid == null)
                     return
                 information.iid = iid
                 back = updateInformation(information)
             }
-            if(back == null){
+            if (back == null) {
                 return
             }
-            if(back.res == false){
+            if (back.res == false) {
                 alert(back.msg)
                 return
             }
-            window.location.href = "/html/liveAdvertisement.html";
+            history.back(-1)
         }
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -246,18 +263,26 @@
                                         <script type="text/javascript">
                                             var ue = UE.getEditor('container');
 
+                                            ue.ready(function() {
+                                               setContentInBody()
+                                            });
                                         </script>
                                     </div>
+
                                     <div class="col-lg-4">
+                                        <div class="pull-right">
+                                            <button type="button" onclick="preview()" class="btn btn-primary ">预览</button>
+
+                                            <button type="button" onclick="addOrEditDetails()" class="btn btn-primary ">提交</button>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
                                         <label  class="control-label">手机预览</label>
-                                        <div class="text" id="content" style="height:480px;line-height:480px;overflow:auto;overflow-x:hidden;border: 1px solid red;border-radius: 15px;"></div>
+                                        <div class="text" id="content" style="height:600px;line-height:600px;overflow:auto;overflow-x:hidden;border: 1px solid red;border-radius: 15px;"></div>
                                     </div>
                                 </div>
-                                <div class="pull-right">
-                                    <button type="button" onclick="preview()" class="btn btn-primary ">预览</button>
 
-                                    <button type="button" onclick="addOrEditDetails()" class="btn btn-primary ">提交</button>
-                                </div>
                             </form>
                         </div>
                     </section>

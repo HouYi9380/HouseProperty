@@ -50,6 +50,7 @@ public class UploadController {
 
             String filename = file.getOriginalFilename();
             String path = request.getRealPath("/images/") + urlPath;
+//            System.out.println("file path:" + path);
 
 //            File filepath = new File(path,filename);
 //            String path = "/home/zhangmin/download/" + new Date().getTime() +  file.getOriginalFilename();
@@ -83,6 +84,11 @@ public class UploadController {
     @ResponseBody
     public String uploadMultiFile(MultipartFile[] files, Integer type, HttpServletRequest request){
 
+        if(files == null){
+            System.out.println("files isEmpty!!!");
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "文件不能为空", null);
+        }
+        System.out.println("files.size:"+ files.length);
         String backJsonUtils;
         String urlPath;
         List<String> urlList = new ArrayList<>();
@@ -93,16 +99,18 @@ public class UploadController {
         else {
             urlPath = "unkown/";
         }
+//        request.getSession().getAttribute(CommonUtils.S_ManagerId);
         for(MultipartFile file : files) {
-            System.out.println("file:" + file.getName());
-            System.out.println("name :" + file.getOriginalFilename());
-            request.getSession().getAttribute(CommonUtils.S_ManagerId);
             if (file != null && !file.isEmpty()) {
+//                System.out.println("file:" + file.getName());
+//                System.out.println("name :" + file.getOriginalFilename());
 //            //上传文件名
                 String originalFileName = file.getOriginalFilename();
                 String fileUrlPath = urlPath + UUIDUtils.getUUID() + originalFileName.substring(originalFileName.lastIndexOf("."));
 
-                String filename = file.getOriginalFilename();
+                System.out.println("fileUrlPath:" + fileUrlPath);
+
+//                String filename = file.getOriginalFilename();
                 String path = request.getRealPath("/images/") + fileUrlPath;
                 try {
                     File newFile = new File(path);
@@ -113,6 +121,8 @@ public class UploadController {
                     file.transferTo(newFile);
                     String backUrl = serverUrl + "/images/" + fileUrlPath;
                     System.out.println("文件上传url:" + backUrl);
+                    System.out.println("文件上传url:" + backUrl);
+                    System.out.println("文件上传url:" + backUrl);
                     urlList.add(backUrl);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -120,7 +130,6 @@ public class UploadController {
                     return backJsonUtils;
                 }
             } else {
-
                 backJsonUtils = BackJsonUtils.getInstance().getBackJsonUtils(false, "文件上传错误", null);
                 return backJsonUtils;
             }

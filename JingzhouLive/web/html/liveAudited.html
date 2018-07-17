@@ -10,11 +10,11 @@
     <title>已审核列表</title>
 
     <!--pickers css-->
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css" />
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css"/>
     <!--dynamic table-->
     <link href="../js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
     <link href="../js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
@@ -23,6 +23,21 @@
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+
+    <style type="text/css">
+        .pageTest {
+            width: 500px;
+            height: 50px;
+            margin-top: 100px;
+        }
+
+        .activP {
+            background-color: #69cda8 !important;
+            color: #fff !important;
+        }
+    </style>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
@@ -30,50 +45,129 @@
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src="../js/zm/visitprocess.js"></script>
+    <script src="../js/zm/user.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
-            getVpAndShow(2, null, null ,null, 0, 10)
+        var totlepage = 0;
+
+        var keyword;
+        var startTime;
+        var endTime;
+
+        $(document).ready(function () {
+            getVpAndShow(2, keyword, startTime, endTime, 1, 5)
+
         });
 
         function examineDetails(data) {
-            window.location.href="liveExaminedetails.html";
+            window.location.href = "liveExaminedetails.html?vid=" + data;
         }
 
-        function getVpAndShow(isCheck, keyword, startTime, endTime, page, pageSize){
-            alert("police show")
-            var vpData= getVisitProcess(isCheck, keyword,  startTime, endTime, page, pageSize)
-            if(vpData == null)
+        function search() {
+            keyword = document.getElementById("keyword").value;
+            startTime = document.getElementById("startTime").value;
+            endTime = document.getElementById("endTime").value;
+            getVpAndShow(2, keyword, startTime, endTime, 1, 5)
+        }
+
+        function getVpAndShow(isCheck, keyword, startTime, endTime, page, pageSize) {
+            var vpData = getVisitProcess(isCheck, keyword, startTime, endTime, page, pageSize)
+            if (vpData == null)
                 return;
-            if(vpData.res == false) {
+            if (vpData.res == false) {
                 alert(vpData.msg)
                 return;
             }
-            var vp= vpData.data[0].list
+            var list = vpData.data;
+
+            if (list[0].list.length < 1) {
+                alert("搜索结果为空")
+                this.keyword = "";
+                this.startTime = "";
+                this.endTime = "";
+
+                document.getElementById("keyword").value = "";
+                document.getElementById("startTime").value = "";
+                document.getElementById("endTime").value = "";
+                return
+            }
+
+            totlepage = list[0].pages;
+
+            if (page == 1) {
+                setPage(totlepage);
+            }
+
+            var vp = list[0].list
             console.log("title:" + vp[0].uid)
             console.log("createTime:" + vp[0].createTime)
-            var html="";
+            var html = "";
 
-            for(var i = 0; i < vp.length; i++){
-                var num=i+1;
+            for (var i = 0; i < vp.length; i++) {
+                var vid = vp[i].vid;
+                var num = i + 1;
                 html += "<tr class=\"gradeX\">" +
                     "<td>" + num + "</td>" +
-                    "<td>" + vp[i].bid + "</td>" +
-                    "<td>" + vp[i].progress + "</td>" +
-                    "<td>" + vp[i].mark + "</td>" +
-                    "<td>" + vp[i].isCheck + "</td>" +
-                    "<td>" + vp[i].createTime + "</td>"
-//                    "<td>" + "<button type=\"button\" onclick=\" examineDetails()\" class=\"btn btn-primary\">审核</button>" + "</td>" +
+                    "<td>" + vp[i].btitle + "</td>" +
+                    "<td>" + getPrggress(vp[i].progress) + "</td>" +
+                    "<td>" + getCheckContent(vp[i].uid, vp[i].btitle, vp[i].progress, vp[i].isCheck) + "</td>" +
+                    "<td>" + getState(vp[i].isCheck) + "</td>" +
+                    "<td>" + vp[i].createTime + "</td>" +
+                    //"<td>" + "<button type='button' onclick=" + "'examineDetails(" + vid + ")' class='btn btn-primary'>审核</button>" + "</td>" +
                     //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
                     "</tr>";
             }
-            document.getElementById("content").innerHTML=html;
+            document.getElementById("content").innerHTML = html;
 
+        }
+
+        function getCheckContent(uid, btitle, progress, check) {
+            return getUserName(uid) + "  申请  " + btitle + "  项目访问进度  " + getPrggress(progress) + "  修改状态为已审核";
+        }
+
+        function getUserName(uid) {
+            var user = getUserDetail(getMid(), uid).data[0];
+            if (user == null) {
+                alert("user error!");
+                return;
+            }
+            return user.name
+        }
+
+        function getState(check) {
+            var result;
+            if (check == 1) {
+                result = "未审核";
+            } else if (check == 2) {
+                result = "已审核";
+            }
+            return result;
+        }
+
+        function getPrggress(progress) {
+            var result;
+            if (progress == 1) {
+                result = "未到访";
+            } else if (progress == 2) {
+                result = "已到访";
+            } else if (progress == 3) {
+                result = "已认购";
+            } else if (progress == 4) {
+                result = "已签约";
+            }
+            return result;
+        }
+
+        function getMid() {
+            var userJson = window.localStorage.getItem("user");
+            console.log("localstorage:" + userJson);
+            var user = JSON.parse(userJson);
+            return user.mid;
         }
 
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -93,7 +187,7 @@
 
 
             <!-- visible to small devices only -->
-            <div id = "leftheaddiv"  class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div id="leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
 
             </div>
 
@@ -162,7 +256,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -172,7 +266,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div id="rightHeadDiv" class="menu-right">
 
             </div>
             <!--notification menu end -->
@@ -212,15 +306,16 @@
                                 <div class="form-group">
                                     <label>起止时间</label>
                                     <div class="">
-                                        <div class="input-group input-large custom-date-range" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
-                                            <input type="text" class="form-control dpd1" name="from">
+                                        <div class="input-group input-large custom-date-range" data-date="13/07/2013"
+                                             data-date-format="mm/dd/yyyy">
+                                            <input id="startTime" type="text" class="form-control dpd1" name="from">
                                             <span class="input-group-addon">至</span>
-                                            <input type="text" class="form-control dpd2" name="to">
+                                            <input id="endTime" type="text" class="form-control dpd2" name="to">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-primary ">搜索</button>
+                                    <button type="button" onclick="search()" class="btn btn-primary ">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -246,35 +341,31 @@
                                     <th>审核内容</th>
                                     <th>审核状态</th>
                                     <th>时间</th>
-                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>编号</th>
-                                    <th>项目楼盘</th>
-                                    <th>当前进度</th>
-                                    <th>审核内容</th>
-                                    <th>审核状态</th>
-                                    <th>时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
+
                             </table>
 
                             <div class="pull-right">
-                                <ul class="pagination">
-                                    <li><a href="#">«</a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">»</a></li>
-                                </ul>
+                                <div class="pageTest"></div>
+                                <script type="text/javascript" src="../js/page.js"></script>
+                                <script type="text/javascript">
+                                    function setPage(page) {
+                                        $('.pageTest').setLength(page)
+                                    }
+
+                                    $('.pageTest').page({
+                                        leng: 0,//分页总数
+                                        activeClass: 'activP', //active 类样式定义
+                                        clickBack: function (page) {
+                                            getVpAndShow(2, keyword, startTime, endTime, page, 5);
+                                            console.log(page)
+                                        }
+                                    })
+                                </script>
                             </div>
                         </div>
                     </section>

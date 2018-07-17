@@ -2,9 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>详情</title>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var detail = localStorage.getItem("infoDetail");
+//            console.log(detail)
+            document.getElementById("content").innerHTML = detail;
+        }
+    </script>
 </head>
-<body>
+<body id="content">
 
 </body>
 </html>

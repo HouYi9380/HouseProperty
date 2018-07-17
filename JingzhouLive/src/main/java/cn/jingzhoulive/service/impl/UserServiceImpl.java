@@ -92,4 +92,21 @@ public class UserServiceImpl implements IUserService {
     public int getNumValideateUserByUid(int uid) {
         return userDao.getNumValideateUserByUid(uid);
     }
+
+    public PageInfo<User> selectInviteByType(Integer type,Integer guider,Integer page, int pageSize){
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        if(type!= null) {
+            criteria.andRegistTypeEqualTo(type);
+            System.out.println("registType is not null");
+        }
+        if(guider!= null) {
+            criteria.andGuiderEqualTo(guider);
+        }
+
+        PageHelper.startPage(page, pageSize);
+        List<User> userList = userDao.selectByExample(example);
+        PageInfo<User> p=new PageInfo<User>(userList);
+        return p;
+    }
 }

@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <meta name="keywords" content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
+    <meta name="keywords"
+          content="admin, dashboard, bootstrap, template, flat, modern, theme, responsive, fluid, retina, backend, html5, css, css3">
     <meta name="description" content="">
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="#" type="image/png">
@@ -18,16 +19,154 @@
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
-    <script src="../js/zm/common.js"></script>
-
     <![endif]-->
-    <script type="text/javascript">
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/zm/common.js"></script>
+    <script src="../js/zm/visitprocess.js"></script>
+    <script src="../js/zm/user.js"></script>
+    <script src="../js/zm/police.js"></script>
+    <script src="../js/zm/reachdeal.js"></script>
 
-        function addTurnover(data) {
+    <script src="../js/zm/CalcEval.js"></script>
+
+    <script type="text/javascript">
+        var keyword;
+        var startTime;
+        var endTime;
+        var formulaFv;
+        var formulaSv;
+        var vid;
+        var uid;
+        var guider;
+        var bid;
+        var price;
+        var cid;
+        var firstcv;
+        var secondcv;
+
+        var arr = [];
+
+        $(document).ready(function () {
+            getVpAndShow(2, keyword, startTime, endTime, 1, 500)
+        });
+
+        function calculation(data) {
+            var ce = new CalcEval();
+            var fv = formulaFv;
+            var fvstr = fv.replace(/a/, data)
+            firstcv = ce.eval(fvstr);
+            document.getElementById("firstCommission").value = firstcv
+            if (formulaSv) {
+                var sv = formulaSv;
+                var svstr = sv.replace(/a/, data)
+                secondcv = ce.eval(svstr);
+                document.getElementById("secondCommission").value = secondcv
+            }
+        }
+
+        function getVpAndShow(isCheck, keyword, startTime, endTime, page, pageSize) {
+//            alert("police show")
+            var vpData = getVisitProcess(isCheck, keyword, startTime, endTime, page, pageSize)
+            if (vpData == null)
+                return;
+            if (vpData.res == false) {
+                alert(vpData.msg)
+                return;
+            }
+
+            var vp = vpData.data[0].list
+
+            var html = "";
+
+
+            for (var i = 0; i < vp.length; i++) {
+                var vid = vp[i].vid;
+                if (vp[i].progress == 4) {
+                    arr.push(vp[i]);
+                    html += "<option>" + vid + "</option>";
+                }
+            }
+
+            if (arr.length > 0) {
+                this.vid = arr[0].vid;
+                uid = arr[0].uid;
+                guider = arr[0].guider;
+                bid = arr[0].bid
+                price=arr[0].price
+                document.getElementById("user").value = getUserName(arr[0].uid);
+                document.getElementById("guider").value = getUserName(arr[0].guider);
+                document.getElementById("build").value = arr[0].btitle;
+                document.getElementById("commissionpolicy").value = getpolicyrName(arr[0].commissionId);
+                document.getElementById("price").value = arr[0].price;
+            }
+
+            document.getElementById("vid").innerHTML = html;
 
         }
 
-        function imgPreview(fileDom){
+        function selectVid(data) {
+            for (var i = 0; i < arr.length; i++) {
+                if (data.value == arr[i].vid) {
+                    vid = arr[i].vid;
+                    uid = arr[i].uid;
+                    guider = arr[i].guider;
+                    bid = arr[i].bid
+                    price=arr[i].price
+                    document.getElementById("user").value = getUserName(arr[i].uid);
+                    document.getElementById("guider").value = getUserName(arr[i].guider);
+                    document.getElementById("build").value = arr[i].btitle;
+                    document.getElementById("commissionpolicy").value = getpolicyrName(arr[i].commissionId);
+                    document.getElementById("price").value = arr[i].price;
+                }
+            }
+        }
+
+        function getpolicyrName(cid) {
+            var policy = getPoliceFromId(cid).data[0];
+            if (policy == null) {
+                alert("policy error!");
+                return;
+            }
+            this.cid = cid;
+            formulaFv = policy.firstcv;
+            formulaSv = policy.secondcv;
+            return policy.title
+        }
+
+
+        function getUserName(uid) {
+            var user = getUserDetail(getMid(), uid).data[0];
+            if (user == null) {
+                alert("user error!");
+                return;
+            }
+            return user.name
+        }
+
+        function getMid() {
+            var userJson = window.localStorage.getItem("user");
+            console.log("localstorage:" + userJson);
+            var user = JSON.parse(userJson);
+            return user.mid;
+        }
+
+
+        function addTurnover(data) {
+            var hostPrice = document.getElementById("hostPrice").value;
+            var dealPrice = document.getElementById("dealPrice").value;
+            var data = addReachDeal(vid, uid, guider, bid, hostPrice, price, dealPrice, cid, firstcv, secondcv);
+            if (data == null)
+                return;
+            if (data.res == false) {
+                alert(vpData.msg)
+                return;
+            } else if (data.res == true) {
+                history.back(-1);
+            }
+
+        }
+
+        function imgPreview(fileDom) {
             var strHtml = "";
 
             //判断是否支持FileReader
@@ -38,7 +177,7 @@
 
             var fils = fileDom.files;
 
-            for(var i=0;i<fils.length;i++){
+            for (var i = 0; i < fils.length; i++) {
                 //获取文件
                 var file = fils[i];
 
@@ -47,19 +186,18 @@
                 reader.readAsDataURL(file);
 
                 //读取完成
-                reader.onload = function(e) {
-                    strHtml += "<img class='col-lg-2' style='height: 100px;width: 100px;margin: 2px' src='"+e.target.result+"' alt=''/>";
-                    document.getElementById("imgContent").innerHTML=strHtml;
+                reader.onload = function (e) {
+                    strHtml += "<img class='col-lg-2' style='height: 100px;width: 100px;margin: 2px' src='" + e.target.result + "' alt=''/>";
+                    document.getElementById("imgContent").innerHTML = strHtml;
                 };
 
             }
         }
 
 
-
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 <section>
     <!-- left side start-->
     <div class="left-side sticky-left-side">
@@ -77,7 +215,7 @@
         <div class="left-side-inner">
 
             <!-- visible to small devices only -->
-            <div id = "letfheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div id="letfheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
             </div>
 
             <!--sidebar nav start-->
@@ -143,7 +281,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -153,7 +291,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div id="rightHeadDiv" class="menu-right">
             </div>
             <!--notification menu end -->
 
@@ -187,89 +325,88 @@
                         <div class="panel-body">
                             <form class="form-horizontal" role="form">
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">访问编号</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">访问编号</label>
                                     <div class="col-lg-9">
-                                        <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
+                                        <select id="vid" class="form-control" onchange="selectVid(this)">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-lg-3 col-sm-3 control-label">合同图片</label>
                                     <div class="col-lg-9">
-                                        <input onchange="imgPreview(this)" type="file"  multiple="multiple" accept="image/png,image/gif,image/jpg,image/jpeg"/>
+                                        <input onchange="imgPreview(this)" type="file" multiple="multiple"
+                                               accept="image/png,image/gif,image/jpg,image/jpeg"/>
                                     </div>
                                     <div class="col-lg-9 row" id="imgContent">
 
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">访问人</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">访问人</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="访问人">
+                                        <input id="user" type="text" disabled required class="form-control"
+                                               placeholder="访问人">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">推荐人</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">推荐人</label>
                                     <div class="col-lg-9">
-                                        <input type="text"required  class="form-control" placeholder="推荐人">
+                                        <input id="guider" type="text" disabled required class="form-control"
+                                               placeholder="推荐人">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">楼盘名称</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">楼盘名称</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="楼盘名称">
+                                        <input id="build" type="text" disabled required class="form-control"
+                                               placeholder="楼盘名称">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">房主金额</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">房主金额</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="房主金额">
+                                        <input id="hostPrice" type="text" required class="form-control"
+                                               placeholder="房主金额">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">预计金额</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">预计金额</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="预计金额">
+                                        <input id="price" type="text" disabled required class="form-control"
+                                               placeholder="预计金额">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">成交金额</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">成交金额</label>
                                     <div class="col-lg-9">
-                                        <input type="text" required class="form-control" placeholder="成交金额">
+                                        <input id="dealPrice" onchange="calculation(this.value)" type="text" required
+                                               class="form-control"
+                                               placeholder="成交金额">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">佣金政策</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">佣金政策</label>
                                     <div class="col-lg-9">
-                                        <select class="form-control">
-                                            <option>政策1</option>
-                                            <option>政策2</option>
-                                            <option>政策3</option>
-                                            <option>政策4</option>
-                                            <option>政策5</option>
-                                            <option>政策6</option>
-                                        </select>
+                                        <input id="commissionpolicy" type="text" disabled class="form-control"
+                                               placeholder="佣金政策">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">一级佣金</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">一级佣金</label>
                                     <div class="col-lg-9">
-                                        <input type="text" disabled class="form-control" placeholder="3000">
+                                        <input id="firstCommission" type="text" disabled class="form-control"
+                                               placeholder="">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label  class="col-lg-3 col-sm-3 control-label">二级佣金</label>
+                                    <label class="col-lg-3 col-sm-3 control-label">二级佣金</label>
                                     <div class="col-lg-9">
-                                        <input type="text" disabled class="form-control" placeholder="1000">
+                                        <input id="secondCommission" type="text" disabled class="form-control"
+                                               placeholder="">
                                     </div>
                                 </div>
-                                <button type="button" onclick="addTurnover()" class="btn btn-primary pull-right">提交</button>
+                                <button type="button" onclick="addTurnover()" class="btn btn-primary pull-right">提交
+                                </button>
                             </form>
                         </div>
                     </section>
@@ -283,7 +420,6 @@
 </section>
 
 <!-- Placed js at the end of the document so the pages load faster -->
-<script src="../js/jquery-1.10.2.min.js"></script>
 <script src="../js/jquery-ui-1.9.2.custom.min.js"></script>
 <script src="../js/jquery-migrate-1.2.1.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>

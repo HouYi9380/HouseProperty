@@ -3,13 +3,6 @@
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="cn.jingzhoulive.dao.IUserDao">
-
-    <select id="selectUser" resultType="User" parameterType="int" >
-        SELECT * FROM user WHERE uid = #{id}
-    </select>
-
-
-
     <insert id="insertUser" parameterType="User"  useGeneratedKeys="true" keyProperty="uid">
          insert into user (uid, phone, code,
               pwd, regist_type, guider,
@@ -45,9 +38,6 @@
     where uid = #{uid,jdbcType=INTEGER}
     </update>
 
-    <select id="getUserByPhoneAndPwd" resultType="User">
-        select * from user where phone=#{phone} and pwd=#{pwd}
-    </select>
 
     <update id="updateUserByUidAndLately">
         update user set lately = #{lately} where uid = #{uid}
@@ -111,6 +101,23 @@
         select
         <include refid="Base_Column_List" />
         from user
+    </select>
+
+    <select id="getUserByPhoneAndPwd" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where
+            phone=#{phone}
+          and
+            pwd=#{pwd}
+    </select>
+
+    <select id="selectUser" resultMap="BaseResultMap" parameterType="int" >
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM user
+        WHERE uid = #{id}
     </select>
 
     <select id="selectUserByPhone" resultMap="BaseResultMap" parameterType="string">

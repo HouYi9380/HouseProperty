@@ -16,6 +16,7 @@
       <arg column="availability" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="create_time" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="chang_time" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="is_reach_deal" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -78,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List" >
     vid, uid, guider, bid, btitle, commission_id, price, progress, is_check, mark, availability, 
-    create_time, chang_time
+    create_time, chang_time, is_reach_deal
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.jingzhoulive.domain.VistProcessExample" >
     select
@@ -116,12 +117,12 @@
       bid, btitle, commission_id, 
       price, progress, is_check, 
       mark, availability, create_time, 
-      chang_time)
+      chang_time, is_reach_deal)
     values (#{vid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{guider,jdbcType=INTEGER}, 
       #{bid,jdbcType=INTEGER}, #{btitle,jdbcType=VARCHAR}, #{commissionId,jdbcType=INTEGER}, 
       #{price,jdbcType=BIGINT}, #{progress,jdbcType=INTEGER}, #{isCheck,jdbcType=INTEGER}, 
       #{mark,jdbcType=VARCHAR}, #{availability,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
-      #{changTime,jdbcType=VARCHAR})
+      #{changTime,jdbcType=VARCHAR}, #{isReachDeal,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.jingzhoulive.domain.VistProcess" >
     insert into visitprocess
@@ -165,6 +166,9 @@
       <if test="changTime != null" >
         chang_time,
       </if>
+      <if test="isReachDeal != null" >
+        is_reach_deal,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="vid != null" >
@@ -205,6 +209,9 @@
       </if>
       <if test="changTime != null" >
         #{changTime,jdbcType=VARCHAR},
+      </if>
+      <if test="isReachDeal != null" >
+        #{isReachDeal,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -256,6 +263,9 @@
       <if test="record.changTime != null" >
         chang_time = #{record.changTime,jdbcType=VARCHAR},
       </if>
+      <if test="record.isReachDeal != null" >
+        is_reach_deal = #{record.isReachDeal,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -275,7 +285,8 @@
       mark = #{record.mark,jdbcType=VARCHAR},
       availability = #{record.availability,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=VARCHAR},
-      chang_time = #{record.changTime,jdbcType=VARCHAR}
+      chang_time = #{record.changTime,jdbcType=VARCHAR},
+      is_reach_deal = #{record.isReachDeal,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -319,6 +330,9 @@
       <if test="changTime != null" >
         chang_time = #{changTime,jdbcType=VARCHAR},
       </if>
+      <if test="isReachDeal != null" >
+        is_reach_deal = #{isReachDeal,jdbcType=INTEGER},
+      </if>
     </set>
     where vid = #{vid,jdbcType=INTEGER}
   </update>
@@ -335,7 +349,8 @@
       mark = #{mark,jdbcType=VARCHAR},
       availability = #{availability,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=VARCHAR},
-      chang_time = #{changTime,jdbcType=VARCHAR}
+      chang_time = #{changTime,jdbcType=VARCHAR},
+      is_reach_deal = #{isReachDeal,jdbcType=INTEGER}
     where vid = #{vid,jdbcType=INTEGER}
   </update>
 </mapper>

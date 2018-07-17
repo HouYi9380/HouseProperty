@@ -1,13 +1,13 @@
 document.write("<script language=javascript src='../js/zm/globalUrl.js'></script>");
 
-function getReachDeal(keyword, startTime, endTime, page, pageSize){
+function getReachDeal(keyword, startTime, endTime, page, pageSize) {
     var backData = null;
     var postData = {
-        keyword : keyword,
-        starttime : startTime,
-        endtime : endTime,
-        page : page,
-        length : pageSize
+        keyword: keyword,
+        starttime: startTime,
+        endtime: endTime,
+        page: page,
+        length: pageSize
     }
 
     $.ajax({
@@ -33,19 +33,20 @@ function getReachDeal(keyword, startTime, endTime, page, pageSize){
     return backData
 }
 
-function addReachDeal(vid, uid, guider, bid, hostprice, price, dealprice, cid, firstcv, secondcv){
+function addReachDeal(vid, uid, guider, bid, hostprice, price, dealprice, cid, firstcv, secondcv, pics) {
     var backData = null;
     var postData = {
-        vid : vid,
-        uid : uid,
-        guider : guider,
+        vid: vid,
+        uid: uid,
+        guider: guider,
         bid: bid,
-        hostprice : hostprice,
-        price : price,
-        dealprice : dealprice,
-        cid : cid,
-        firstcv : firstcv,
-        secondcv : secondcv
+        hostprice: hostprice,
+        price: price,
+        dealprice: dealprice,
+        cid: cid,
+        firstcv: firstcv,
+        secondcv: secondcv,
+        pics: pics
     }
 
     $.ajax({
@@ -60,6 +61,7 @@ function addReachDeal(vid, uid, guider, bid, hostprice, price, dealprice, cid, f
         },
         crossDomain: true,
         success: function (data) {
+            console.log(data)
             var jsonData = JSON.parse(data);
             backData = jsonData;
         },
@@ -71,10 +73,10 @@ function addReachDeal(vid, uid, guider, bid, hostprice, price, dealprice, cid, f
     return backData
 }
 
-function getReachDealFromRid(rid){
+function getReachDealFromRid(rid) {
     var backData = null;
     var postData = {
-        rid : rid
+        rid: rid
     }
 
     $.ajax({

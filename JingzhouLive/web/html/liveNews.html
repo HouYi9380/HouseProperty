@@ -23,49 +23,129 @@
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+
+    <style type="text/css">
+        .pageTest {
+            width: 500px;
+            height: 50px;
+            margin-top: 100px;
+        }
+
+        .activP {
+            background-color: #69cda8 !important;
+            color: #fff !important;
+        }
+    </style>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/zm/information.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
-            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                var num=i+1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "2018/09/21" + "</td>" +
-                    "<td>" + "湖北省武汉市江夏区杨桥湖大道27号" + "</td>" +
-                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=\"advertisementDetails()\" type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=\"addAdvertisement()\" type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delAdvertisement()\" type=\"button\">删除</button> </div>" + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML=html;
-        });
+
+        var infoArray=new Array;
+
+        var totlepage = 0;
+
+        var keyword;
+        var startTime;
+        var endTime;
+
+        window.onload = function () {
+            getAdAndShow(keyword, 1, startTime, endTime, "027", 1, 5)
+        }
+
+        function search() {
+            keyword = document.getElementById("keyword").value;
+            startTime = document.getElementById("startTime").value;
+            endTime = document.getElementById("endTime").value;
+
+            getAdAndShow(keyword, 1, startTime, endTime, "027", 1, 5)
+
+        }
 
         function advertisementDetails(data) {
-            window.location.href="liveAdvertisementdetails.html";
+            for(var i=0;i<infoArray.length;i++){
+                if(data==infoArray[i].iid){
+                    localStorage.setItem("infoDetail",infoArray[i].html);
+                    alert(infoArray[i].html)
+                }
+            }
+            window.location.href = "liveAdvertisementdetails.html?iid="+data;
         }
 
         function addAdvertisement(data) {
-            window.location.href="liveAddadvertisement.html";
+            window.location.href = "liveAddadvertisement.html?add=true&type=1";
+        }
+
+        function editInformation(data) {
+            window.location.href = "liveAddadvertisement.html?add=false&type=1&iid="+data;
         }
 
         function delAdvertisement() {
-            if(confirm("确定要删除这条数据吗？")){
+            if (confirm("确定要删除这条数据吗？")) {
                 alert("确定");
-            }else{
+            } else {
                 alert("放弃");
             }
         }
+
+        function getAdAndShow(keyword, type, startTime, endTime, areaId, page, pageSize) {
+            var informationData = getInformationFromType(keyword, type, startTime, endTime, areaId, page, pageSize)
+            if (informationData == null)
+                return;
+            var res = informationData.res + ""
+            if (res == "false") {
+                alert(informationData.msg)
+                return;
+            }
+            var list = informationData.data
+
+            var informations = list[0].list
+
+            if (list[0].list.length < 1) {
+                alert("搜索结果为空")
+                this.keyword = "";
+                this.startTime = "";
+                this.endTime = "";
+
+                document.getElementById("keyword").value = "";
+                document.getElementById("startTime").value = "";
+                document.getElementById("endTime").value = "";
+                return
+            }
+
+            totlepage = list[0].pages;
+
+            if (page == 1) {
+                setPage(totlepage);
+            }
+
+            var html = "";
+            for (var i = 0; i < informations.length; i++) {
+                infoArray.push(informations[i])
+                var num = i + 1;
+                var iid = informations[i].iid
+                html += "<tr class=\"gradeX\">" +
+                    "<td>" + num + "</td>" +
+                    "<td>" + informations[i].title + "</td>" +
+                    "<td>" + informations[i].createTime + "</td>" +
+                    "<td>" + "无"+ "</td>" +
+                    "<td>" + "<div class=\"btn-group\"> <button class=\"btn btn-default\" onclick=" + "'advertisementDetails(" + iid + ")' type=\"button\">详情</button> <button class=\"btn btn-primary\" onclick=" + "'editInformation(" + iid + ")' type=\"button\">编辑</button> <button class=\"btn btn-danger\" onclick=\"delAdvertisement()\" type=\"button\">删除</button> </div>" + "</td>" +
+                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                    "</tr>";
+            }
+            document.getElementById("content").innerHTML = html;
+
+        }
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -229,15 +309,15 @@
                                     <label>起止时间</label>
                                     <div class="">
                                         <div class="input-group input-large custom-date-range" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
-                                            <input type="text" class="form-control dpd1" name="from">
+                                            <input id="startTime" type="text" class="form-control dpd1" name="from">
                                             <span class="input-group-addon">至</span>
-                                            <input type="text" class="form-control dpd2" name="to">
+                                            <input id="endTime" type="text" class="form-control dpd2" name="to">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="pull-right">
                                     <button type="button" onclick="addAdvertisement()" class="btn btn-primary ">添加</button>
-                                    <button type="button" class="btn btn-primary ">搜索</button>
+                                    <button type="button" onclick="search()" class="btn btn-primary ">搜索</button>
                                 </div>
                             </form>
                         </div>
@@ -267,27 +347,26 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>编号</th>
-                                    <th>标题</th>
-                                    <th>时间</th>
-                                    <th>简介</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
+
                             </table>
 
                             <div class="pull-right">
-                                <ul class="pagination">
-                                    <li><a href="#">«</a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#">»</a></li>
-                                </ul>
+                                <div class="pageTest"></div>
+                                <script type="text/javascript" src="../js/page.js"></script>
+                                <script type="text/javascript">
+                                    function setPage(page) {
+                                        $('.pageTest').setLength(page)
+                                    }
+
+                                    $('.pageTest').page({
+                                        leng: 0,//分页总数
+                                        activeClass: 'activP', //active 类样式定义
+                                        clickBack: function (page) {
+                                            getAdAndShow(keyword, 1, startTime, endTime, "027", page, 5)
+                                            console.log(page)
+                                        }
+                                    })
+                                </script>
                             </div>
                         </div>
                     </section>

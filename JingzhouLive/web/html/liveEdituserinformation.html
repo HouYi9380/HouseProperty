@@ -17,8 +17,8 @@
     <script src="../js/html5shiv.js"></script>
     <script src="../js/respond.min.js"></script>
     <![endif]-->
-    <script src = "../js/zm/usershow.js"></script>
-    <script src = "../js/zm/user.js"></script>
+    <script src="../js/zm/usershow.js"></script>
+    <script src="../js/zm/user.js"></script>
 
     <script type="text/javascript">
         var mid = null;
@@ -26,45 +26,60 @@
         var positon = null;
         var power = null;
         var name = null;
-        window.onload = function () {
+
+        if (window.addEventListener) {
+            window.addEventListener("load", second, false);
+        }
+        else {
+            window.attachEvent("onload", second);
+        }
+
+        function second() {
+
             var user = getManagerFromLocal();
-            if(user == null){
-               alert("user error!")
+            if (user == null) {
+                alert("user error!")
                 return;
             }
-            alert("user:" + user.phone)
+            console.log("user:" + user.phone)
             var powerValue;
-            if(user.power == 1){
+            if (user.power == 1) {
                 powerValue = "超级管理员";
-            }else if(user.power == 2){
+            } else if (user.power == 2) {
                 powerValue = "管理员";
-            }else
+            } else
                 powerValue = "unknow";
             phone = user.phone
             power = user.power
             positon = user.positon
             name = user.name
             mid = user.mid
-            document.getElementById("phone").value =user.phone
-            document.getElementById("power").value =powerValue
-            document.getElementById("positon").value =user.positon
+            nick = user.nick
+
+            document.getElementById("phone").value = user.phone
+            document.getElementById("power").value = powerValue
+            document.getElementById("positon").value = user.positon
             document.getElementById("name").value = user.name
+            document.getElementById("nick").value = user.nick
         }
+
         function mark() {
-            alert("upload");
-            var fileObj=document.getElementById("file").files[0];
-            var curPhone = document.getElementById("phone").value
+            console.log("upload");
+            var fileObj = document.getElementById("file").files[0];
+            var curPhone = document.getElementById("phone").value;
             var curPower = document.getElementById("power").value
             var curPositon = document.getElementById("positon").value
             var curName = document.getElementById("name").value
+            var curNick = document.getElementById("nick").value
 
             var sendPhone;
-            if(curPhone === phone)
+            if (curPhone === phone)
                 sendPhone = null;
             else
                 sendPhone = curPhone
 
-            uploadHeadImgAjax(mid, curPhone, curPower, curPositon, curName, fileObj)
+            uploadHeadImgAjax(mid, curPhone, curPower, curPositon, curName, curNick, fileObj)
+        }
 
     </script>
 </head>
@@ -87,7 +102,7 @@
         <div class="left-side-inner">
 
             <!-- visible to small devices only -->
-            <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div id="leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
 
             </div>
 
@@ -154,7 +169,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -164,7 +179,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div id="rightHeadDiv" class="menu-right">
 
             </div>
             <!--notification menu end -->
@@ -197,11 +212,19 @@
                             <form role="form" action="#" id="form">
                                 <div class="form-group">
                                     <label for="exampleInputPhone">联系电话</label>
-                                    <input id = "phone" name="phone" required type="text" pattern="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)" class="form-control" id="exampleInputPhone" placeholder="联系电话">
+                                    <input id="phone" name="phone" required type="text"
+                                           pattern="((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)"
+                                           class="form-control" id="exampleInputPhone" placeholder="联系电话">
                                 </div>
                                 <div class="form-group">
-                                    <label  for="name">真实姓名</label>
-                                    <input id = "name" required type="text" pattern="^[\u4E00-\u9FA5]{2,4}$" class="form-control"  placeholder="真实姓名">
+                                    <label for="name">真实姓名</label>
+                                    <input id="name" required type="text" pattern="^[\u4E00-\u9FA5]{2,4}$"
+                                           class="form-control" placeholder="真实姓名">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nick">昵称</label>
+                                    <input id="nick" required type="text" pattern="^[\u4E00-\u9FA5]{2,4}$"
+                                           class="form-control" placeholder="昵称">
                                 </div>
                                 <div class="form-group">
                                     <label for="positon">职位</label>
@@ -217,13 +240,15 @@
                                     <label>头像上传</label>
                                     <div>
                                         <!--<form name="form2" id="form2" method="post" enctype="multipart/form-data">-->
-                                            <input id="file" type="file" name="file" ></input>
+                                        <input id="file" type="file" name="file"></input>
                                         <!--</form>-->
                                     </div>
                                     <!--<input type="file" id="fileUpload" name = "file">-->
                                     <p class="help-block">请上传真实头像</p>
                                 </div>
-                                <button id="imgUploadBtn" onclick="mark()" type="button" class="btn btn-primary pull-right">提交</button>
+                                <button id="imgUploadBtn" onclick="mark()" type="button"
+                                        class="btn btn-primary pull-right">提交
+                                </button>
                             </form>
 
                         </div>

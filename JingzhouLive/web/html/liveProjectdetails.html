@@ -10,7 +10,7 @@
     <title>房屋详情</title>
 
     <!--gritter css-->
-    <link rel="stylesheet" type="text/css" href="../js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="../js/gritter/css/jquery.gritter.css"/>
 
     <link href="../css/style.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
@@ -23,7 +23,7 @@
     <![endif]-->
 
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->
@@ -121,7 +121,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -135,8 +135,8 @@
                 <ul class="notification-menu">
                     <li>
                         <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            <img src="../images/photos/user2.png" alt="" />
-                            金涛   超级管理员
+                            <img src="../images/photos/user2.png" alt=""/>
+                            金涛 超级管理员
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
@@ -178,22 +178,22 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="carousel slide auto panel-body  col-sm-5" id="c-slide">
-                                    <div class="carousel-inner">
-                                        <div class="item text-center active">
-                                            <img src="../images/gallery/image1.jpg" alt="">
-                                        </div>
-                                        <div class="item text-center">
-                                            <img src="../images/gallery/image2.jpg" alt="">
-                                        </div>
-                                        <div class="item text-center">
-                                            <img src="../images/gallery/image3.jpg" alt="">
-                                        </div>
-                                        <div class="item text-center">
-                                            <img src="../images/gallery/image4.jpg" alt="">
-                                        </div>
-                                        <div class="item text-center">
-                                            <img src="../images/gallery/image5.jpg" alt="">
-                                        </div>
+                                    <div id="housepics" class="carousel-inner">
+                                        <!--<div class="item text-center active">-->
+                                        <!--<img src="../images/gallery/image1.jpg" alt="">-->
+                                        <!--</div>-->
+                                        <!--<div class="item text-center">-->
+                                        <!--<img src="../images/gallery/image2.jpg" alt="">-->
+                                        <!--</div>-->
+                                        <!--<div class="item text-center">-->
+                                        <!--<img src="../images/gallery/image3.jpg" alt="">-->
+                                        <!--</div>-->
+                                        <!--<div class="item text-center">-->
+                                        <!--<img src="../images/gallery/image4.jpg" alt="">-->
+                                        <!--</div>-->
+                                        <!--<div class="item text-center">-->
+                                        <!--<img src="../images/gallery/image5.jpg" alt="">-->
+                                        <!--</div>-->
                                     </div>
                                     <a class="left carousel-control" href="#c-slide" data-slide="prev">
                                         <i class="fa fa-angle-left"></i>
@@ -203,8 +203,8 @@
                                     </a>
                                 </div>
                                 <div class="col-sm-2">
-                                    <h3 class="text-danger"><span id = "price">12300</span><span>/平</span></h3>
-                                    <h5 class="text-warning"><span id="recommend">推荐指数:</span>5<span>颗星</span></h5>
+                                    <h3 class="text-danger"><span id="price">12300</span><span>/平</span></h3>
+                                    <h5 class="text-warning"><span id="recommend">推荐指数:</span><span>颗星</span></h5>
                                 </div>
                             </div>
                             <div class="row">
@@ -213,64 +213,71 @@
                                     <ul class="p-info">
                                         <li>
                                             <div class="title">楼盘名称</div>
-                                            <div id = "title" class="desk">碧桂园</div>
+                                            <div id="title" class="desk">碧桂园</div>
                                         </li>
                                         <li>
                                             <div class="title">联系人姓名</div>
-                                            <div id = "contact" class="desk">王岩</div>
+                                            <div id="contact" class="desk">王岩</div>
                                         </li>
                                         <li>
                                             <div class="title">联系人电话</div>
-                                            <div id = "phone" class="desk">13890908765</div>
+                                            <div id="phone" class="desk">13890908765</div>
                                         </li>
                                         <li>
                                             <div class="title">优惠</div>
-                                            <div id = "favourable" class="desk">暂无</div>
+                                            <div id="favourable" class="desk">暂无</div>
                                         </li>
                                         <li>
                                             <div class="title">经/纬度</div>
-                                            <div class="desk"><p><span>北纬</span><span id= "longtitude">N38°57′49.25″</span></p>
+                                            <div class="desk"><p><span>北纬</span><span
+                                                    id="longtitude">N38°57′49.25″</span></p>
                                                 <p><span>东经</span><span id="latitude">E98°05′9.38″</span></p></div>
                                         </li>
                                         <li>
                                             <div class="title">装修</div>
-                                            <div id = "decoration" class="desk">智能精装</div>
+                                            <div id="decoration" class="desk">智能精装</div>
                                         </li>
                                         <li>
                                             <div class="title">房屋户型</div>
-                                            <div id = "houseType" class="desk">3居室</div>
+                                            <div id="houseType" class="desk">3居室</div>
                                         </li>
                                         <li>
                                             <div class="title">房源</div>
-                                            <div id = "shared" class="desk">一手</div>
+                                            <div id="shared" class="desk">一手</div>
                                         </li>
                                         <li>
                                             <div class="title">佣金政策</div>
-                                            <div id = "commissionId" class="desk">3.1%</div>
+                                            <div id="commissionId" class="desk">3.1%</div>
                                         </li>
                                         <li>
                                             <div class="title">面积</div>
-                                            <div id = "acreage" class="desk">103平</div>
+                                            <div id="acreage" class="desk">103平</div>
                                         </li>
                                         <li>
                                             <div class="title">创建时间</div>
-                                            <div id = "createTime" class="desk">2017/09/09</div>
+                                            <div id="createTime" class="desk">2017/09/09</div>
                                         </li>
                                         <li>
                                             <div class="title">交通配套</div>
-                                            <div id = "traffic" class="desk">738/811/590/556等10多趟公交车，在雄楚大道理工大站步行约100米即到项目</div>
+                                            <div id="traffic" class="desk">
+                                                738/811/590/556等10多趟公交车，在雄楚大道理工大站步行约100米即到项目
+                                            </div>
                                         </li>
                                         <li>
                                             <div class="title">介绍</div>
-                                            <div id = "buildingInfo" class="desk">理公馆项目位于洪山区雄楚大道与理工大路交汇处（武警总队西侧），理公馆南接雄楚大道二环线，西临理工大路及理工大鉴湖校区。交通便利配套完整，地区优势明显。
-                                                理公馆由四栋32-33层两梯三户住宅楼和一栋写字楼组成。产品线涵盖紧凑三房，四房组成。</div>
+                                            <div id="buildingInfo" class="desk">
+                                                理公馆项目位于洪山区雄楚大道与理工大路交汇处（武警总队西侧），理公馆南接雄楚大道二环线，西临理工大路及理工大鉴湖校区。交通便利配套完整，地区优势明显。
+                                                理公馆由四栋32-33层两梯三户住宅楼和一栋写字楼组成。产品线涵盖紧凑三房，四房组成。
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
 
-                            <button type="button" onclick="editNewHouseDetails()" class="btn btn-primary pull-right">编辑</button>
+                            <button type="button" onclick="editNewHouseDetails()" class="btn btn-primary pull-right">
+                                编辑
+                            </button>
                         </div>
                     </section>
                 </div>
@@ -296,14 +303,17 @@
 
 <!--common scripts for all pages-->
 <script src="../js/scripts.js"></script>
-<script src ="../js/zm/building.js"></script>
-<script src = "../js/zm/common.js"></script>
+<script src="../js/zm/building.js"></script>
+<script src="../js/zm/common.js"></script>
+<script src="../js/zm/police.js"></script>
 
 <script type="text/javascript">
     var bid = null;
-    window.onload = function(){
+    var type = null
+    window.onload = function () {
+        type = getUrlParam("type");
         bid = getUrlParam("bid");
-        if(bid == null) {
+        if (bid == null) {
             alert("房屋信息出错")
             return;
         }
@@ -312,38 +322,102 @@
 
 
     function editNewHouseDetails(data) {
-        if(bid == null){
+        if (bid == null) {
             alert("房屋信息出错,无法编辑")
             return;
         }
-        window.location.href="liveEditprojectdetails.html?bid=" + bid;
+        window.location.href = "liveEditprojectdetails.html?bid=" + bid + "&add=false&type=" + type;
     }
 
-    function getBuildingDetail(bid){
+    function getBuildingDetail(bid) {
         var building = getBuildingFromId(bid);
-        if(building.res == false){
+        if (building.res == false) {
             alert("获取失败")
             return;
         }
         var data = building.data[0]
         console.log("title:" + data.title)
-        document.getElementById("title").innerHTML =data.title
-//        document.getElementById("address").innerHTML = data.address
-        document.getElementById("contact").innerHTML = data.contact
+        var pics = data.pics;
+        var array = pics.split("#");
+        var html = "";
+        if (array.length > 1) {
+            for (var i = 0; i < array.length; i++) {
+                if (i == 0) {
+                    html += "<div class='item text-center active'>" +
+                        "<img src='" + array[i] + "' alt=''>" +
+                        //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                        " </div>";
+                } else {
+                    html += "<div class='item text-center'>" +
+                        "<img src='" + array[i] + "' alt=''>" +
+                        //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                        " </div>";
+                }
+            }
+        } else {
+            html += "<div class='item text-center active'>" +
+                "<img src='" + pics + "' alt=''>" +
+                //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
+                " </div>";
+        }
+        document.getElementById("housepics").innerHTML = html;
+
+        document.getElementById("title").innerHTML = data.title
+        document.getElementById("contact").innerHTML = data.contacts
         document.getElementById("phone").innerHTML = data.phone
         document.getElementById("latitude").innerHTML = data.latitude
         document.getElementById("longtitude").innerHTML = data.longtitude
         document.getElementById("favourable").innerHTML = data.favourable
         document.getElementById("traffic").innerHTML = data.traffic
         document.getElementById("buildingInfo").innerHTML = data.buildingInfo
-        document.getElementById("decoration").innerHTML = data.decoration
-        document.getElementById("shared").innerHTML = data.shared
-        document.getElementById("commissionId").innerHTML = data.commissionId
-        document.getElementById("price").innerHTML = data.price
-        document.getElementById("acreage").innerHTML = data.acreage
+        document.getElementById("decoration").innerHTML = getDecorationName(data.decoration)
+        document.getElementById("shared").innerHTML = getSharedName(data.shared)
+        document.getElementById("commissionId").innerHTML = getPoliceNameFromId(data.commissionId)
+        document.getElementById("price").innerHTML = calculationPrice(data.price, data.acreage)
+        document.getElementById("acreage").innerHTML = data.acreage + "㎡"
         document.getElementById("houseType").innerHTML = data.houseType
         document.getElementById("recommend").innerHTML = data.recommend
         document.getElementById("createTime").innerHTML = data.createTime
+    }
+
+    function calculationPrice(price, acreage) {
+        return Math.round(price / acreage);
+    }
+
+    function getPoliceNameFromId(cpid) {
+        var data = getPoliceFromId(cpid);
+        if (data.res == false) {
+            alert("获取失败")
+            return;
+        }
+        return data.data[0].title
+    }
+
+    function getSharedName(shared) {
+        var result
+        if (shared == 1) {
+            result = "独立房源"
+        } else if (decoration == 2) {
+            result = "共享房源"
+        } else if (decoration == 3) {
+            result = "其他（新楼，出租"
+        }
+        return result;
+    }
+
+    function getDecorationName(decoration) {
+        var result
+        if (decoration == 1) {
+            result = "毛坯"
+        } else if (decoration == 2) {
+            result = "精装"
+        } else if (decoration == 3) {
+            result = "简装"
+        } else if (decoration == 4) {
+            result = "其他"
+        }
+
+        return result;
     }
 </script>
 

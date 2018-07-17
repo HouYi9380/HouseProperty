@@ -22,4 +22,6 @@ public interface IUserService {
     int updateByPrimaryKeySelective(User record);
     int getNumInviteUserByUid(int uid);
     int getNumValideateUserByUid(int uid);
+
+    public PageInfo<User> selectInviteByType(Integer type,Integer guider,Integer page, int pageSize);
 }

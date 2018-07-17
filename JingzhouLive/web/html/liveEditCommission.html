@@ -7,14 +7,14 @@
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="#" type="image/png">
 
-    <title>已发放列表</title>
+    <title>更改佣金发放状态</title>
 
     <!--pickers css-->
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
-    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css" />
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datepicker/css/datepicker-custom.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-timepicker/css/timepicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-colorpicker/css/colorpicker.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/bootstrap-datetimepicker/css/datetimepicker-custom.css"/>
     <!--dynamic table-->
     <link href="../js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
     <link href="../js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
@@ -43,112 +43,60 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    xxxx
     <script src="../js/zm/commission.js"></script>
-    <script src="../js/zm/user.js"></script>
 
     <script type="text/javascript">
-        var totlepage = 0;
-
-        var keyword;
-        var startTime;
-        var endTime;
+        var cpid
+        var Cname
+        var Cguider
+        var Cprice
+        var CpayType
+        var CpayId
 
         $(document).ready(function () {
-            getCommissionAndShow(2, keyword, startTime, endTime, 1, 5)
+            cpid = window.localStorage.getItem("cpid");
+            alert(cpid)
+            Cname = window.localStorage.getItem("Cname");
+            Cguider = window.localStorage.getItem("Cguider");
+            Cprice = window.localStorage.getItem("Cprice");
+            CpayType = window.localStorage.getItem("CpayType");
+            CpayId = window.localStorage.getItem("CpayId");
+
+
+            document.getElementById("user").value = Cname;
+            document.getElementById("guider").value = Cguider;
+            document.getElementById("price").value = Cprice;
+            document.getElementById("progress").value = "已发放";
+            document.getElementById("payType").value = CpayType;
+            document.getElementById("payId").value = CpayId;
         });
 
-        function search(data) {
-            keyword = document.getElementById("keyword").value;
-            startTime = document.getElementById("startTime").value;
-            endTime = document.getElementById("endTime").value;
+        function addCommission() {
+            var toPayId = document.getElementById("toPayId").value;
+            var toPayTypeValue = document.getElementById("toPayType").value;
+            var toPayType
 
-            getCommissionAndShow(1, keyword, startTime, endTime, 1, 5)
-        }
-
-        function getUserName(uid) {
-            var result = "无";
-            if (uid == 0) {
-
-            } else {
-                var user = getUserDetail(getMid(), uid).data[0];
-                if (user == null) {
-                    alert("user error!");
-                    return;
-                }
-                result = user.name
+            if (toPayTypeValue == "支付宝") {
+                toPayType = 1
+            } else if (toPayTypeValue == "微信") {
+                toPayType = 2
+            } else if (toPayTypeValue == "银行卡") {
+                toPayType = 3
             }
-            return result
-        }
 
-        function getPayName(payType) {
-            var result = "用户未添加支付信息"
-            if (payType == 1) {
-                result = "支付宝"
-            } else if (payType == 2) {
-                result = "微信"
-            } else if (payType == 3) {
-                result = "银行卡"
-            }
-            return result
+            var rlData = editCommissionProcess(cpid, 2, toPayType, toPayId);
 
-        }
-
-        function getMid() {
-            var userJson = window.localStorage.getItem("user");
-            console.log("localstorage:" + userJson);
-            var user = JSON.parse(userJson);
-            return user.mid;
-        }
-
-        function getCommissionAndShow(progress, keyword, startTime, endTime, page, pageSize) {
-            var rlData = getCommissionProcess(progress, keyword, startTime, endTime, page, pageSize)
             if (rlData == null)
                 return;
             var res = rlData.res + ""
             if (res == "false") {
                 alert(rlData.msg)
                 return;
+            } else if (res == "true") {
+                history.back(-1)
             }
-
-            var list = rlData.data;
-
-            if (list[0].list.length < 1) {
-                alert("搜索结果为空")
-                this.keyword = "";
-                this.startTime = "";
-                this.endTime = "";
-
-                document.getElementById("keyword").value = "";
-                document.getElementById("startTime").value = "";
-                document.getElementById("endTime").value = "";
-                return
-            }
-
-            totlepage = list[0].pages;
-
-            if (page == 1) {
-                setPage(totlepage);
-            }
-
-            var reachDeal = list[0].list
-            var html = "";
-            for (var i = 0; i < reachDeal.length; i++) {
-                var num = i + 1;
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + num + "</td>" +
-                    "<td>" + getUserName(reachDeal[i].uid) + "</td>" +
-                    "<td>" + getUserName(reachDeal[i].guider) + "</td>" +
-                    "<td>" + reachDeal[i].price + "</td>" +
-                    "<td>" + "已发放" + "</td>" +
-                    "<td>" + getPayName(reachDeal[i].payIdType) + "</td>" +
-                    "<td>" + reachDeal[i].payId + "</td>" +
-                    "<td>" + reachDeal[i].createTime + "</td>" +
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
-            }
-            document.getElementById("content").innerHTML = html;
         }
-
     </script>
 </head>
 
@@ -172,8 +120,19 @@
 
 
             <!-- visible to small devices only -->
-            <div id = "leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div class="visible-xs hidden-sm hidden-md hidden-lg">
+                <div class="media logged-user">
+                    <img alt="" src="../images/photos/user2.png" class="media-object">
+                    <div class="media-body">
+                        <h4><a href="#">金涛</a></h4>
+                        <span>"超级管理员"</span>
+                    </div>
+                </div>
 
+                <h5 class="left-nav-title">Account Information</h5>
+                <ul class="nav nav-pills nav-stacked custom-nav">
+                    <li><a href="#"><i class="fa fa-sign-out"></i> <span>登出</span></a></li>
+                </ul>
             </div>
 
             <!--sidebar nav start-->
@@ -219,8 +178,8 @@
                 </li>
                 <li class="menu-list nav-active"><a href=""><i class="fa fa-rmb"></i> <span>佣金管理</span></a>
                     <ul class="sub-menu-list">
-                        <li><a href="liveUnissued.html"> 未发放列表</a></li>
-                        <li class="active"><a href="liveIssued.html"> 已发放列表</a></li>
+                        <li class="active"><a href="liveUnissued.html"> 未发放列表</a></li>
+                        <li><a href="liveIssued.html"> 已发放列表</a></li>
                     </ul>
                 </li>
                 <li class="menu-list"><a href="#"><i class="fa fa-th-list"></i> <span>后台管理</span></a>
@@ -239,7 +198,7 @@
     <!-- left side end-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- header section start-->
         <div class="header-section">
@@ -249,8 +208,21 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div class="menu-right">
+                <ul class="notification-menu">
 
+                    <li>
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/photos/user2.png" alt=""/>
+                            金涛 超级管理员
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                            <li><a href="#"><i class="fa fa-sign-out"></i> 登出</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
             </div>
             <!--notification menu end -->
 
@@ -264,7 +236,8 @@
             </h3>
             <ul class="breadcrumb">
                 <li><a href="index.html">佣金管理</a></li>
-                <li class="active">已发放列表</li>
+                <li><a href="liveUnissued.html">未发放列表</a></li>
+                <li class="active">更改佣金发放状态</li>
             </ul>
         </div>
         <!-- page heading end-->
@@ -275,30 +248,74 @@
                 <div class="col-lg-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            条件筛选
+                            佣金发放状态
                             <span class="tools pull-right">
                                 <a href="javascript:;" class="fa fa-chevron-down"></a>
                             </span>
                         </header>
                         <div class="panel-body">
-                            <form role="form">
+                            <form class="form-horizontal" role="form">
                                 <div class="form-group">
-                                    <label for="keyword">关键字</label>
-                                    <input type="text" class="form-control" id="keyword">
-                                </div>
-                                <div class="form-group">
-                                    <label>起止时间</label>
-                                    <div class="">
-                                        <div class="input-group input-large custom-date-range" data-date="13/07/2013" data-date-format="mm/dd/yyyy">
-                                            <input type="text" class="form-control dpd1" name="from">
-                                            <span class="input-group-addon">至</span>
-                                            <input type="text" class="form-control dpd2" name="to">
-                                        </div>
+                                    <label class="col-lg-3 col-sm-3 control-label">发放人</label>
+                                    <div class="col-lg-9">
+                                        <input id="user" type="text" disabled required class="form-control"
+                                               placeholder="">
                                     </div>
                                 </div>
-                                <div class="pull-right">
-                                    <button type="button" onclick="search()" class="btn btn-primary ">搜索</button>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">邀请人</label>
+                                    <div class="col-lg-9">
+                                        <input id="guider" type="text" disabled required class="form-control"
+                                               placeholder="">
+                                    </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">金额</label>
+                                    <div class="col-lg-9">
+                                        <input id="price" type="text" disabled required class="form-control"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">发放进度</label>
+                                    <div class="col-lg-9">
+                                        <input id="progress" type="text" disabled required class="form-control"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">收款方式</label>
+                                    <div class="col-lg-9">
+                                        <input id="payType" type="text" disabled required class="form-control"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">收款账号</label>
+                                    <div class="col-lg-9">
+                                        <input id="payId" type="text" disabled required class="form-control"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">付款方式</label>
+                                    <div class="col-lg-9">
+                                        <select id="toPayType" class="form-control">
+                                            <option>支付宝</option>
+                                            <option>微信</option>
+                                            <option>银行卡</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 col-sm-3 control-label">付款账号</label>
+                                    <div class="col-lg-9">
+                                        <input id="toPayId" type="text" class="form-control"
+                                               placeholder="付款账号">
+                                    </div>
+                                </div>
+                                <button type="button" onclick="addCommission()" class="btn btn-primary pull-right">提交
+                                </button>
                             </form>
                         </div>
                     </section>
@@ -306,54 +323,6 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <section class="panel">
-                        <header class="panel-heading">
-                            已发放列表
-                        </header>
-
-                        <div class="panel-body">
-                            <table class="display table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>编号</th>
-                                    <th>发放人</th>
-                                    <th>邀请人</th>
-                                    <th>金额</th>
-                                    <th>发放进度</th>
-                                    <th>支付方式</th>
-                                    <th>支付账号</th>
-                                    <th>时间</th>
-                                </tr>
-                                </thead>
-                                <tbody id="content">
-
-                                </tbody>
-                            </table>
-
-                            <div class="pull-right">
-                                <div class="pageTest"></div>
-                                <script type="text/javascript" src="../js/page.js"></script>
-                                <script type="text/javascript">
-                                    function setPage(page) {
-                                        $('.pageTest').setLength(page)
-                                    }
-
-                                    $('.pageTest').page({
-                                        leng: 0,//分页总数
-                                        activeClass: 'activP', //active 类样式定义
-                                        clickBack: function (page) {
-                                            getCommissionAndShow(2, keyword, startTime, endTime, page, 5)
-                                            console.log(page)
-                                        }
-                                    })
-                                </script>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
 
         </div>
         <!--body wrapper end-->

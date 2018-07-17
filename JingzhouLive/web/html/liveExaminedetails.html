@@ -20,10 +20,10 @@
     <script src="../js/jquery-3.3.1.min.js"></script>
     <script src = "../js/zm/visitprocess.js"></script>
     <script src = "../js/zm/common.js"></script>
+    <script src="../js/zm/user.js"></script>
     <script type="text/javascript">
         var vid = null
         window.onload = function () {
-            alert("onload")
             vid = getUrlParam("vid");
             if(vid == null){
                 alert("审核信息不存在")
@@ -43,17 +43,44 @@
             console.log("vp:" + vp.uid)
             console.log("vp:" + vp.bid)
 
-            document.getElementById("title").value = vp.uid
-                                                    + "申请" + vp.bid
-                                                    + "项目,当前进度" + vp.progress
-                                                    + ",目前状态为" +vp.progress
-            document.getElementById("mark").value = vp.mark
+            document.getElementById("title").value =getUserName(vp.uid) + "  申请  " + vp.btitle + "  项目访问进度  "+getPrggress(vp.progress)+"  修改状态为已审核";
+        }
+
+        function getPrggress(progress) {
+            var result;
+            if (progress == 1) {
+                result = "未到访";
+            } else if (progress == 2) {
+                result = "已到访";
+            } else if (progress == 3) {
+                result = "已认购";
+            } else if (progress == 4) {
+                result = "已签约";
+            }
+            return result;
+        }
+
+        function getUserName(uid) {
+            var user = getUserDetail(getMid(), uid).data[0];
+            if (user == null) {
+                alert("user error!");
+                return;
+            }
+            return user.name
+        }
+
+        function getMid() {
+            var userJson = window.localStorage.getItem("user");
+            console.log("localstorage:" + userJson);
+            var user = JSON.parse(userJson);
+            return user.mid;
         }
 
         function agree() {
             alert("agree")
             var mark = document.getElementById("mark").value
             checkVisitProcess(2, vid, mark)
+            history.back();
         }
 
         function refuse() {
@@ -61,10 +88,11 @@
             alert("agree")
             var mark = document.getElementById("mark").value
             checkVisitProcess(1, vid, mark)
+            history.back();
         }
     </script>
 </head>
-<body class="sticky-header">
+<body class="sticky-header left-side-collapsed">
 
 <section>
     <!-- left side start-->

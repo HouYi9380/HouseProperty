@@ -48,7 +48,7 @@
         div.style.color = "red";
         // 绑定事件
         div.onclick = function(e){
-            window.history.back();
+            window.history.back(-1);
         }
         // 添加DOM元素到地图中
         map.getContainer().appendChild(div);

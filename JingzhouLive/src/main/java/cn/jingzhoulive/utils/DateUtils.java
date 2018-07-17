@@ -15,7 +15,7 @@ public class DateUtils {
 
     public static String getSystemTime(){
        Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss");
         // format方法 将Date格式化为日期/时间字符串
         return dateFormat.format(date);
     }

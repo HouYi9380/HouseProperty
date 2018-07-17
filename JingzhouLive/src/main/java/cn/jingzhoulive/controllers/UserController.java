@@ -216,6 +216,25 @@ public class UserController {
         return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", users);
     }
 
+    @RequestMapping("/oneguiderbytype")
+    @ResponseBody
+    public String getUserInviteById(@RequestParam(required = false) int mid,
+                                    @RequestParam(required = true)int uid,
+                                    @RequestParam(required = true)int type,
+                                    @RequestParam(required = true) Integer page,
+                                    @RequestParam(required = true) Integer length){
+        PageInfo<User> userPageInfo = userService.selectInviteByType(type,uid,page,length);
+
+        List<PageInfo<User>> userPages = null;
+        if (userPageInfo != null) {
+            userPages = new ArrayList<PageInfo<User>>();
+            userPages.add(userPageInfo);
+            return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", userPages);
+        } else {
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "查询失败", null);
+        }
+    }
+
 
     @RequestMapping("/extend")
     @ResponseBody
@@ -226,8 +245,10 @@ public class UserController {
                                    String icid,
                                    Integer paytype,
                                    String payid,
-                                   String residence) {
+                                   String residence,
+                                   String pic) {
 
+        System.out.println("pic:" + pic);
         User user = new User();
         user.setUid(uid);
         user.setPhone(phone);
@@ -237,6 +258,7 @@ public class UserController {
         user.setPayType(paytype);
         user.setPayId(payid);
         user.setResidence(residence);
+        user.setPic(pic);
         int updateBack = userService.updateByPrimaryKeySelective(user);
         if (updateBack > 0)
             return BackJsonUtils.getInstance().getBackJsonUtils(true, "success", null);
@@ -287,7 +309,7 @@ public class UserController {
                 state = true;
                 msg = "success";
                 list = new ArrayList<User>();
-                list.add(user);
+                list.add(newUser);
             } else {
                 state = false;
                 msg = "添加用户失败";
@@ -372,6 +394,7 @@ public class UserController {
         vistProcess.setProgress(1); // 未到访
         vistProcess.setIsCheck(1);
         vistProcess.setAvailability(1);
+        vistProcess.setIsReachDeal(1);
         vistProcess.setCreateTime(curTime);
         vistProcess.setChangTime(curTime);
         int insertVP = processService.insert(vistProcess);

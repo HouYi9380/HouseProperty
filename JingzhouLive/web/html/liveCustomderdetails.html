@@ -23,34 +23,136 @@
     <script src="../js/respond.min.js"></script>
     <![endif]-->
     <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/zm/user.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function(){
-            var Data=["碧桂园","万科锦城","巴黎春天","世纪花园","保利时代","保利十二橡树","保利公园","金地太阳城"];
-            var html="";
-            for(var i = 0, length = Data.length; i < length; i++){
-                html += "<tr class=\"gradeX\">" +
-                    "<td>" + Data[i] + "</td>" +
-                    "<td>" + "我的邀请" + "</td>" +
-                    "<td>" + "3000" + "</td>" +
-                    "<td>" + "已签约" + "</td>" +
-                    "<td>" + "未启动" + "</td>" +
-                    "<td>" + "大傻逼" + "</td>" +
-                    "<td>" + "<button type=\"button\" onclick=\" projectDetails()\" class=\"btn btn-primary\">详情</button>" + "</td>" +
+        var uid;
+        var mid;
+        var invite = 2;
+        var recommend = 3;
 
-                    //在这里编写您的表格内容，如："<td>" + "你好" + "</td>";
-                    "</tr>";
+        $(document).ready(function () {
+            uid = getUid();
+            mid = getMid;
+            var user = getUserDetail(mid, uid).data[0];
+
+            if (user == null) {
+                alert("user error!");
+                return;
             }
-            document.getElementById("content").innerHTML=html;
+
+            setUserInfo(user);
+
+            var inviteList = getUserInviteOrRecommend(mid, uid, invite, 1, 50);
+
+            var recommendList = getUserInviteOrRecommend(mid, uid, recommend, 1, 50);
+
+            showInvite(inviteList.data[0].list);
+
+            showRecommend(recommendList);
         });
 
-        function projectDetails(data){
-            window.location.href="liveProjectdetails.html";
+        function showInvite(list) {
+            var html = "";
+            for (var i = 0; i < list.length; i++) {
+
+                html += "<li>" +
+                    "<a onclick=" + "'customerDetails(" + list[i].uid + ")'  target='_blank'>" + list[i].name + "</a>" +
+                    "</li>";
+            }
+            document.getElementById("inviteList").innerHTML = html;
         }
 
-        function customerDetails(data){
+        function showRecommend(list) {
+            var html = "";
+            for (var i = 0; i < list.length; i++) {
+
+                html += "<li>" +
+                    "<a onclick=" + "'customerDetails(" + list[i].uid + ")'  target='_blank'>" + list[i].name + "</a>" +
+                    "</li>";
+            }
+            document.getElementById("recommendList").innerHTML = html;
+        }
+
+
+        function setUserInfo(user) {
+            var registTypeValue = null;
+
+            if (user.registType == 1) {
+                registTypeValue = "手机注册";
+            } else if (user.registType == 2) {
+                registTypeValue = "被邀请";
+            } else if (user.registType == 3) {
+                registTypeValue = "被推荐";
+            }
+
+            document.getElementById("name").innerHTML = user.name;
+            document.getElementById("phone").innerHTML = user.phone;
+            document.getElementById("registType").innerHTML = registTypeValue;
+            if (user.guider != 0) {
+                document.getElementById("guider").innerHTML = getUserDetail(mid, user.guider).data[0].name;
+            } else {
+                document.getElementById("guider").innerHTML = "无";
+            }
+            if (user.payType != null) {
+                var payTypeName = null;
+                if (user.payType == 1) {
+                    payTypeName = "支付宝";
+                } else if (user.payType == 2) {
+                    payTypeName = "微信";
+                } else if (user.payType == 3) {
+                    payTypeName = "银行卡";
+
+                }
+                document.getElementById("payType").innerHTML = payTypeName;
+            } else {
+                document.getElementById("payType").innerHTML = "用户未设置";
+            }
+            if (user.payId != null) {
+                document.getElementById("payId").innerHTML = user.payId;
+            } else {
+                document.getElementById("payId").innerHTML = "用户未设置";
+            }
+            if (user.nick != null) {
+                document.getElementById("nick").innerHTML = user.nick;
+            } else {
+                document.getElementById("nick").innerHTML = "用户未设置";
+            }
+            if (user.icid != null) {
+                document.getElementById("icid").innerHTML = user.icid;
+            } else {
+                document.getElementById("icid").innerHTML = "用户未设置";
+            }
+            if (user.residence != null) {
+                document.getElementById("residence").innerHTML = user.residence;
+            } else {
+                document.getElementById("residence").innerHTML = "用户未设置";
+            }
+            if (user.pic != null) {
+                document.getElementById("pic").src = user.pic;
+            }
+        }
+
+        function getUid() {
+            var url = decodeURI(window.location.href);
+            var argsIndex = url.split("?uid=");
+            return argsIndex[1];
+        }
+
+        function getMid() {
+            var userJson = window.localStorage.getItem("user");
+            console.log("localstorage:" + userJson);
+            var user = JSON.parse(userJson);
+            return user.mid;
+        }
+
+        function projectDetails(data) {
+            window.location.href = "liveProjectdetails.html";
+        }
+
+        function customerDetails(data) {
             alert(data);
-            window.location.href="liveCustomderdetails.html";
+            window.location.href = "liveCustomderdetails.html?uid=" + data;
         }
 
     </script>
@@ -75,7 +177,7 @@
 
 
             <!-- visible to small devices only -->
-            <div id = "leftheaddiv"  class="visible-xs hidden-sm hidden-md hidden-lg">
+            <div id="leftheaddiv" class="visible-xs hidden-sm hidden-md hidden-lg">
 
             </div>
 
@@ -152,7 +254,7 @@
             <!--toggle button end-->
 
             <!--notification menu start -->
-            <div id = "rightHeadDiv" class="menu-right">
+            <div id="rightHeadDiv" class="menu-right">
 
             </div>
             <!--notification menu end -->
@@ -186,7 +288,8 @@
                         </header>
                         <div class="panel-body">
                             <div class="media">
-                                <img class="pull-left thumb media-object" src="../images/photos/user2.png" alt="">
+                                <img id="pic" style="height: 80px;width: 80px" class="pull-left thumb media-object"
+                                     src="../images/photos/user2.png" alt="">
 
                                 <div class="media-body">
                                     <div class="row">
@@ -194,15 +297,15 @@
                                             <ul class="p-info">
                                                 <li>
                                                     <div class="title">姓名</div>
-                                                    <div class="desk">赵四</div>
+                                                    <div id="name" class="desk">赵四</div>
                                                 </li>
                                                 <li>
                                                     <div class="title">手机号</div>
-                                                    <div class="desk">13809983245</div>
+                                                    <div id="phone" class="desk">13809983245</div>
                                                 </li>
                                                 <li>
                                                     <div class="title">注册类型</div>
-                                                    <div class="desk">被邀请</div>
+                                                    <div id="registType" class="desk">被邀请</div>
                                                 </li>
                                             </ul>
                                         </div>
@@ -211,15 +314,15 @@
                                             <ul class="p-info">
                                                 <li>
                                                     <div class="title">引导人</div>
-                                                    <div class="desk">王二</div>
+                                                    <div id="guider" class="desk">王二</div>
                                                 </li>
                                                 <li>
                                                     <div class="title">支付类型</div>
-                                                    <div class="desk">支付宝</div>
+                                                    <div id="payType" class="desk">支付宝</div>
                                                 </li>
                                                 <li>
                                                     <div class="title">支付账号</div>
-                                                    <div class="desk">13809983245</div>
+                                                    <div id="payId" class="desk">13809983245</div>
                                                 </li>
                                             </ul>
                                         </div>
@@ -228,15 +331,15 @@
                                             <ul class="p-info">
                                                 <li>
                                                     <div class="title">昵称</div>
-                                                    <div class="desk">啊啊啊啊</div>
+                                                    <div id="nick" class="desk">啊啊啊啊</div>
                                                 </li>
                                                 <li>
                                                     <div class="title">身份证后6位</div>
-                                                    <div class="desk">789077</div>
+                                                    <div id="icid" class="desk">789077</div>
                                                 </li>
                                                 <li>
                                                     <div class="title">常住地址</div>
-                                                    <div class="desk">紫禁城</div>
+                                                    <div id="residence" class="desk">紫禁城</div>
                                                 </li>
                                             </ul>
                                         </div>
@@ -245,25 +348,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <dt class="text-primary">他的邀请</dt>
-                                            <ul class="list-inline">
-                                                <li>
-                                                    <a onclick="customerDetails('Lorem')" target="_blank">1. Lorem</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails('Ipsum')" target="_blank">2. Ipsum</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails('Dolor')">3. Dolor</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails('Ament')">4. Ament</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails('Bucket')">5. Bucket</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails('Theme')">6. Theme</a>
-                                                </li>
+                                            <ul id="inviteList" class="list-inline">
+
                                             </ul>
                                         </div>
                                     </div>
@@ -271,25 +357,8 @@
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <dt class="text-primary">他的推荐</dt>
-                                            <ul class="list-inline">
-                                                <li>
-                                                    <a onclick="customerDetails()">1. Lorem</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails()">2. Ipsum</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails()">3. Dolor</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails()">4. Ament</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails()">5. Bucket</a>
-                                                </li>
-                                                <li>
-                                                    <a onclick="customerDetails()">6. Theme</a>
-                                                </li>
+                                            <ul id="recommendList" class="list-inline">
+
                                             </ul>
                                         </div>
                                     </div>
@@ -327,17 +396,6 @@
                                 <tbody id="content">
 
                                 </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>项目名称</th>
-                                    <th>类型</th>
-                                    <th>预计收入金额</th>
-                                    <th>状态</th>
-                                    <th>佣金发放状态</th>
-                                    <th>引导人</th>
-                                    <th>操作</th>
-                                </tr>
-                                </tfoot>
                             </table>
 
                         </div>

@@ -923,6 +923,66 @@ public class VistProcessExample {
             addCriterion("chang_time not between", value1, value2, "changTime");
             return (Criteria) this;
         }
+
+        public Criteria andIsReachDealIsNull() {
+            addCriterion("is_reach_deal is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealIsNotNull() {
+            addCriterion("is_reach_deal is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealEqualTo(Integer value) {
+            addCriterion("is_reach_deal =", value, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealNotEqualTo(Integer value) {
+            addCriterion("is_reach_deal <>", value, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealGreaterThan(Integer value) {
+            addCriterion("is_reach_deal >", value, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_reach_deal >=", value, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealLessThan(Integer value) {
+            addCriterion("is_reach_deal <", value, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealLessThanOrEqualTo(Integer value) {
+            addCriterion("is_reach_deal <=", value, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealIn(List<Integer> values) {
+            addCriterion("is_reach_deal in", values, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealNotIn(List<Integer> values) {
+            addCriterion("is_reach_deal not in", values, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealBetween(Integer value1, Integer value2) {
+            addCriterion("is_reach_deal between", value1, value2, "isReachDeal");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsReachDealNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_reach_deal not between", value1, value2, "isReachDeal");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

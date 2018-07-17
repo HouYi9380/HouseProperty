@@ -3,12 +3,15 @@ package cn.jingzhoulive.controllers;
 import cn.jingzhoulive.domain.Buildings;
 import cn.jingzhoulive.domain.BuildingsWithBLOBs;
 import cn.jingzhoulive.service.IBuildingService;
+import cn.jingzhoulive.service.IOperationLogsService;
 import cn.jingzhoulive.utils.BackJsonUtils;
+import cn.jingzhoulive.utils.CommonUtils;
 import cn.jingzhoulive.utils.DateUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,9 @@ public class BuildingController {
 
     @Autowired
     private IBuildingService buildingService;
+
+    @Autowired
+    private IOperationLogsService operationLogsService;
 
     @RequestMapping("/add")
     @ResponseBody
@@ -43,14 +49,28 @@ public class BuildingController {
                                   Long price,
                                   String acreage,
                                   String houseType,
-                                  Integer recommend){
+                                  Integer recommend,
+                                  HttpSession httpSession){
         String curTime = DateUtils.getSystemTime();
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
 
         BuildingsWithBLOBs buildingsWithBLOBs = new BuildingsWithBLOBs(null, type, title, address, contacts, phone,
                 area, latitude, longtitude, decoration, shared, commissionId, price, acreage, houseType, recommend,
                 curTime, curTime, pics, favourable, traffic, buildingInfo);
 
         int ret = buildingService.addBuilding(buildingsWithBLOBs);
+        if(ret <= 0)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "添加失败", null);
+
+        int addOp = operationLogsService.addLog("添加房源，房源id:"+buildingsWithBLOBs.getBid(), mid, 1, "building");
+        if(addOp <= 0){
+           System.out.println("添加房源日志失败");
+            System.out.println("添加房源日志失败");
+            System.out.println("添加房源日志失败");
+            System.out.println("添加房源日志失败");
+        }
 
         return BackJsonUtils.getInstance().getBackJsonUtils(ret > 0 ? true : false, ret > 0 ? "success" : "添加失败", null);
     }
@@ -77,13 +97,22 @@ public class BuildingController {
                                         @RequestParam (required = false) Long price,
                                         @RequestParam (required = false) String acreage,
                                         @RequestParam (required = false) String houseType,
-                                        @RequestParam (required = false) Integer recommend) {
+                                        @RequestParam (required = false) Integer recommend,
+                                        HttpSession httpSession) {
         String curTime = DateUtils.getSystemTime();
+
+        Integer mid = (Integer)httpSession.getAttribute(CommonUtils.S_ManagerId);
+        if(mid == null)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "您未登陆，请登陆", null);
 
         BuildingsWithBLOBs buildingsWithBLOBs = new BuildingsWithBLOBs(bid, type, title, address, contacts, phone,
                 area, latitude, longtitude, decoration, shared, commissionId, price, acreage, houseType, recommend,
                 curTime, curTime, pics, favourable, traffic, buildingInfo);
         int ret = buildingService.updateByPrimaryKeyWithBLOBs(buildingsWithBLOBs);
+        if(ret <= 0)
+            return BackJsonUtils.getInstance().getBackJsonUtils(false, "更新失败", null);
+
+        operationLogsService.addLog("更新房源，房源id=:"+bid, mid, 2, "building");
         return BackJsonUtils.getInstance().getBackJsonUtils(ret > 0 ? true : false, ret > 0 ? "success" : "更新失败", null);
     }
 

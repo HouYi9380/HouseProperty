@@ -27,7 +27,9 @@ public class VistProcess {
 
     private String changTime;
 
-    public VistProcess(Integer vid, Integer uid, Integer guider, Integer bid, String btitle, Integer commissionId, Long price, Integer progress, Integer isCheck, String mark, Integer availability, String createTime, String changTime) {
+    private Integer isReachDeal;
+
+    public VistProcess(Integer vid, Integer uid, Integer guider, Integer bid, String btitle, Integer commissionId, Long price, Integer progress, Integer isCheck, String mark, Integer availability, String createTime, String changTime, Integer isReachDeal) {
         this.vid = vid;
         this.uid = uid;
         this.guider = guider;
@@ -41,6 +43,7 @@ public class VistProcess {
         this.availability = availability;
         this.createTime = createTime;
         this.changTime = changTime;
+        this.isReachDeal = isReachDeal;
     }
 
     public VistProcess() {
@@ -149,5 +152,13 @@ public class VistProcess {
 
     public void setChangTime(String changTime) {
         this.changTime = changTime == null ? null : changTime.trim();
+    }
+
+    public Integer getIsReachDeal() {
+        return isReachDeal;
+    }
+
+    public void setIsReachDeal(Integer isReachDeal) {
+        this.isReachDeal = isReachDeal;
     }
 }
