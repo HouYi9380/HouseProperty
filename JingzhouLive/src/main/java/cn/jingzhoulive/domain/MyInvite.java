@@ -85,4 +85,19 @@ public class MyInvite {
     public void setAvailability(int availability) {
         this.availability = availability;
     }
+
+    @Override
+    public String toString() {
+        return "MyInvite{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", pic='" + pic + '\'' +
+                ", icid=" + icid +
+                ", bid=" + bid +
+                ", progress=" + progress +
+                ", is_check=" + is_check +
+                ", availability=" + availability +
+                '}';
+    }
 }

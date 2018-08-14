@@ -79,7 +79,16 @@
             console.log("content:" + ueContent)
             document.getElementById("content").innerHTML = ueContent;
         }
-
+        function getPic(html) {
+            //获取文本中图片地址
+            var res =$(html).find('img');
+            var imgArr =[];
+            for(var i=0;i<res.length;i++) {
+                var img = res[i];
+                imgArr.push(img.src);
+            }
+            return imgArr[0];
+        }
         function addOrEditDetails() {
             if (isAdd == null)
                 return;
@@ -89,7 +98,7 @@
             var information = new Object();
             information.title = title
             information.type = type
-            information.pics = "http://slide.news.sina.com.cn/y/slide_1_88490_258657.html#p=1";
+            information.pics =getPic(ueContent);
             information.html =ueContent
             var back = null
             if (isAdd == "true") {

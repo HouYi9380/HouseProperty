@@ -34,7 +34,7 @@
         select
             A.vid,A.uid,A.guider,A.bid,A.btitle,A.commission_id,A.progress,A.is_check,A.price,B.type,B.firstcv,B.availablility
         from
-            (select  *  from visitprocess  where guider = 0001 and availability =1) A
+            (select  *  from visitprocess  where guider = #{uid} and availability =1) A
         left join
             commissionpolicy  B
         on
@@ -43,7 +43,7 @@
     <select id="getAllMySecondRecommend" parameterType="java.lang.Integer" resultType="MySecondRecommend">
         select A.vid,A.uid,A.guider,A.bid,A.btitle,A.commission_id,A.progress,A.is_check,A.price,B.type,B.secondcv,B.availablility
         from
-            (select  *  from visitprocess  where guider = 0002 and availability =1) A
+            (select  *  from visitprocess  where guider = #{uid} and availability =1) A
         left join
             commissionpolicy  B
         on

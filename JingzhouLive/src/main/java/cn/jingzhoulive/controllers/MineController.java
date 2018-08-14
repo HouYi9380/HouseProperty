@@ -6,6 +6,7 @@ import cn.jingzhoulive.service.IMineService;
 import cn.jingzhoulive.service.IUserService;
 import cn.jingzhoulive.service.IVisitProcessService;
 import cn.jingzhoulive.utils.BackJsonUtils;
+import cn.jingzhoulive.utils.DataUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -77,6 +78,7 @@ public class MineController {
         Map<Integer, MyInviteCountData> myInviteCountDataMap = new HashMap<>();
 
        for(MyInvite myInvite : myInvites){
+           System.out.println("myinvite:" + myInvite.toString());
             int uidTmp = myInvite.getUid();
             Integer tmpBid = myInvite.getBid();
             if(!myInviteMap.containsKey(uidTmp)){
@@ -87,18 +89,32 @@ public class MineController {
                 }
             }
             if(tmpBid != null){
-               MyInviteCountData countData = new MyInviteCountData();// myInviteCountDataMap.get(uidTmp);
-               int remmond = countData.getRemonnd();
+               MyInviteCountData countData = myInviteCountDataMap.get(uidTmp);
+               if(countData == null){
+                   countData = new MyInviteCountData();
+               }
+               int remmond  = countData.getRemonnd();
                int complted = countData.getCompleted();
                int unfinished = countData.getUnfinished();
                int progress = myInvite.getProgress();
-               countData.setRemonnd(remmond + 1);
-               if(progress == 4){
-                   countData.setCompleted(complted + 1);
+               if(myInvite.getBid() != 0) {
+                   countData.setRemonnd(remmond + 1);
+                   if (progress == 4) {
+                       countData.setCompleted(complted + 1);
+                   } else {
+                       countData.setUnfinished(unfinished + 1);
+                   }
                }else{
-                   countData.setUnfinished(unfinished + 1);
+                   countData.setCompleted(complted);
+                   countData.setUnfinished(unfinished);
                }
-               myInviteCountDataMap.put(uid, countData);
+               countData.setName(myInvite.getName());
+               countData.setPhone(myInvite.getPhone());
+               countData.setPic(myInvite.getPic());
+               countData.setUid(myInvite.getUid());
+               myInviteCountDataMap.put(uidTmp, countData);
+
+               System.out.println("myInviteCountDataMap count:" + myInviteCountDataMap.size());
             }
        }
        List<MyInviteCountData> myInviteCountDatas = new ArrayList<>(myInviteCountDataMap.values());
@@ -137,7 +153,9 @@ public class MineController {
             }
             String firstcv = myRecommend.getFirstcv();
             Long price = myRecommend.getPrice();
-            long countPrice = Long.valueOf(firstcv.replaceAll("a", price +""));
+            String countPriceStr = firstcv.replaceAll("a", price +"");
+            long countPrice = DataUtils.evaluateExpression(countPriceStr);
+//            long countPrice = Long.valueOf(
             MyAllRecommendData myAllRecommendData = new MyAllRecommendData();
             myAllRecommendData.setBid(bid);
             myAllRecommendData.setCheck(check);
